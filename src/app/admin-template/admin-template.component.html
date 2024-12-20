@@ -1,0 +1,58 @@
+<mat-toolbar color="primary"> 
+    <button class="menu" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span class="spacer"></span>
+<button mat-button routerLink="/admin/profile">Profile</button>
+<button *ngIf="authservice.Role.includes('ADMIN')" mat-button [matMenuTriggerFor]="importmenu">
+    <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    Import
+</button>
+<mat-menu #importmenu>
+  <button mat-menu-item routerLink="/admin/loadstudents"> Load Students </button>
+  <button mat-menu-item routerLink="/admin/loadpayement"> Load Payment </button>
+</mat-menu>
+<button mat-button>{{authservice.username}}</button>
+<button mat-raised-button color="accent" (click)="logout()">Logout</button>
+</mat-toolbar>
+<mat-drawer-container>
+    <mat-drawer style="width: 13%;" #drawer mode="side" position="start" opened="true">
+        <mat-nav-list>
+            <mat-list-item>             
+                <button mat-button routerLink="/admin/dashboard">
+                    <mat-icon>dashboard</mat-icon>
+                    Dasboard
+                </button>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button routerLink="/admin/students">
+                    <mat-icon>dashboard</mat-icon>
+                    Students
+                </button>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button routerLink="/admin/payment">
+                    <mat-icon>dashboard</mat-icon>
+                    Payment
+                </button>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button routerLink="/admin/program">
+                    <mat-icon>dashboard</mat-icon>
+                    Programs
+                </button>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button routerLink="/admin/module">
+                    <mat-icon>dashboard</mat-icon>
+                    Modules
+                </button>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div style="min-height: 600px;">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+</mat-drawer-container>

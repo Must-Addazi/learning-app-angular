@@ -1,0 +1,133 @@
+
+  <mat-stepper
+    class="example-stepper"
+    [orientation]="(stepperOrientation | async)!">
+    <mat-step [stepControl]="nameFormGroup" label="Fill out your name">
+      <form [formGroup]="nameFormGroup">
+        <mat-form-field style="margin-right: 8px;">
+          <mat-label>First Name</mat-label>
+          <input matInput placeholder="First name" formControlName="firstName" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Last Name</mat-label>
+          <input matInput placeholder="Last name" formControlName="lastName" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="emailFormGroup" label="Fill out your email">
+      <form [formGroup]="emailFormGroup">
+        <mat-form-field>
+          <mat-label>Address email</mat-label>
+          <input matInput formControlName="email" placeholder="Ex. xxxx@yyy.zz" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="phoneFormGroup" label="Fill out your phone number">
+      <form [formGroup]="phoneFormGroup">
+        <mat-form-field>
+          <mat-label>Phone number</mat-label>
+          <input matInput formControlName="phone" placeholder="Ex. 12345678" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="CINFormGroup" label="Fill out your CIN">
+      <form [formGroup]="CINFormGroup">
+        <mat-form-field>
+          <mat-label>CIN number</mat-label>
+          <input matInput formControlName="CIN" placeholder="Ex. XY2345" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="fileFormGroup" label="Upload your CIN">
+      <form [formGroup]="fileFormGroup">
+        <mat-form-field appearance="outline">
+          <mat-label>
+            CIN File
+          </mat-label>
+          <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input matInput readonly formControlName="fileName" />
+          <input
+            type="file"
+            hidden
+            #f_input
+            (change)="selectFile($event)"
+            accept="application/pdf"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline"  style="margin-left: 8px;">
+          <mat-label>Image Profile</mat-label>
+          <button type="button" mat-icon-button matPrefix (click)="image_input.click()">
+            <mat-icon>image</mat-icon>
+          </button>
+          <input matInput readonly formControlName="imageFileName" />
+          <input
+            type="file"
+            hidden
+            #image_input
+            (change)="selectImage($event)"
+            accept="image/png, image/jpeg, image/jpg"
+            />
+        </mat-form-field>
+        
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+          <button mat-raised-button (click)="resetFile()">Reset File</button>
+          <button mat-raised-button (click)="resetImage()">Reset Image</button>
+
+        </div>
+      </form>
+      
+      <mat-card style="margin-top: 10px;">
+        <mat-card-header>
+            <mat-card-title>
+                CIN File 
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngIf="pdfFileUrl">
+                <pdf-viewer
+                [src]="pdfFileUrl"
+                [original-size]="true"
+                [show-all]="true"
+                [render-text]="true"
+                style="display: block; height: 80vh;">
+              </pdf-viewer>
+              
+   
+            </div>
+            
+        </mat-card-content>
+    </mat-card>
+    </mat-step>
+    
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      @if(showProgress){
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
+      <div style="margin-top: 5px;">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button (click)="saveStudent()"color="primary" >Save</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+  

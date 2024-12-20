@@ -1,0 +1,19 @@
+
+  /* Assurez-vous que les images ne déforment pas */
+  .carousel-item img {
+      width: 50%; /* L'image occupera toute la largeur de son conteneur */
+      height: 600px; /* Hauteur fixe */
+      object-fit: cover; /* Maintient le ratio d'aspect tout en remplissant le conteneur */
+  }
+
+  /* Optionnel : pour centrer le contenu textuel */
+  .carousel-caption {
+      background: rgba(0, 0, 0, 0.5); /* Ajout d'un fond semi-transparent */
+      border-radius: 5px; /* Coins arrondis */
+      padding: 10px;
+  }
+  .carousel{
+    width: 50%;
+
+  }
+
