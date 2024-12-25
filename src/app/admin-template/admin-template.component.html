@@ -3,8 +3,10 @@
         <mat-icon>menu</mat-icon>
     </button>
     <span class="spacer"></span>
-<button mat-button routerLink="/admin/profile">Profile</button>
-<button *ngIf="authservice.Role.includes('ADMIN')" mat-button [matMenuTriggerFor]="importmenu">
+    @if(authservice.isAuthenticated()){
+        <button  mat-button routerLink="/admin/profile">Profile</button>
+    
+<button *ngIf="authservice.Role && authservice.Role.includes('ADMIN')" mat-button [matMenuTriggerFor]="importmenu">
     <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
     Import
 </button>
@@ -14,6 +16,10 @@
 </mat-menu>
 <button mat-button>{{authservice.username}}</button>
 <button mat-raised-button color="accent" (click)="logout()">Logout</button>
+    }
+    @if(!authservice.isAuthenticated()){
+        <button mat-raised-button color="accent" (click)="login()">Login</button>
+    }
 </mat-toolbar>
 <mat-drawer-container>
     <mat-drawer style="width: 13%;" #drawer mode="side" position="start" opened="true">
@@ -21,15 +27,17 @@
             <mat-list-item>             
                 <button mat-button routerLink="/admin/dashboard">
                     <mat-icon>dashboard</mat-icon>
-                    Dasboard
+                    Dashboard
                 </button>
             </mat-list-item>
+            @if(authservice.Role && authservice.Role.includes('ADMIN') ){
             <mat-list-item>
                 <button mat-button routerLink="/admin/students">
                     <mat-icon>dashboard</mat-icon>
                     Students
                 </button>
             </mat-list-item>
+        }
             <mat-list-item>
                 <button mat-button routerLink="/admin/payment">
                     <mat-icon>dashboard</mat-icon>

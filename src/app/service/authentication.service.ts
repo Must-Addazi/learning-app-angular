@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   public username!:any;
   public password!:string;
-  public isAuthenticated:boolean=false
   public Role!:any;
   accesToken!:any
   private readonly baseUrl = "http://localhost:8080/auth";
@@ -24,7 +23,6 @@ export class AuthenticationService {
     return this.http.post(`${this.baseUrl}/login`, params.toString(), { headers });
   }
   loadProfile(data: any) {
-    this.isAuthenticated=true
     this.accesToken=data['access-token']
     let jwtdecoded:any=jwtDecode(this.accesToken)
     this.username=jwtdecoded.sub;
@@ -32,10 +30,28 @@ export class AuthenticationService {
     window.localStorage.setItem("jwt-token",this.accesToken)
   }
   public logout(){
-    this.isAuthenticated=false
    this.username=undefined
    this.Role=undefined
    this.accesToken=undefined
+   localStorage.removeItem("jwt-token");
    this.router.navigateByUrl("/login")
   }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem("jwt-token");
+    if (!token) return false;
+  
+    try {
+      this.accesToken=token
+    let jwtdecoded:any=jwtDecode(this.accesToken)
+    this.username=jwtdecoded.sub;
+    this.Role=jwtdecoded.scope;
+      const currentTime = Math.floor(Date.now() / 1000); 
+      return jwtdecoded.exp > currentTime; 
+    } catch (error) {
+      console.error("Invalid token:", error);
+      return false;
+    }
+  }
+  
 }

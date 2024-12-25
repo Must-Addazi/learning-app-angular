@@ -8,15 +8,20 @@ import { Router } from '@angular/router';
   styleUrl: './admin-template.component.css'
 })
 export class AdminTemplateComponent implements OnInit {
-logout() {
-this.authservice.logout()
-}
   public username!:string
   constructor(public authservice:AuthenticationService ,private router:Router){
 
   }
 ngOnInit(): void {
+  console.log(this.authservice.Role)
     this.username=this.authservice.username;
 }
+  login() {
+    this.router.navigateByUrl("/login")
+    }
+logout() {
+this.authservice.logout()
+}
+
 
 }

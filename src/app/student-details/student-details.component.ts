@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StudentsService } from '../service/students.service';
 import { Payment } from '../model/student.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthenticationService } from '../service/authentication.service';
 
 @Component({
   selector: 'app-student-details',
@@ -18,7 +19,7 @@ this.router.navigateByUrl(`/admin/new-payment/${this.studentCode}`)
   public PaymentdataSource:any;
   public displayedColumns=['id','date','amount','type','status','firstName']
   constructor(private studentsService:StudentsService,public activtedRoute:ActivatedRoute
-    , private router:Router
+    , private router:Router, public authservice:AuthenticationService
   ){
 
   }

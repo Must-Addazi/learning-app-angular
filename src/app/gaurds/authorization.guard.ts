@@ -8,7 +8,7 @@ export const authorizationGuard: CanActivateFn = (route, state) => {
 
   let authorize = false;
   let AuthorizedRoles: string[] = route.data['roles'];  
-  let roles: string[] = authService.Role; 
+  let roles: string[] = authService.Role.split(' ');; 
   for (let role of roles) {
     if (AuthorizedRoles.includes(role)) { 
       authorize = true;
@@ -16,8 +16,10 @@ export const authorizationGuard: CanActivateFn = (route, state) => {
     }
   }
   if (authorize) {
+    console.log("authorized")
     return true;  
   } else {
+    console.log("not authorized")
     return false;
   }
 };

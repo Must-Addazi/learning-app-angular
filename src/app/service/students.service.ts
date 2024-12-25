@@ -18,6 +18,9 @@ export class StudentsService {
  public getStudentPayments(code:string):Observable<Array<Payment>>{
      return this.http.get<Array<Payment>>(`${environment.backendHost}/student/${code}/payment`)
  }
+ public getPaymentsByUsername(email:string):Observable<Array<Payment>>{
+  return this.http.get<Array<Payment>>(`${environment.backendHost}/payment/${email}/student`)
+}
  public savePayment(formData:any):Observable<Payment>{
   return this.http.post<Payment>(`${environment.backendHost}/payment`,formData)
 }
@@ -26,7 +29,7 @@ getPaymentFile(paymentId: number) {
   return this.http.get(url, { responseType: 'blob' });
 }
 public saveStudent(formData:any):Observable<Student>{
-  return this.http.post<Student>(`${environment.backendHost}/student`,formData)
+  return this.http.post<Student>(`${environment.backendHost}/saveStudent`,formData)
 }
 public getStudentByProgram(Id:string):Observable<Array<Student>>{
   return this.http.get<Array<Student>>(`${environment.backendHost}/studentDTO/${Id}`)

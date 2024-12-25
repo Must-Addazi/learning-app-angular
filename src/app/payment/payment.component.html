@@ -13,7 +13,9 @@
             <mat-label>Search</mat-label>
             <input placeholder="enter an item" matInput (change)="filterPayment($event)"/>
           </mat-form-field>
-        
+          @if(authservice.Role && !authservice.Role.includes('ADMIN')){
+          <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="newPayment()">New Payment</button>    
+          }
             <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z3">
                 <!-- Position Column -->
                 <ng-container matColumnDef="id">

@@ -20,7 +20,13 @@
 
               <ng-container matColumnDef="profile">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Profile</th>
-                <td mat-cell *matCellDef="let element"> <img [src]="'data:image/' + element.imageType + ';base64,' + element.photo" alt="Profile" width="60" height="60" />
+                <td mat-cell *matCellDef="let element" > 
+                  @if(element.photo){
+                  <img [src]="'data:image/' + element.imageType + ';base64,' + element.photo" alt="Profile" width="60" height="60" style="margin: 5px;"/>
+                  }
+                  @if(!element.photo){
+                    <img src="assets/default_User.jpg" alt="Default Profile" width="60" height="60" style="margin: 5px;"/>
+                  }
                 </td>
               </ng-container> 
               <ng-container matColumnDef="CIN">

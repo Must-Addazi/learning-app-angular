@@ -8,6 +8,8 @@ import {map} from 'rxjs/operators';
 import { StudentsService } from '../service/students.service';
 import { ImagePreviewDialogComponent } from '../image-preview-dialog/image-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-new-student',
@@ -43,12 +45,12 @@ export class NewStudentComponent implements OnInit{
       CIN: ['', Validators.required],
     });
     phoneFormGroup = this._formBuilder.group({
-      phone: ['', [Validators.required,Validators.minLength(10)]],
+      phone: ['', [Validators.required,Validators.minLength(10),Validators.maxLength(10)]],
     });
     fileFormGroup = this._formBuilder.group({
       fileSource:['',Validators.required],
       fileName:['', Validators.required],
-      imageFileName: ['',Validators.required],
+      imageFileName: ['',],
       imageFile: [null as File | null, Validators.required]
     })
     ngOnInit(): void {
@@ -93,11 +95,21 @@ export class NewStudentComponent implements OnInit{
             this.studentsService.saveStudent(formData).subscribe({
               next: (data) => {
                 this.showProgress = false;
-                confirm("Student saved successfully! ID: " + data.id);
+                Swal.fire({
+                  title: "Saved!",
+                  text: "Student saved successfully."+data.cne,
+                  icon: "success"
+                });
               },
               error: (err) => {
                 this.showProgress = false;
                 console.error("Error saving student:", err);
+                Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: err.error.message
+                  
+                    });
               }
             });
           }
