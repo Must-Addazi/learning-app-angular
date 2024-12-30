@@ -16,8 +16,10 @@ import { Router } from '@angular/router';
 export class PaymentComponent implements OnInit {
   public payments!:Array<Payment>;
   public dataSource:any;
+  isEditMode: boolean = false;
+
   
-  public displayedColumns=['id','date','amount','type','status','firstName','paymentFile']
+  public displayedColumns=['id','date','amount','type','status','firstName','paymentFile','action']
   @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   @ViewChild(MatSort) sort: MatSort | undefined;
   constructor(private router:Router, private studentService:StudentsService, public authservice:AuthenticationService ){
@@ -31,7 +33,7 @@ export class PaymentComponent implements OnInit {
       a.href = url;
       a.download = `payment_${paymentId}.pdf`;
       a.click();
-      window.URL.revokeObjectURL(url); // Libère la mémoire utilisée
+      window.URL.revokeObjectURL(url)
     });
   }
   
@@ -70,6 +72,9 @@ export class PaymentComponent implements OnInit {
   }
   newPayment() {
 this.router.navigateByUrl(`/admin/new-payment/${this.authservice.username}`)
+  }
+  edit(payment:Payment){
+    this.router.navigateByUrl(`/admin/editpayement/${payment.id}`)
   }
 }
 

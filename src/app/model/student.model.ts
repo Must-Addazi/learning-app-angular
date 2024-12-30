@@ -9,6 +9,7 @@ export interface Payment {
   }
   
   export interface Student {
+    icon: any
     cin: string
     id: string
     firstName: string
@@ -16,6 +17,7 @@ export interface Payment {
     email: string
     amountPaid: number
     photo: any
+    phone:string
     programDTO: Program
     cne: string
   }

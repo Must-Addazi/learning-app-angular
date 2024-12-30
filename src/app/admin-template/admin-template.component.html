@@ -30,20 +30,22 @@
                     Dashboard
                 </button>
             </mat-list-item>
-            @if(authservice.Role && authservice.Role.includes('ADMIN') ){
+            @if( authservice.isAuthenticated() && authservice.Role && authservice.Role.includes('ADMIN') ){
             <mat-list-item>
                 <button mat-button routerLink="/admin/students">
                     <mat-icon>dashboard</mat-icon>
                     Students
                 </button>
             </mat-list-item>
-        }
+              }
+              @if( authservice.isAuthenticated() ){
             <mat-list-item>
                 <button mat-button routerLink="/admin/payment">
                     <mat-icon>dashboard</mat-icon>
                     Payment
                 </button>
             </mat-list-item>
+        }
             <mat-list-item>
                 <button mat-button routerLink="/admin/program">
                     <mat-icon>dashboard</mat-icon>

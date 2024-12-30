@@ -19,7 +19,6 @@ import { StudentsComponent } from './students/students.component';
 import { PaymentComponent } from './payment/payment.component';
 import { MatCardModule } from '@angular/material/card';
 import { LoadStudentsComponent } from './load-students/load-students.component';
-import { LoadPayementComponent } from './load-payement/load-payement.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -44,6 +43,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModuleComponent } from './module/module.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
+import { DxButtonModule, DxLoadPanelModule, DxScrollViewModule, DxToolbarModule } from 'devextreme-angular';
+import { EditPaymentComponent } from './edit-payment/edit-payment.component';
 
 @NgModule({
   declarations: [
@@ -56,14 +57,14 @@ import { ImagePreviewDialogComponent } from './image-preview-dialog/image-previe
     StudentsComponent,
     PaymentComponent,
     LoadStudentsComponent,
-    LoadPayementComponent,
     StudentDetailsComponent,
     NewPaymentComponent,
     NewStudentComponent,
     ProgramsComponent,
     RespoComponent,
     ModuleComponent,
-    ImagePreviewDialogComponent
+    ImagePreviewDialogComponent,
+    EditPaymentComponent
     ],
   imports: [
     BrowserModule,
@@ -94,7 +95,7 @@ import { ImagePreviewDialogComponent } from './image-preview-dialog/image-previe
     MatButtonModule,
     AsyncPipe,
     MatProgressBarModule,
-    MatDialogModule,
+    MatDialogModule
         ],
   providers: [
     provideAnimationsAsync(),

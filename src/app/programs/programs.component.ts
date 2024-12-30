@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ProgramService } from '../service/program.service';
+import { AuthenticationService } from '../service/authentication.service';
 
 @Component({
   selector: 'app-programs',
@@ -14,7 +15,9 @@ export class ProgramsComponent implements OnInit{
   programs:Array<Program>=[]
   public dataSource:any
   public displayedColumns = ["name","price","responame","phone","email","timingFile","applay"]
-  constructor(private router:Router, public programService:ProgramService){}
+  constructor(private router:Router, public programService:ProgramService,
+    public authservice:AuthenticationService
+  ){}
   @ViewChild(MatSort) sort: MatSort | undefined;
   ngOnInit(): void {
    this.programService.getAllPrograms().subscribe({

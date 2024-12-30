@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class NewPaymentComponent implements OnInit{
   studentCode!:string
+  paymentId!:string
   selectedType!: string;
   public pdfFileUrl!:string|null
   shoProgress:boolean=false

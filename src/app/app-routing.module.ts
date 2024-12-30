@@ -6,7 +6,6 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StudentsComponent } from './students/students.component';
 import { PaymentComponent } from './payment/payment.component';
-import { LoadPayementComponent } from './load-payement/load-payement.component';
 import { LoadStudentsComponent } from './load-students/load-students.component';
 import { AdminTemplateComponent } from './admin-template/admin-template.component';
 import { authenticationGuard } from './gaurds/authentication.guard';
@@ -17,6 +16,7 @@ import { NewStudentComponent } from './new-student/new-student.component';
 import { ProgramsComponent } from './programs/programs.component';
 import { RespoComponent } from './respo/respo.component';
 import { ModuleComponent } from './module/module.component';
+import { EditPaymentComponent } from './edit-payment/edit-payment.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
@@ -33,10 +33,9 @@ const routes: Routes = [
   {path:"payment",component:PaymentComponent,canActivate:[authenticationGuard]},
   {path:"module",component:ModuleComponent},
   {path:"student-details/:code",component:StudentDetailsComponent,canActivate:[authenticationGuard]},
-  {path:"loadpayement",component:LoadPayementComponent,
-    canActivate:[authorizationGuard],data:{roles:['ADMIN']}},
+  {path:"editpayement/:id",component:EditPaymentComponent, canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"loadstudents",component:LoadStudentsComponent,
-    canActivate:[authorizationGuard],data:{roles:['ADMIN']}
+    canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ADMIN']}
   }
   ]},
   

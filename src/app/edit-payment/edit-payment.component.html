@@ -1,0 +1,27 @@
+<div class="container">
+    <mat-card [formGroup]="PaymentForm" class="paymentForm">
+        <mat-card-header>
+            <mat-card-title>
+                Edit Payment N {{paymentId}}
+            </mat-card-title>
+        </mat-card-header>
+        <mat-divider>
+        </mat-divider>
+        <mat-card-content>          
+            <mat-form-field appearance="outline">
+                <mat-label> Type </mat-label>
+                <mat-select formControlName="type" name="paymentTypes">
+                @for ( status of PaymentStatus;track status) {
+                    <mat-option [value]="status">{{status}}</mat-option>
+                }
+                </mat-select>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions [align]="'end'">
+            <button mat-raised-button (click)="savePayment()" color="primary">Save edition Payment</button>
+         @if(shoProgress){
+            <mat-spinner ></mat-spinner>
+         }
+        </mat-card-actions>
+    </mat-card>    
+ </div>

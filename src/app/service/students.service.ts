@@ -34,4 +34,11 @@ public saveStudent(formData:any):Observable<Student>{
 public getStudentByProgram(Id:string):Observable<Array<Student>>{
   return this.http.get<Array<Student>>(`${environment.backendHost}/studentDTO/${Id}`)
 }
+public getUserProfileByEmail(email:string):Observable<Student>{
+  return this.http.get<Student>(`${environment.backendHost}/studentEmail/${email}`)
+}
+public editPayment(paymentID:string,status:string):Observable<Payment>{
+  const params = { status };
+  return this.http.put<Payment>(`${environment.backendHost}/payments/updateStatus/${paymentID}`,null,{params})
+} 
 }
