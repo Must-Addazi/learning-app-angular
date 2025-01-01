@@ -13,7 +13,7 @@
             <mat-label>Search</mat-label>
             <input placeholder="enter an item" matInput (change)="filterProgram($event)"/>
           </mat-form-field>
-          @if( authservice.isAuthenticated() && authservice.Role && authservice.Role.includes('ADMIN') ){
+          @if( authservice.isAuthenticated() && authservice.Role && authservice.Role.includes('SUPER_ADMIN') ){
           <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="addProgram()">Add Program and Responsible</button>  
           }  
             <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z3">

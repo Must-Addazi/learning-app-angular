@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { Router } from '@angular/router';
@@ -35,6 +35,10 @@ this.authservice.login(username,password).subscribe({
     this.ErrorMassage=err
 })
 }
- 
+hide = signal(true);
+clickEvent(event: MouseEvent) {
+  this.hide.set(!this.hide());
+  event.stopPropagation();
+}
 
 }
