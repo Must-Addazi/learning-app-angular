@@ -14,7 +14,7 @@ import { AuthenticationService } from '../service/authentication.service';
 export class ProgramsComponent implements OnInit{
   programs:Array<Program>=[]
   public dataSource:any
-  public displayedColumns = ["name","price","responame","phone","email","timingFile","applay"]
+  public displayedColumns = ["name","price","responame","phone","email","posterFile","applay"]
   constructor(private router:Router, public programService:ProgramService,
     public authservice:AuthenticationService
   ){}
@@ -42,15 +42,14 @@ apply(program: Program) {
   addProgram() {
  this.router.navigateByUrl("/admin/respo")
   }
-  downloadFile(program: Program) {
-    this.programService.gettimingFile(program.id).subscribe((file) => {
+  viewFile(programId: any) {
+    this.programService.getPotserFile(programId).subscribe((file) => {
       const blob = new Blob([file], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${program.name}timing.pdf`;
-      a.click();
-      window.URL.revokeObjectURL(url); // Libère la mémoire utilisée
+      // Ouvre le fichier dans un nouvel onglet
+      window.open(url, '_blank');
+      // Libère la mémoire utilisée
+      window.URL.revokeObjectURL(url);
     });
-  }
+  }  
 }

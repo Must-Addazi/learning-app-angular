@@ -6,6 +6,7 @@ import { StudentsService } from '../service/students.service';
 import { Payment } from '../model/student.model';
 import { AuthenticationService } from '../service/authentication.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-payment',
@@ -25,22 +26,6 @@ export class PaymentComponent implements OnInit {
   constructor(private router:Router, private studentService:StudentsService, public authservice:AuthenticationService ){
 
   }
-  downloadFile(paymentId: number) {
-    this.studentService.getPaymentFile(paymentId).subscribe((file) => {
-      const blob = new Blob([file], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `payment_${paymentId}.pdf`;
-      a.click();
-      window.URL.revokeObjectURL(url)
-    });
-  }
-  
-  filterPayment($event: Event) {
-    let value=($event.target as HTMLInputElement).value;
-    this.dataSource.filter=value;
-  }
   ngOnInit(): void {
     if(this.authservice.Role && this.authservice.Role.includes('ADMIN')){
     this.studentService.getAllPayment().subscribe({
@@ -56,6 +41,10 @@ export class PaymentComponent implements OnInit {
             }
     })
   }else{
+    this.getPaymentsByUsername()
+  }
+  }
+  getPaymentsByUsername(){
     this.studentService.getPaymentsByUsername(this.authservice.username).subscribe({
       next:(data)=>{
         console.log(data)
@@ -69,12 +58,66 @@ export class PaymentComponent implements OnInit {
             }
     })
   }
+  downloadFile(paymentId: number) {
+    this.studentService.getPaymentFile(paymentId).subscribe((file) => {
+      const blob = new Blob([file], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      // Ouvre le fichier dans un nouvel onglet
+      window.open(url, '_blank');
+      // Libère la mémoire utilisée
+      window.URL.revokeObjectURL(url);
+    });
+  }
+  
+  filterPayment($event: Event) {
+    let value=($event.target as HTMLInputElement).value;
+    this.dataSource.filter=value;
   }
   newPayment() {
 this.router.navigateByUrl(`/admin/new-payment/${this.authservice.username}`)
   }
   edit(payment:Payment){
     this.router.navigateByUrl(`/admin/editpayement/${payment.id}`)
+  }
+  deletePayment(paymentId: number) {
+      Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentService.deletePayment(paymentId).subscribe({
+          next:(data)=>{
+            this.getPaymentsByUsername()
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your Consumption has been deleted.",
+              icon: "success"
+            });
+          },
+          error:(err)=>{
+        Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.error.message
+            });
+          }
+        })
+      }else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        Swal.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error"
+        });
+      }
+    });   
   }
 }
 

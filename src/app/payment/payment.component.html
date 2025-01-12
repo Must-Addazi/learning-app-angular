@@ -50,17 +50,31 @@
                 </ng-container>
                
                 <ng-container matColumnDef="paymentFile">
-                  <th mat-header-cell *matHeaderCellDef> Payment File </th>
+                  <th mat-header-cell *matHeaderCellDef> fichiers de payment </th>
                   <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="primary" (click)="downloadFile(element.id)">See file</button>  
+                    @if(element.file){
+                    <button mat-raised-button color="primary" (click)="downloadFile(element.id)">Voir fichier</button>  
+                    }@else{
+                     <mat-error>pas de fichier</mat-error>
+                    }
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="action">
-                  <th mat-header-cell *matHeaderCellDef> Edit </th>
+                  <th mat-header-cell *matHeaderCellDef> Actions </th>
                   <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="primary" (click)="edit(element)">Edit here</button>  
+                    <div class="action-buttons">
+                      <!-- Bouton de mise à jour -->
+                      <button mat-raised-button color="accent" style="margin-right: 3px;" (click)="edit(element)">
+                        <mat-icon>edit</mat-icon> modifier
+                      </button>  
+                      <!-- Bouton de suppression -->
+                      <button mat-raised-button color="warn" (click)="deletePayment(element.id)">
+                        <mat-icon>delete</mat-icon>Supprimer
+                      </button>
+                    </div>
                   </td>
                 </ng-container>
+                
                 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

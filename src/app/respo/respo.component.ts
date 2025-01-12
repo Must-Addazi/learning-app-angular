@@ -55,7 +55,7 @@ saveRespoProgram(){
   let formDataProgram = new FormData();
   formDataProgram.set("name",this.programFormGroup.value.name)
   formDataProgram.set("price",this.programFormGroup.value.price)
-  formDataProgram.set("timing",file)
+  formDataProgram.set("poster",file)
   let respoformData = new FormData()
   respoformData.set("name",this.programFormGroup.value.respoName)
   respoformData.set("phoneNumber",this.programFormGroup.value.phone)

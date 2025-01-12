@@ -37,8 +37,11 @@ public getStudentByProgram(Id:string):Observable<Array<Student>>{
 public getUserProfileByEmail(email:string):Observable<Student>{
   return this.http.get<Student>(`${environment.backendHost}/studentEmail/${email}`)
 }
-public editPayment(paymentID:string,status:string):Observable<Payment>{
+public editPayment(paymentID:number,status:string):Observable<Payment>{
   const params = { status };
   return this.http.put<Payment>(`${environment.backendHost}/payments/updateStatus/${paymentID}`,null,{params})
-} 
+}
+public deletePayment(paymentID:number):Observable<Boolean>{
+ return this.http.delete<Boolean>(`${environment.backendHost}/deletePayment/${paymentID}`)
+}
 }

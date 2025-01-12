@@ -1,7 +1,7 @@
 
   /* Assurez-vous que les images ne déforment pas */
   .carousel-item img {
-      width: 50%; /* L'image occupera toute la largeur de son conteneur */
+      width: 100%; /* L'image occupera toute la largeur de son conteneur */
       height: 600px; /* Hauteur fixe */
       object-fit: cover; /* Maintient le ratio d'aspect tout en remplissant le conteneur */
   }
@@ -13,7 +13,7 @@
       padding: 10px;
   }
   .carousel{
-    width: 50%;
+    width: 100%;
 
   }
 

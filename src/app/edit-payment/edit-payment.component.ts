@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrl: './edit-payment.component.css'
 })
 export class EditPaymentComponent implements OnInit{
-  paymentId!:string
+  paymentId!:number
   selectedStatus!: string;
   shoProgress:boolean=false
   public PaymentStatus :string[]=[]

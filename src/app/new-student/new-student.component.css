@@ -5,4 +5,13 @@
   .mat-mdc-form-field {
     margin-top: 16px;
   }
-  
+  mat-form-field{
+    margin-top: 3px;
+    display: block;
+}
+.Form{
+  width: 30%;
+  max-width: 50%;
+  margin: auto;
+  justify-content: center;  
+}

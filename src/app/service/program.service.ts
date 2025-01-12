@@ -26,8 +26,8 @@ export class ProgramService {
   public saveProgram(formdata:any):Observable<Program>{
     return this.http.post<Program>(`${environment.backendHost}/saveProgram`,formdata)
   }
-  public gettimingFile(programId: string) {
-    const url = `${environment.backendHost}/timingFile/${programId}`;
+  public getPotserFile(programId: string) {
+    const url = `${environment.backendHost}/posterFile/${programId}`;
     return this.http.get(url, { responseType: 'blob' });
   }
   public getAllModules():Observable<Array<Module>>{

@@ -48,10 +48,14 @@
                   <td mat-cell *matCellDef="let element"> {{ element.responsibleProgramDTO ?
                   element.responsibleProgramDTO.email ||'':''}} </td>
                 </ng-container>
-                <ng-container matColumnDef="timingFile">
-                  <th mat-header-cell *matHeaderCellDef> Timing File </th>
+                <ng-container matColumnDef="posterFile">
+                  <th mat-header-cell *matHeaderCellDef> Affiche </th>
                   <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button (click)="downloadFile(element)">see timing</button>  
+                    @if(element.posterFile){
+                    <button mat-raised-button (click)="viewFile(element.id)">Voir affiche</button>  
+                    }@else{
+                    <mat-error>pas de fichier disponible</mat-error>
+                    }
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="applay">
