@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { StudentsService } from '../service/students.service';
 import { Program, Student } from '../model/student.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-students',
@@ -15,7 +16,7 @@ export class StudentsComponent implements OnInit {
   public students:any;
   public dataSource:any;
   public Programs:Array<Program>=[]
-  public DisplayedColumn=["profile","CIN","firstName","lastName","email","phone","amountPaid","payment"]
+  public DisplayedColumn=["profile","CIN","firstName","lastName","email","phone","amountPaid","payment","action"]
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
@@ -74,5 +75,49 @@ public getAllStudent(){
     }
   })
  }
-
+ deleteStudent(studentId: string) {
+      Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentService.deleteStudent(studentId).subscribe({
+          next:(data)=>{
+            this.getAllStudent()
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your Consumption has been deleted.",
+              icon: "success"
+            });
+          },
+          error:(err)=>{
+        Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.error.message
+            });
+          }
+        })
+      }else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        Swal.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error"
+        });
+      }
+    });   
+  
+}
+  
+  edit(_t139: any) {
+  throw new Error('Method not implemented.');
+  }
 }

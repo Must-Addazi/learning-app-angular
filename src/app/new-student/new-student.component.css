@@ -8,6 +8,7 @@
   mat-form-field{
     margin-top: 3px;
     display: block;
+    width: 40%;
 }
 .Form{
   width: 30%;

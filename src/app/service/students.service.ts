@@ -44,4 +44,7 @@ public editPayment(paymentID:number,status:string):Observable<Payment>{
 public deletePayment(paymentID:number):Observable<Boolean>{
  return this.http.delete<Boolean>(`${environment.backendHost}/deletePayment/${paymentID}`)
 }
+public deleteStudent(studentID:string):Observable<Boolean>{
+  return this.http.delete<Boolean>(`${environment.backendHost}/deleteStudent/${studentID}`)
+ }
 }

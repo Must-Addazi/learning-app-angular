@@ -16,7 +16,7 @@
                 <button  style="margin-left: 8px;"  mat-raised-button color="primary" (click)="getStudents(program)">{{program.name}} students</button>    
               }
               <button  style="margin-left: 8px;"  mat-raised-button (click)="getAllStudent()">All Student</button>    
-            <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z1">
+            <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z3">
 
               <ng-container matColumnDef="profile">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Profile</th>
@@ -61,7 +61,21 @@
                     <button mat-raised-button color="primary" (click)="getPayements(element)">Payement</button>    
                     </td>
                   </ng-container>
-              
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="action-buttons">
+                        <!-- Bouton de mise à jour -->
+                        <button mat-raised-button color="accent" style="margin-right: 3px;" (click)="edit(element)">
+                          <mat-icon>edit</mat-icon> modifier
+                        </button>  
+                        <!-- Bouton de suppression -->
+                        <button mat-raised-button color="warn" (click)="deleteStudent(element.id)">
+                          <mat-icon>delete</mat-icon>Supprimer
+                        </button>
+                      </div>
+                    </td>
+                  </ng-container>
                 <tr mat-header-row *matHeaderRowDef="DisplayedColumn"></tr>
                 <tr mat-row *matRowDef="let row; columns: DisplayedColumn;"></tr>
               </table>
