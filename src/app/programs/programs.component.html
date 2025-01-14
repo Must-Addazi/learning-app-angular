@@ -58,6 +58,23 @@
                     }
                   </td>
                 </ng-container>
+                @if(authservice.isAuthenticated()){
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef> Actions </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="action-buttons">
+                      <!-- Bouton de mise à jour -->
+                      <button mat-raised-button color="accent" style="margin-right: 3px;" (click)="edit(element)">
+                        <mat-icon>edit</mat-icon> modifier
+                      </button>  
+                      <!-- Bouton de suppression -->
+                      <button mat-raised-button color="warn" (click)="deleteProgram(element.id)">
+                        <mat-icon>delete</mat-icon>Supprimer
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
+              }
                 <ng-container matColumnDef="applay">
                   <th mat-header-cell *matHeaderCellDef> Applay </th>
                   <td mat-cell *matCellDef="let element"> 

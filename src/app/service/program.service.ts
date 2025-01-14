@@ -36,4 +36,7 @@ export class ProgramService {
   public getModulesByProgram(Id:string):Observable<Array<Module>>{
     return this.http.get<Array<Module>>(`${environment.backendHost}/modules/${Id}`)
   }
+  public deleteStudent(programId:string):Observable<Boolean>{
+    return this.http.delete<Boolean>(`${environment.backendHost}/deleteProgram/${programId}`)
+   }
 }

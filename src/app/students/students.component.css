@@ -1,11 +1,10 @@
 .container {
     padding: 5px;
-    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
   }
   
 th {
-    text-align: center; /* Centre le texte horizontalement */
-    vertical-align: middle; /* Centre le texte verticalement */
+    text-align: center; 
+    vertical-align: middle; 
   }
   .action-buttons{
     display: flex;

@@ -5,7 +5,7 @@ import { catchError, throwError } from 'rxjs';
 
 export const appHttpInterceptor: HttpInterceptorFn = (req, next) => {
  const authService= inject(AuthenticationService)
- if(!req.url.includes('/auth/login') && !req.url.includes('/program') && !req.url.includes('/modules') && !req.url.includes('/saveStudent')){
+ if(!req.url.includes('/auth/login') && !req.url.includes('/program') && !req.url.includes('/modules') && !req.url.includes('/saveStudent') && !req.url.includes("/posterFile")){
   console.log("non login "+req)
   let newrequest=req.clone({
    headers: req.headers.set('Authorization','Bearer '+authService.accesToken)

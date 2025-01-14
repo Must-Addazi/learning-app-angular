@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ProgramService } from '../service/program.service';
 import { AuthenticationService } from '../service/authentication.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-programs',
@@ -13,14 +14,21 @@ import { AuthenticationService } from '../service/authentication.service';
 })
 export class ProgramsComponent implements OnInit{
   programs:Array<Program>=[]
+  public displayedColumns: string[];
   public dataSource:any
-  public displayedColumns = ["name","price","responame","phone","email","posterFile","applay"]
   constructor(private router:Router, public programService:ProgramService,
     public authservice:AuthenticationService
-  ){}
+  ){
+    this.displayedColumns = ["name","price","responame","phone","email","posterFile","applay",...(this.authservice.isAuthenticated() ? ["action"] : [])]
+
+  }
+
   @ViewChild(MatSort) sort: MatSort | undefined;
   ngOnInit(): void {
-   this.programService.getAllPrograms().subscribe({
+ this.getAllProgram()
+}
+public getAllProgram(){
+  this.programService.getAllPrograms().subscribe({
     next:(data)=>{
       this.programs=data
       console.log(this.programs)
@@ -51,5 +59,48 @@ apply(program: Program) {
       // Libère la mémoire utilisée
       window.URL.revokeObjectURL(url);
     });
-  }  
+  } 
+  deleteProgram(programId:string) {
+      Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.programService.deleteStudent(programId).subscribe({
+              next:(data)=>{
+                this.getAllProgram()
+                Swal.fire({
+                  title: "Deleted!",
+                  text: "Your Consumption has been deleted.",
+                  icon: "success"
+                });
+              },
+              error:(err)=>{
+            Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: err.error.message
+                });
+              }
+            })
+          }else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            Swal.fire({
+              title: "Cancelled",
+              text: "Your imaginary file is safe :)",
+              icon: "error"
+            });
+          }
+        });   
+    }
+    edit(_t106: any) {
+    throw new Error('Method not implemented.');
+    }
 }
