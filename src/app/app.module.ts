@@ -45,6 +45,7 @@ import { ModuleComponent } from './module/module.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
 import { DxButtonModule, DxLoadPanelModule, DxScrollViewModule, DxToolbarModule } from 'devextreme-angular';
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
+import { NewModuleComponent } from './new-module/new-module.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { EditPaymentComponent } from './edit-payment/edit-payment.component';
     RespoComponent,
     ModuleComponent,
     ImagePreviewDialogComponent,
-    EditPaymentComponent
+    EditPaymentComponent,
+    NewModuleComponent
     ],
   imports: [
     BrowserModule,

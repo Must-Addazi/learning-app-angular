@@ -1,0 +1,34 @@
+<div class="container">
+    <mat-card [formGroup]="newModuleForm" class="ModuleForm">
+        <mat-card-header>
+            <mat-card-title>
+                New Module
+            </mat-card-title>
+        </mat-card-header>
+        <mat-divider>
+        </mat-divider>
+        <mat-card-content>          
+    
+            <mat-form-field appearance="outline">
+                <mat-label>Nom module</mat-label>
+                <input matInput type="text" formControlName="name"  class="example-right-align" placeholder="nom module" />
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Nom Professeur</mat-label>
+                <input matInput type="text" formControlName="teacher"  class="example-right-align" placeholder="nom prof" />
+              </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>
+                    Filière
+                </mat-label>
+                <input matInput readonly formControlName="programCode"/>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions [align]="'end'">
+            <button mat-raised-button (click)="saveModule()" color="primary">Sauvegarder module</button>
+         @if(shoProgress){
+            <mat-spinner ></mat-spinner>
+         }
+        </mat-card-actions>
+    </mat-card>
+    </div>

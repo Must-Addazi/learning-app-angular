@@ -4,6 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Module, Program } from '../model/student.model';
 import { ProgramService } from '../service/program.service';
+import { AuthenticationService } from '../service/authentication.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-module',
@@ -14,12 +16,12 @@ export class ModuleComponent implements OnInit {
   public modules:Array<Module>=[];
   public dataSource:any;
   public programs:Array<Program>=[]
-  public DisplayedColumn=["id","name","teacherName"]
+  public DisplayedColumn:string[]
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private programService:ProgramService){
-
+  constructor(private programService:ProgramService, public authservice:AuthenticationService){
+    this.DisplayedColumn=["id","name","teacherName",...(this.authservice.isAuthenticated() ? ["action"] : [])]
   }
   ngOnInit(): void {
     this.getAllModules()
@@ -69,6 +71,49 @@ public getAllModules(){
     }
   })
  }
-
+ edit(_t76: any) {
+  throw new Error('Method not implemented.');
+  }
+    deleteModule(moduleId:string) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.programService.deleteModule(moduleId).subscribe({
+                next:(data)=>{
+                  this.getAllModules()
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "Le module a été supprimé avec succès.",
+                    icon: "success"
+                  });
+                },
+                error:(err)=>{
+              Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: err.error.message
+                  });
+                }
+              })
+            }else if (
+              /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+              Swal.fire({
+                title: "Cancelled",
+                text: "Your imaginary file is safe :)",
+                icon: "error"
+              });
+            }
+          });   
+      }
+  
 }
 

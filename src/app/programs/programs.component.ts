@@ -71,7 +71,7 @@ apply(program: Program) {
           confirmButtonText: "Yes, delete it!"
         }).then((result) => {
           if (result.isConfirmed) {
-            this.programService.deleteStudent(programId).subscribe({
+            this.programService.deleteProgram(programId).subscribe({
               next:(data)=>{
                 this.getAllProgram()
                 Swal.fire({
@@ -102,5 +102,8 @@ apply(program: Program) {
     }
     edit(_t106: any) {
     throw new Error('Method not implemented.');
+    }
+    AddModule(programId: string) {
+      this.router.navigateByUrl(`/admin/new-module/${programId}`)
     }
 }

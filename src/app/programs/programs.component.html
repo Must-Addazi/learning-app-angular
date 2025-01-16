@@ -13,7 +13,7 @@
             <mat-label>Search</mat-label>
             <input placeholder="enter an item" matInput (change)="filterProgram($event)"/>
           </mat-form-field>
-          @if( authservice.isAuthenticated() && authservice.Role && authservice.Role.includes('SUPER_ADMIN') ){
+          @if( authservice.isAuthenticated() && authservice.Role.includes('SUPER_ADMIN') ){
           <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="addProgram()">Add Program and Responsible</button>  
           }  
             <table mat-table matSort [dataSource]="dataSource" class="mat-elevation-z3">
@@ -48,6 +48,17 @@
                   <td mat-cell *matCellDef="let element"> {{ element.responsibleProgramDTO ?
                   element.responsibleProgramDTO.email ||'':''}} </td>
                 </ng-container>
+                <ng-container matColumnDef="applay">
+                  <th mat-header-cell *matHeaderCellDef> Applay </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    @if(!authservice.isAuthenticated() || !authservice.Role.includes("ADMIN")){
+                      <th mat-header-cell *matHeaderCellDef> Applay </th>
+                  <button mat-raised-button color="primary" (click)="apply(element)">Applay</button>   
+                    }@else {
+                      <button mat-raised-button color="primary" (click)="AddModule(element.id)">Ajouter module</button>   
+                    }
+                  </td>
+                </ng-container>
                 <ng-container matColumnDef="posterFile">
                   <th mat-header-cell *matHeaderCellDef> Affiche </th>
                   <td mat-cell *matCellDef="let element">
@@ -75,12 +86,6 @@
                   </td>
                 </ng-container>
               }
-                <ng-container matColumnDef="applay">
-                  <th mat-header-cell *matHeaderCellDef> Applay </th>
-                  <td mat-cell *matCellDef="let element"> 
-                  <button mat-raised-button color="primary" (click)="apply(element)">Applay</button>    
-                  </td>
-                </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>

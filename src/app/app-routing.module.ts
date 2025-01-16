@@ -17,6 +17,7 @@ import { ProgramsComponent } from './programs/programs.component';
 import { RespoComponent } from './respo/respo.component';
 import { ModuleComponent } from './module/module.component';
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
+import { NewModuleComponent } from './new-module/new-module.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path:"new-student",component:NewStudentComponent},
   {path:"payment",component:PaymentComponent,canActivate:[authenticationGuard]},
   {path:"module",component:ModuleComponent},
+  {path:"new-module/:programId",component:NewModuleComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"student-details/:code",component:StudentDetailsComponent,canActivate:[authenticationGuard]},
   {path:"editpayement/:id",component:EditPaymentComponent, canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"loadstudents",component:LoadStudentsComponent,
