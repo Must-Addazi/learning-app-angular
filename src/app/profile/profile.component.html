@@ -5,7 +5,11 @@
           <div class="card card-profile p-3">
               <div class="card-avatar">
                   <a href="javascript:void(0)">
-                      <img class="img" src="assets/default_User.jpg" />
+                    @if(profileData.photo){
+                      <img [src]="'data:image;base64,' + profileData.photo" alt="Profile" width="100" height="100" style="margin: 5px;"/>
+                      }@else{
+                        <img src="assets/default_User.jpg" alt="Default Profile" width="60" height="60" style="margin: 5px;"/>
+                      }
                   </a>
               </div>
               <div class="card-body">

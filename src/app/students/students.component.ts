@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { StudentsService } from '../service/students.service';
 import { Program, Student } from '../model/student.model';
 import Swal from 'sweetalert2';
+import { AuthenticationService } from '../service/authentication.service';
 
 @Component({
   selector: 'app-students',
@@ -20,10 +21,13 @@ export class StudentsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private router:Router,private studentService:StudentsService){
+  constructor(private router:Router,private studentService:StudentsService
+    , public authService:AuthenticationService
+  ){
 
   }
   ngOnInit(): void {
+    
     this.getAllStudent()
        
      }
@@ -42,7 +46,6 @@ this.studentService.getStudentByProgram(program.id).subscribe({
 })
 }
 getPayements(student: Student) {
-  console.log(student)
 this.router.navigateByUrl(`/admin/student-details/${student.cin}`)
 }
 filterStudent($event: Event) {
@@ -91,7 +94,7 @@ public getAllStudent(){
             this.getAllStudent()
             Swal.fire({
               title: "Deleted!",
-              text: "Your Consumption has been deleted.",
+              text: "Cet étudiant à été supprimé avec succès.",
               icon: "success"
             });
           },

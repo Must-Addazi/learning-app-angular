@@ -26,7 +26,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { NewPaymentComponent } from './new-payment/new-payment.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -46,6 +46,8 @@ import { ImagePreviewDialogComponent } from './image-preview-dialog/image-previe
 import { DxButtonModule, DxLoadPanelModule, DxScrollViewModule, DxToolbarModule } from 'devextreme-angular';
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
 import { NewModuleComponent } from './new-module/new-module.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ErrorInterceptor } from './interceptor/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -97,11 +99,13 @@ import { NewModuleComponent } from './new-module/new-module.component';
     MatButtonModule,
     AsyncPipe,
     MatProgressBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
         ],
   providers: [
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([appHttpInterceptor]))
+    provideHttpClient(withInterceptors([appHttpInterceptor])),
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
     ],
   bootstrap: [AppComponent]
 })

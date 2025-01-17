@@ -9,6 +9,7 @@ import { StudentsService } from '../service/students.service';
 import { ImagePreviewDialogComponent } from '../image-preview-dialog/image-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { ErrorInterceptor } from '../interceptor/error.interceptor';
 
 
 @Component({
@@ -40,7 +41,7 @@ export class NewStudentComponent implements OnInit{
       firstName: ['', Validators.required],
       lastName:['',Validators.required],
       email: ['', [Validators.required,Validators.email]],
-      CIN: ['', Validators.required],
+      CIN: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9]{4,10}$') ]],
       phone: ['', [Validators.required,Validators.minLength(10),Validators.maxLength(10)]],
       date:['',Validators.required],
       fileSource:['',Validators.required],
@@ -49,12 +50,12 @@ export class NewStudentComponent implements OnInit{
       imageFile: [null as File | null, Validators.required]
     });
     bacFormGroup = this._formBuilder.group({
-      noteBac:['',[Validators.required]],
+      noteBac:['',[Validators.required,Validators.min(10), Validators.max(20)]],
       bacFileSource:['',Validators.required],
       bacFileName:['', Validators.required]
          });
     diplomeFormGroup = this._formBuilder.group({
-      noteDiplome:['',[Validators.required]],
+      noteDiplome:['',[Validators.required,Validators.min(12), Validators.max(20)]],
       diplomeFileSource:['',Validators.required],
       diplomeFileName:['', Validators.required]
     })
@@ -146,12 +147,6 @@ export class NewStudentComponent implements OnInit{
               error: (err) => {
                 this.showProgress = false;
                 console.error("Error saving student:", err);
-                Swal.fire({
-                      icon: 'error',
-                      title: 'Oops...',
-                      text: err.error.message
-                  
-                    });
               }
             });
           }

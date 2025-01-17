@@ -7,28 +7,36 @@
         <mat-form-field style="margin-right: 8px;">
           <mat-label>First Name</mat-label>
           <input matInput placeholder="First name" formControlName="firstName" required>
+          <mat-error *ngIf="persInfFormGroup.get('firstName')?.hasError('required')">First name is required</mat-error>
         </mat-form-field>
         <mat-form-field>
           <mat-label>Last Name</mat-label>
           <input matInput placeholder="Last name" formControlName="lastName" required>
+          <mat-error *ngIf="persInfFormGroup.get('lastName')?.hasError('required')">Last name is required</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Numéro CIN</mat-label>
+          <mat-label> CIN</mat-label>
           <input matInput formControlName="CIN" placeholder="Ex. XY2345" required>
+          <mat-error *ngIf="persInfFormGroup.get('CIN')?.hasError('required') && persInfFormGroup.get('CIN')?.touched">CIN is required</mat-error>
+          <mat-error *ngIf="persInfFormGroup.get('CIN')?.hasError('pattern') && persInfFormGroup.get('CIN')?.touched">Invalid CIN format</mat-error>      
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Numéro de télépone</mat-label>
+          <mat-label>Phone number</mat-label>
           <input matInput formControlName="phone" placeholder="Ex. 061234567" required>
+          <mat-error *ngIf="persInfFormGroup.get('phone')?.hasError('required') && persInfFormGroup.get('phone')?.touched">phone is required</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-label>Address email</mat-label>
+          <mat-label>email</mat-label>
           <input matInput formControlName="email" placeholder="Ex. xxxx@yyy.zz" required>
+          <mat-error *ngIf="persInfFormGroup.get('email')?.hasError('required') && persInfFormGroup.get('email')?.touched">email is required</mat-error>
+          <mat-error *ngIf="persInfFormGroup.get('email')?.hasError('email') && persInfFormGroup.get('email')?.touched">Invalid email format</mat-error>      
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>
               Date de naissance
           </mat-label>
           <input matInput [matDatepicker]="picker" formControlName="date"/> 
+          <mat-error *ngIf="persInfFormGroup.get('date')?.hasError('required') && persInfFormGroup.get('date')?.touched">date is required</mat-error>
           <mat-hint>MM/DD/YYYY</mat-hint> 
            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
            <mat-datepicker #picker></mat-datepicker>
@@ -92,15 +100,19 @@
         </mat-card-content>
     </mat-card>
     </mat-step>
-    <mat-step [stepControl]="bacFormGroup" label="Fill out your phone number">
+    <mat-step [stepControl]="bacFormGroup" label="Fill out your Baccalaureat">
       <form [formGroup]="bacFormGroup">
         <mat-form-field>
           <mat-label>Note de Baccalauréat</mat-label>
           <input matInput formControlName="noteBac" placeholder="Ex. 18.5" required>
+          <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('required') && bacFormGroup.get('noteBac')?.touched">Bac degree is required</mat-error>
+          <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('min') && bacFormGroup.get('noteBac')?.touched">Bac degree must be great than 10</mat-error>
+          <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('max') && bacFormGroup.get('noteBac')?.touched">Bac degree must be less than 20</mat-error>          
+
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>
-            Fichier Baccalauréat
+            Baccalaureat File
           </mat-label>
           <button type="button" mat-icon-button matPrefix (click)="f_inputbac.click()">
             <mat-icon>attach_file</mat-icon>
@@ -123,7 +135,7 @@
       <mat-card style="margin-top: 10px;">
         <mat-card-header>
             <mat-card-title>
-                Fichier Bac 
+                 Bac File 
             </mat-card-title>
         </mat-card-header>
         <mat-card-content>
@@ -139,11 +151,15 @@
         </mat-card-content>
     </mat-card>
     </mat-step>
-    <mat-step [stepControl]="diplomeFormGroup" label="Upload your CIN">
+    <mat-step [stepControl]="diplomeFormGroup" label="Fill out your Diploma">
       <form [formGroup]="diplomeFormGroup">
         <mat-form-field>
           <mat-label>Note de diplome</mat-label>
           <input matInput formControlName="noteDiplome" placeholder="Ex. 18.5" required>
+          <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('required') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree is required</mat-error>
+          <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('min') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree must be great than 12</mat-error>
+          <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('max') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree must be less than 20</mat-error>          
+
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>
@@ -182,15 +198,11 @@
                 [show-all]="true"
                 [render-text]="true"
                 style="display: block; height: 80vh;">
-              </pdf-viewer>
-              
-   
-            </div>
-            
+              </pdf-viewer>  
+            </div>   
         </mat-card-content>
     </mat-card>
-    </mat-step>
-    
+    </mat-step>  
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
       <p>You are now done.</p>
