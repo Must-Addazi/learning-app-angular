@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -31,9 +32,13 @@ this.authservice.login(username,password).subscribe({
     this.authservice.loadProfile(data)
     this.router.navigateByUrl("/admin/dashboard")
   },
-  error:(err)=>
-    this.ErrorMassage=err
-})
+  error:(err)=>{
+    Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.error.message
+        });
+  }})
 }
 hide = signal(true);
 clickEvent(event: MouseEvent) {

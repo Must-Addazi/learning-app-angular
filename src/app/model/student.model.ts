@@ -12,12 +12,18 @@ export interface Payment {
     icon: any
     cin: string
     id: string
+    birthDate:Date
     firstName: string
     lastName: string
     email: string
     amountPaid: number
     photo: any
     phone:string
+    noteBac:number
+    noteDiploma:number
+    bacFile: string
+    diplomaFile: string
+    photoCIN:string
     programDTO: Program
     cne: string
   }

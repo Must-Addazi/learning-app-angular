@@ -3,21 +3,86 @@
       <div class="row m-3">
         <div class="col-md-4">
           <div class="card card-profile p-3">
-              <div class="card-avatar">
-                  <a href="javascript:void(0)">
-                    @if(profileData.photo){
-                      <img [src]="'data:image;base64,' + profileData.photo" alt="Profile" width="100" height="100" style="margin: 5px;"/>
-                      }@else{
-                        <img src="assets/default_User.jpg" alt="Default Profile" width="60" height="60" style="margin: 5px;"/>
-                      }
-                  </a>
-              </div>
+              <div class="card-avatar" >
+                <a href="javascript:void(0)">
+                  @if(profileData.photo){
+                    <img [src]="'data:image;base64,' + profileData.photo" alt="Profile" width="100" height="100" style="margin: 5px;"/>
+                    }@else{
+                      <img src="assets/default_User.jpg" alt="Default Profile" width="60" height="60" style="margin: 5px;"/>
+                    }
+                </a>
+            </div>
+
               <div class="card-body">
-                  <h6 class="card-category text-gray">{{profileData.id}}</h6>
-                  <h4 class="card-title">{{profileData.cin}}</h4>
-                  <a href="javascript:void(0)" class="btn btn-danger btn-round">Edit Profile</a>
+                <mat-form-field appearance="outline"  style="margin-left: 8px;">
+                  <mat-label>Change Profile Image</mat-label>
+                  <button type="button" mat-icon-button matPrefix (click)="image_input.click()">
+                    <mat-icon>image</mat-icon>
+                  </button>
+                  <input matInput readonly formControlName="imageFileName" />
+                  <input
+                    type="file"
+                    hidden
+                    #image_input
+                    (change)="selectImage($event)"
+                    accept="image/png, image/jpeg, image/jpg"
+                    />
+                </mat-form-field>
+                  <a href="javascript:void(0)" class="btn btn-danger btn-round">Update Profile</a>
               </div>
           </div>
+          <div class="card card-profile p-3 mt-3">
+            <div class="card-body">
+                    <mat-form-field appearance="outline">
+                      <mat-label>
+                        CIN Fichier
+                      </mat-label>
+                      <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
+                        <mat-icon>attach_file</mat-icon>
+                      </button>
+                      <input matInput readonly formControlName="fileName" />
+                      <input
+                        type="file"
+                        hidden
+                        #f_input
+                        (change)="selectCinFile($event)"
+                        accept="application/pdf"
+                      />
+                    </mat-form-field>
+                    @if(profileData.photoCIN){
+                      <button mat-raised-button (click)="viewFile(profileData.id,'CIN')">See CIN file</button>  
+                      }@else{
+                      <mat-error>No file</mat-error>
+                      }
+                <a href="javascript:void(0)" class="btn btn-danger btn-round">Edit Profile</a>
+            </div>
+        </div>
+      <div class="card card-profile p-3 mt-3">
+        <div class="card-body">
+                  <mat-form-field appearance="outline">
+                    <mat-label>
+                      Bac File
+                    </mat-label>
+                    <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
+                      <mat-icon>attach_file</mat-icon>
+                    </button>
+                    <input matInput readonly formControlName="fileName" />
+                    <input
+                      type="file"
+                      hidden
+                      #f_input
+                      (change)="selectCinFile($event)"
+                      accept="application/pdf"
+                    />
+                  </mat-form-field>
+            @if(profileData.bacFile){
+              <button mat-raised-button (click)="viewFile(profileData.id,'bac')">See Bac file</button>  
+              }@else{
+              <mat-error>No file</mat-error>
+              }
+            <a href="javascript:void(0)" class="btn btn-danger btn-round">Edit Profile</a>
+        </div>
+       </div>
       </div>
           <div class="col-md-8">
               <div class="card">
@@ -28,59 +93,104 @@
                   <div class="card-body">
                       <form>
                           <div class="row">
-                              <div class="col-md-5">
-                              </div>
-                              <div class="col-md-3">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Username">
-                                  </mat-form-field>
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <mat-label>First Name</mat-label>
+                                  <input matInput value={{profileData.firstName}} placeholder="First Name">
+                                </mat-form-field>
                               </div>
                               <div class="col-md-4">
                                   <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Email address" type="email">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput value={{profileData.email}}  placeholder="Email address" type="email">
                                   </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <mat-label>Phone</mat-label>
+                                  <input matInput value={{profileData.phone}}  placeholder="Phone Number">
+                                </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <mat-label>Last Name</mat-label>
+                                  <input matInput value={{profileData.lastName}} placeholder="Last Name" type="text">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <mat-label>Bac Degree</mat-label>
+                                  <input matInput value={{profileData.noteBac}} placeholder="Bac Degree" type="text">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <mat-label>Diploma Degree</mat-label>
+                                  <input matInput value={{profileData.noteDiploma}} placeholder="Diploma Degree" type="text">
+                                </mat-form-field>
                               </div>
                           </div>
                           <div class="row">
                               <div class="col-md-6">
                                 <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Fist Name" type="text">
+                                  <mat-label>CIN</mat-label>
+                                  <input matInput value={{profileData.cin}} placeholder="CIN" type="text">
                                 </mat-form-field>
                               </div>
                               <div class="col-md-6">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Last Name" type="text">
+                                <mat-form-field class="example-full-width" floatLabel="always" appearance="outline">
+                                  <mat-label>Amount Paid</mat-label>
+                                  <input matInput readonly type="number" formControlName="amount"  class="example-right-align" placeholder="0" />
+                                  <span matTextPrefix>DH&nbsp;</span>
+                                  <span matTextSuffix>.00</span>
                                 </mat-form-field>
                               </div>
                           </div>
                           <div class="row">
-                              <div class="col-md-12">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Adress" type="text">
-                                </mat-form-field>
-                              </div>
-                          </div>
-                          <div class="row">
                               <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="City" type="text">
-                                </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Country" type="text">
-                                </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Postal Code" type="text">
-                                </mat-form-field>
+                                <mat-form-field class="example-full-width" >
+                                  <mat-label>
+                                     Birth Day
+                                  </mat-label>
+                                  <input matInput value={{profileData.birthDate}} [matDatepicker]="picker" /> 
+                                  <mat-hint>MM/DD/YYYY</mat-hint> 
+                                   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                   <mat-datepicker #picker></mat-datepicker>
+                              </mat-form-field>
                               </div>
                           </div>
                           <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update Profile</button>
                           <div class="clearfix"></div>
                       </form>
                   </div>
+                  <div class="card card-profile p-3 mt-3">
+                    <div class="card-body">
+                          <mat-form-field appearance="outline">
+                            <mat-label>
+                              Diploma File
+                            </mat-label>
+                            <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
+                              <mat-icon>attach_file</mat-icon>
+                            </button>
+                            <input matInput readonly formControlName="fileName" />
+                            <input
+                              type="file"
+                              hidden
+                              #f_input
+                              (change)="selectDiplomaFile($event)"
+                              accept="application/pdf"
+                            />
+                          </mat-form-field>
+                          @if(profileData.diplomaFile){
+                            <button mat-raised-button (click)="viewFile(profileData.id,'dipl')">See Diploma file</button>  
+                            }@else{
+                            <mat-error>No file</mat-error>
+                            }
+                        <a href="javascript:void(0)" class="btn btn-danger btn-round">Edit Profile</a>
+                    </div>
+                </div>
               </div>
           </div>
       </div>

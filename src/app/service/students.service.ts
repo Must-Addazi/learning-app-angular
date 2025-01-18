@@ -47,4 +47,8 @@ public deletePayment(paymentID:number):Observable<Boolean>{
 public deleteStudent(studentID:string):Observable<Boolean>{
   return this.http.delete<Boolean>(`${environment.backendHost}/deleteStudent/${studentID}`)
  }
+ public getFile(studentId: string,file : string) {
+  const url = `${environment.backendHost}/posterFile/${studentId}/${file}`;
+  return this.http.get(url, { responseType: 'blob' });
+}
 }

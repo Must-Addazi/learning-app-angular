@@ -33,7 +33,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>
-              Date de naissance
+             Birth Day
           </mat-label>
           <input matInput [matDatepicker]="picker" formControlName="date"/> 
           <mat-error *ngIf="persInfFormGroup.get('date')?.hasError('required') && persInfFormGroup.get('date')?.touched">date is required</mat-error>
@@ -103,7 +103,7 @@
     <mat-step [stepControl]="bacFormGroup" label="Fill out your Baccalaureat">
       <form [formGroup]="bacFormGroup">
         <mat-form-field>
-          <mat-label>Note de Baccalauréat</mat-label>
+          <mat-label>Degree Bac</mat-label>
           <input matInput formControlName="noteBac" placeholder="Ex. 18.5" required>
           <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('required') && bacFormGroup.get('noteBac')?.touched">Bac degree is required</mat-error>
           <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('min') && bacFormGroup.get('noteBac')?.touched">Bac degree must be great than 10</mat-error>

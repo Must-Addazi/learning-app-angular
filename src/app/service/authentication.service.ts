@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {jwtDecode} from 'jwt-decode';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AuthenticationService {
     const params = new HttpParams()
       .set("username", username)
       .set("password", password);
-    return this.http.post(`${this.baseUrl}/login`, params.toString(), { headers });
+    return this.http.post(`${environment.backendHost}/auth/login`, params.toString(), { headers });
   }
   loadProfile(data: any) {
     this.accesToken=data['access-token']
