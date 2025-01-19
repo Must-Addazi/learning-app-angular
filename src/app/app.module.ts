@@ -17,13 +17,14 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StudentsComponent } from './students/students.component';
 import { PaymentComponent } from './payment/payment.component';
-import { MatCardModule } from '@angular/material/card';
+import { MatCardModule, MatCardTitle } from '@angular/material/card';
 import { LoadStudentsComponent } from './load-students/load-students.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -43,7 +44,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ModuleComponent } from './module/module.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
-import { DxButtonModule, DxLoadPanelModule, DxScrollViewModule, DxToolbarModule } from 'devextreme-angular';
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
 import { NewModuleComponent } from './new-module/new-module.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -100,8 +100,9 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
     AsyncPipe,
     MatProgressBarModule,
     MatDialogModule,
-    MatSnackBarModule
-        ],
+    MatSnackBarModule,
+    MatGridListModule
+  ],
   providers: [
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([appHttpInterceptor])),

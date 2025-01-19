@@ -9,7 +9,6 @@ import { StudentsService } from '../service/students.service';
 import { ImagePreviewDialogComponent } from '../image-preview-dialog/image-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
-import { ErrorInterceptor } from '../interceptor/error.interceptor';
 
 
 @Component({

@@ -1,198 +1,199 @@
-<div class="main-content">
-  <div class="container-fluid">
-      <div class="row m-3">
-        <div class="col-md-4">
-          <div class="card card-profile p-3">
-              <div class="card-avatar" >
-                <a href="javascript:void(0)">
-                  @if(profileData.photo){
-                    <img [src]="'data:image;base64,' + profileData.photo" alt="Profile" width="100" height="100" style="margin: 5px;"/>
-                    }@else{
-                      <img src="assets/default_User.jpg" alt="Default Profile" width="60" height="60" style="margin: 5px;"/>
-                    }
-                </a>
-            </div>
 
-              <div class="card-body">
-                <mat-form-field appearance="outline"  style="margin-left: 8px;">
-                  <mat-label>Change Profile Image</mat-label>
-                  <button type="button" mat-icon-button matPrefix (click)="image_input.click()">
-                    <mat-icon>image</mat-icon>
-                  </button>
-                  <input matInput readonly formControlName="imageFileName" />
-                  <input
-                    type="file"
-                    hidden
-                    #image_input
-                    (change)="selectImage($event)"
-                    accept="image/png, image/jpeg, image/jpg"
-                    />
-                </mat-form-field>
-                  <a href="javascript:void(0)" class="btn btn-danger btn-round">Update Profile</a>
-              </div>
-          </div>
-          <div class="card card-profile p-3 mt-3">
-            <div class="card-body">
-                    <mat-form-field appearance="outline">
-                      <mat-label>
-                        CIN Fichier
-                      </mat-label>
-                      <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
-                        <mat-icon>attach_file</mat-icon>
-                      </button>
-                      <input matInput readonly formControlName="fileName" />
-                      <input
-                        type="file"
-                        hidden
-                        #f_input
-                        (change)="selectCinFile($event)"
-                        accept="application/pdf"
-                      />
-                    </mat-form-field>
-                    @if(profileData.photoCIN){
-                      <button mat-raised-button (click)="viewFile(profileData.id,'CIN')">See CIN file</button>  
-                      }@else{
-                      <mat-error>No file</mat-error>
-                      }
-                <a href="javascript:void(0)" class="btn btn-danger btn-round">Edit Profile</a>
-            </div>
+<mat-stepper
+class="example-stepper"
+[orientation]="(stepperOrientation | async)!">
+<mat-step [stepControl]="ImageFormGroup" label="Fill out your Diploma">
+    @if(profileData.photo){
+      <img [src]="'data:image;base64,' + profileData.photo" alt="Profile" width="60" height="60" style="margin: 5px;"/>
+      }
+      @if(!profileData.photo){
+        <img src="assets/default_User.jpg" alt="Default Profile" width="60" height="60" style="margin: 5px;"/>
+      }
+    <form [formGroup]="ImageFormGroup">
+    <mat-form-field appearance="outline"  style="margin-left: 8px;">
+      <mat-label>Image Profile</mat-label>
+      <button type="button" mat-icon-button matPrefix (click)="image_input.click()">
+        <mat-icon>image</mat-icon>
+      </button>
+      <input matInput readonly formControlName="imageFileName" />
+      <input
+        type="file"
+        hidden
+        #image_input
+        (change)="selectImage($event)"
+        accept="image/png, image/jpeg, image/jpg"
+        />
+    </mat-form-field>
+    <div>
+      <button mat-raised-button (click)="resetImage()">Reset Image</button>
+      <button mat-raised-button color="primary" (click)="updateImage()" >Update Image</button>
+    </div>
+    </form>
+    <form [formGroup]="passwordFormGroup">
+    <mat-form-field style="margin-right: 8px;">
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Your new password" formControlName="password" required>
+      <mat-error *ngIf="persInfFormGroup.get('password')?.hasError('required')">First name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Confirm Password</mat-label>
+      <input matInput placeholder="Confirm your new password" formControlName="cpassword" required>
+      <mat-error *ngIf="persInfFormGroup.get('cpassword')?.hasError('required')">Last name is required</mat-error>
+    </mat-form-field>
+  </form>
+    <div>
+      <button mat-raised-button color="primary" (click)="updatePassword()" >Update Password</button>
+      <button mat-raised-button (click)="resetDiplomeFile()">Reset File</button>
+      <button mat-button matStepperNext>Next</button>
         </div>
-      <div class="card card-profile p-3 mt-3">
-        <div class="card-body">
-                  <mat-form-field appearance="outline">
-                    <mat-label>
-                      Bac File
-                    </mat-label>
-                    <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
-                      <mat-icon>attach_file</mat-icon>
-                    </button>
-                    <input matInput readonly formControlName="fileName" />
-                    <input
-                      type="file"
-                      hidden
-                      #f_input
-                      (change)="selectCinFile($event)"
-                      accept="application/pdf"
-                    />
-                  </mat-form-field>
-            @if(profileData.bacFile){
-              <button mat-raised-button (click)="viewFile(profileData.id,'bac')">See Bac file</button>  
-              }@else{
-              <mat-error>No file</mat-error>
-              }
-            <a href="javascript:void(0)" class="btn btn-danger btn-round">Edit Profile</a>
-        </div>
-       </div>
-      </div>
-          <div class="col-md-8">
-              <div class="card">
-                  <div class="card-header card-header-danger">
-                      <h4 class="card-title">Edit Profile</h4>
-                      <p class="card-category">Complete your profile</p>
-                  </div>
-                  <div class="card-body">
-                      <form>
-                          <div class="row">
-                              <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                  <mat-label>First Name</mat-label>
-                                  <input matInput value={{profileData.firstName}} placeholder="First Name">
-                                </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
-                                  <mat-form-field class="example-full-width">
-                                    <mat-label>Email</mat-label>
-                                    <input matInput value={{profileData.email}}  placeholder="Email address" type="email">
-                                  </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                  <mat-label>Phone</mat-label>
-                                  <input matInput value={{profileData.phone}}  placeholder="Phone Number">
-                                </mat-form-field>
-                            </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                  <mat-label>Last Name</mat-label>
-                                  <input matInput value={{profileData.lastName}} placeholder="Last Name" type="text">
-                                </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                  <mat-label>Bac Degree</mat-label>
-                                  <input matInput value={{profileData.noteBac}} placeholder="Bac Degree" type="text">
-                                </mat-form-field>
-                              </div>
-                              <div class="col-md-4">
-                                <mat-form-field class="example-full-width">
-                                  <mat-label>Diploma Degree</mat-label>
-                                  <input matInput value={{profileData.noteDiploma}} placeholder="Diploma Degree" type="text">
-                                </mat-form-field>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-6">
-                                <mat-form-field class="example-full-width">
-                                  <mat-label>CIN</mat-label>
-                                  <input matInput value={{profileData.cin}} placeholder="CIN" type="text">
-                                </mat-form-field>
-                              </div>
-                              <div class="col-md-6">
-                                <mat-form-field class="example-full-width" floatLabel="always" appearance="outline">
-                                  <mat-label>Amount Paid</mat-label>
-                                  <input matInput readonly type="number" formControlName="amount"  class="example-right-align" placeholder="0" />
-                                  <span matTextPrefix>DH&nbsp;</span>
-                                  <span matTextSuffix>.00</span>
-                                </mat-form-field>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-md-4">
-                                <mat-form-field class="example-full-width" >
-                                  <mat-label>
-                                     Birth Day
-                                  </mat-label>
-                                  <input matInput value={{profileData.birthDate}} [matDatepicker]="picker" /> 
-                                  <mat-hint>MM/DD/YYYY</mat-hint> 
-                                   <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                   <mat-datepicker #picker></mat-datepicker>
-                              </mat-form-field>
-                              </div>
-                          </div>
-                          <button mat-raised-button type="submit" class="btn btn-danger pull-right">Update Profile</button>
-                          <div class="clearfix"></div>
-                      </form>
-                  </div>
-                  <div class="card card-profile p-3 mt-3">
-                    <div class="card-body">
-                          <mat-form-field appearance="outline">
-                            <mat-label>
-                              Diploma File
-                            </mat-label>
-                            <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
-                              <mat-icon>attach_file</mat-icon>
-                            </button>
-                            <input matInput readonly formControlName="fileName" />
-                            <input
-                              type="file"
-                              hidden
-                              #f_input
-                              (change)="selectDiplomaFile($event)"
-                              accept="application/pdf"
-                            />
-                          </mat-form-field>
-                          @if(profileData.diplomaFile){
-                            <button mat-raised-button (click)="viewFile(profileData.id,'dipl')">See Diploma file</button>  
-                            }@else{
-                            <mat-error>No file</mat-error>
-                            }
-                        <a href="javascript:void(0)" class="btn btn-danger btn-round">Edit Profile</a>
-                    </div>
-                </div>
-              </div>
-          </div>
-      </div>
+</mat-step> 
+<mat-step [stepControl]="persInfFormGroup" label="Fill out your name">
+  <form [formGroup]="persInfFormGroup" class="form">
+    <mat-form-field style="margin-right: 8px;">
+      <mat-label>First Name</mat-label>
+      <input matInput placeholder="First name" formControlName="firstName" required>
+      <mat-error *ngIf="persInfFormGroup.get('firstName')?.hasError('required')">First name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input matInput placeholder="Last name" formControlName="lastName" required>
+      <mat-error *ngIf="persInfFormGroup.get('lastName')?.hasError('required')">Last name is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label> CIN</mat-label>
+      <input matInput formControlName="CIN" placeholder="Ex. XY2345" required>
+      <mat-error *ngIf="persInfFormGroup.get('CIN')?.hasError('required') && persInfFormGroup.get('CIN')?.touched">CIN is required</mat-error>
+      <mat-error *ngIf="persInfFormGroup.get('CIN')?.hasError('pattern') && persInfFormGroup.get('CIN')?.touched">Invalid CIN format</mat-error>      
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Phone number</mat-label>
+      <input matInput formControlName="phone" placeholder="Ex. 061234567" required>
+      <mat-error *ngIf="persInfFormGroup.get('phone')?.hasError('required') && persInfFormGroup.get('phone')?.touched">phone is required</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>email</mat-label>
+      <input matInput formControlName="email" placeholder="Ex. xxxx@yyy.zz" required>
+      <mat-error *ngIf="persInfFormGroup.get('email')?.hasError('required') && persInfFormGroup.get('email')?.touched">email is required</mat-error>
+      <mat-error *ngIf="persInfFormGroup.get('email')?.hasError('email') && persInfFormGroup.get('email')?.touched">Invalid email format</mat-error>      
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>
+         Birth Day
+      </mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date"/> 
+      <mat-error *ngIf="persInfFormGroup.get('date')?.hasError('required') && persInfFormGroup.get('date')?.touched">date is required</mat-error>
+      <mat-hint>MM/DD/YYYY</mat-hint> 
+       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+       <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Degree Bac</mat-label>
+    <input matInput formControlName="noteBac" placeholder="Ex. 18.5" required>
+    <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('required') && bacFormGroup.get('noteBac')?.touched">Bac degree is required</mat-error>
+    <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('min') && bacFormGroup.get('noteBac')?.touched">Bac degree must be great than 10</mat-error>
+    <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('max') && bacFormGroup.get('noteBac')?.touched">Bac degree must be less than 20</mat-error>          
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Note de diplome</mat-label>
+    <input matInput formControlName="noteDiplome" placeholder="Ex. 18.5" required>
+    <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('required') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree is required</mat-error>
+    <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('min') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree must be great than 12</mat-error>
+    <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('max') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree must be less than 20</mat-error>          
+  </mat-form-field>
+    <div>
+      <button mat-raised-button color="primary" (click)="updateStudent()" >Update profile</button>
+    </div>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </form>
+</mat-step>
+<mat-step [stepControl]="bacFormGroup" label="Fill out your Baccalaureat">
+  <form [formGroup]="CinFormGroup">
+    @if(profileData.photoCIN){
+      <button mat-raised-button (click)="viewFile(profileData.id,'CIN')">See file</button>  
+      }@else{
+      <mat-error>No file available</mat-error>
+      }
+  <mat-form-field appearance="outline">
+    <mat-label>
+      CIN Fichier
+    </mat-label>
+    <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+    <input matInput readonly formControlName="fileName" />
+    <input
+      type="file"
+      hidden
+      #f_input
+      (change)="selectCinFile($event)"
+      accept="application/pdf"
+    />
+  </mat-form-field>
+  </form>
+  <div>
+    <button mat-raised-button (click)="resetCinFile()">Reset File</button>
+    <button mat-raised-button color="primary" (click)="updateCIN()" >Update CIN File</button>
   </div>
-</div>
+  <form [formGroup]="bacFormGroup">
+    @if(profileData.bacFile){
+      <button mat-raised-button (click)="viewFile(profileData.id,'bac')">See file</button>  
+      }@else{
+      <mat-error>No file available</mat-error>
+      }
+    <mat-form-field appearance="outline">
+      <mat-label>
+        Baccalaureat File
+      </mat-label>
+      <button type="button" mat-icon-button matPrefix (click)="f_inputbac.click()">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+      <input matInput readonly formControlName="bacFileName" />
+      <input
+        type="file"
+        hidden
+        #f_inputbac
+        (change)="selectBacFile($event)"
+        accept="application/pdf"
+      />
+    </mat-form-field>
+  </form>
+  <div>
+    <button mat-raised-button (click)="resetBacFile()">Reset File</button>
+    <button mat-raised-button color="primary" (click)="updateBac()" >Update Bac File</button>
+  </div>
+  <form [formGroup]="diplomeFormGroup">
+    @if(profileData.diplomaFile){
+      <button mat-raised-button (click)="viewFile(profileData.id,'dipl')">See file</button>  
+      }@else{
+      <mat-error>No file available</mat-error>
+      }
+    <mat-form-field appearance="outline">
+      <mat-label>
+        fichier Diplome
+      </mat-label>
+      <button type="button" mat-icon-button matPrefix (click)="f_inputdip.click()">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+      <input matInput readonly formControlName="diplomeFileName" />
+      <input
+        type="file"
+        hidden
+        #f_inputdip
+        (change)="selectDiplomeFile($event)"
+        accept="application/pdf"
+      />
+    </mat-form-field>
+    <div>
+      <button mat-raised-button (click)="resetDiplomeFile()">Reset File</button>
+      <button mat-raised-button color="primary" (click)="updateDiplome()" >Update Diplome</button>
+    </div>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </form>
+</mat-step>  
+</mat-stepper>

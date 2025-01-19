@@ -51,4 +51,13 @@ public deleteStudent(studentID:string):Observable<Boolean>{
   const url = `${environment.backendHost}/posterFile/${studentId}/${file}`;
   return this.http.get(url, { responseType: 'blob' });
 }
+public updateStudent(studentId: string,formData:any):Observable<Student>{
+  return this.http.put<Student>(`${environment.backendHost}/updateStudent/${studentId}`,formData)
+}
+public updateStudentFile(studentId: string,file:string,formData:any):Observable<Student>{
+  return this.http.put<Student>(`${environment.backendHost}/updateStudentFile/${studentId}/${file}`,formData)
+}
+public updateStudentPassword(studentEmail: string,formData:any):Observable<any>{
+  return this.http.put<any>(`${environment.backendHost}/updateStudentPassword/${studentEmail}`,formData)
+}
 }

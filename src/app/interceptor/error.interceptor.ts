@@ -28,9 +28,8 @@ export class ErrorInterceptor implements HttpInterceptor {
             // Si l'erreur est un objet, combinez les messages
             errorMessage = Object.values(error.error).join('\n');
           }
-        } else if (error.status === 500) {
-          errorMessage = 'An unexpected error occurred on the server.';
-        } else {
+        } 
+        else {
           errorMessage = error.message || 'An unknown error occurred.';
         }
 
