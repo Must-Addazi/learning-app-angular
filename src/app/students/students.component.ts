@@ -46,7 +46,7 @@ this.studentService.getStudentByProgram(program.id).subscribe({
 })
 }
 getPayements(student: Student) {
-this.router.navigateByUrl(`/admin/student-details/${student.cin}`)
+this.router.navigateByUrl(`/admin/payment/${student.cin}`)
 }
 filterStudent($event: Event) {
 let value=($event.target as HTMLInputElement).value;

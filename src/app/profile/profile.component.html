@@ -2,7 +2,7 @@
 <mat-stepper
 class="example-stepper"
 [orientation]="(stepperOrientation | async)!">
-<mat-step [stepControl]="ImageFormGroup" label="Fill out your Diploma">
+<mat-step [stepControl]="ImageFormGroup" label="Fill out your Profile and Password">
     @if(profileData.photo){
       <img [src]="'data:image;base64,' + profileData.photo" alt="Profile" width="60" height="60" style="margin: 5px;"/>
       }
@@ -43,11 +43,10 @@ class="example-stepper"
   </form>
     <div>
       <button mat-raised-button color="primary" (click)="updatePassword()" >Update Password</button>
-      <button mat-raised-button (click)="resetDiplomeFile()">Reset File</button>
       <button mat-button matStepperNext>Next</button>
         </div>
 </mat-step> 
-<mat-step [stepControl]="persInfFormGroup" label="Fill out your name">
+<mat-step [stepControl]="persInfFormGroup" label="Fill out your Persnal Informations">
   <form [formGroup]="persInfFormGroup" class="form">
     <mat-form-field style="margin-right: 8px;">
       <mat-label>First Name</mat-label>
@@ -100,6 +99,14 @@ class="example-stepper"
     <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('min') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree must be great than 12</mat-error>
     <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('max') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree must be less than 20</mat-error>          
   </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label> Program </mat-label>
+    <mat-select formControlName="program">
+    @for ( program of programs;track program) {
+        <mat-option [value]="program.id">{{program.name}}</mat-option>
+    }
+    </mat-select>
+</mat-form-field>
     <div>
       <button mat-raised-button color="primary" (click)="updateStudent()" >Update profile</button>
     </div>
@@ -109,12 +116,12 @@ class="example-stepper"
     </div>
   </form>
 </mat-step>
-<mat-step [stepControl]="bacFormGroup" label="Fill out your Baccalaureat">
+<mat-step [stepControl]="bacFormGroup" label="Fill out your Fils">
   <form [formGroup]="CinFormGroup">
     @if(profileData.photoCIN){
       <button mat-raised-button (click)="viewFile(profileData.id,'CIN')">See file</button>  
       }@else{
-      <mat-error>No file available</mat-error>
+      <mat-error >No file available</mat-error>
       }
   <mat-form-field appearance="outline">
     <mat-label>

@@ -13,7 +13,7 @@
                 <input placeholder="enter an item" matInput (change)="filterModule($event)"/>
               </mat-form-field>
               @for(program of programs;track program){
-                <button  style="margin-left: 8px;"  mat-raised-button color="primary" (click)="getModules(program)">{{program.name}} students</button>    
+                <button  style="margin-left: 8px;"  mat-raised-button color="primary" (click)="getModules(program)">{{program.name}} moduls</button>    
               }
               <button  style="margin-left: 8px;"  mat-raised-button (click)="getAllModules()">All Modules</button>    
             <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z1">

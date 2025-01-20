@@ -10,6 +10,7 @@ import { StepperOrientation } from '@angular/cdk/stepper';
 import { map, Observable } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { formatDate } from '@angular/common';
+import { ProgramService } from '../service/program.service';
 
 @Component({
   selector: 'app-profile',
@@ -18,21 +19,18 @@ import { formatDate } from '@angular/common';
 })
 export class ProfileComponent implements OnInit {
   profileData!:Student
-  isLoading = true;
-  isDataChanged = false;
-  isContentScrolled = false;
-    public program!:Program
-    public showProgress:boolean=false
-    imagePreview: string | null = null;
-    stepperOrientation: Observable<StepperOrientation>;
-    
-    constructor(    private authService: AuthenticationService,private studentsService:StudentsService, public dialog: MatDialog) {
-      const breakpointObserver = inject(BreakpointObserver);
+  public programs:Array<Program>=[]
+
+  imagePreview: string | null = null;
+  stepperOrientation: Observable<StepperOrientation>;
   
-      this.stepperOrientation = breakpointObserver
-        .observe('(min-width: 800px)')
-        .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
-    }
+  constructor( private programService:ProgramService , private authService: AuthenticationService,private studentsService:StudentsService, public dialog: MatDialog) {
+    const breakpointObserver = inject(BreakpointObserver);
+
+    this.stepperOrientation = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
+  }
 
     private _formBuilder = inject(FormBuilder);
     
@@ -40,11 +38,12 @@ export class ProfileComponent implements OnInit {
         firstName: ['', Validators.required],
         lastName:['',Validators.required],
         email: ['', [Validators.required,Validators.email]],
-        CIN: ['', [Validators.required,Validators.pattern('^[a-zA-Z0-9]{4,10}$') ]],
+        CIN: ['', [Validators.required,Validators.minLength(4)]],
         phone: ['', [Validators.required,Validators.minLength(10),Validators.maxLength(10)]],
         date:['',Validators.required],
         noteBac:['',[Validators.required,Validators.min(10), Validators.max(20)]],
         noteDiplome:['',[Validators.required,Validators.min(12), Validators.max(20)]],
+        program:['',Validators.required]
       });
       passwordFormGroup =  this._formBuilder.group({
         password: ['', [Validators.required,Validators.minLength(5)]],
@@ -69,6 +68,7 @@ export class ProfileComponent implements OnInit {
       ngOnInit(): void {
         const profileId = this.authService.username;
        this.getProfile(profileId)
+       this.getPrograms()
        console.log(profileId)
       } 
       getProfile(profileId: string): void {
@@ -76,9 +76,7 @@ export class ProfileComponent implements OnInit {
           next: (profileData) => {
             this.profileData = profileData;
             console.log(profileData);
-            const formattedDate = profileData.birthDate
-        ? formatDate(profileData.birthDate, 'yyyy-MM-dd', 'en-US')
-        : '';
+            const formattedDate = profileData.birthDate ? formatDate(profileData.birthDate, 'yyyy-MM-dd', 'en-US')  : '';
 
       this.persInfFormGroup.patchValue({
         firstName: profileData.firstName || '', // Fallback to empty string
@@ -89,6 +87,7 @@ export class ProfileComponent implements OnInit {
         date: formattedDate, // Formatted or empty string if birthDate is null
         noteBac: profileData.noteBac?.toString() || '', // Handle null/undefined
         noteDiplome: profileData.noteDiploma?.toString() || '',
+        program:profileData.programDTO.id || ''
           });    
           },
           error: (err) => {
@@ -96,7 +95,13 @@ export class ProfileComponent implements OnInit {
           },
         });
       }
-
+       getPrograms(){
+        this.programService.getAllPrograms().subscribe({
+          next:(data)=>{
+            this.programs=data
+          }
+        })
+       }
       resetCinFile() {
         this.CinFormGroup.patchValue({
           fileSource: null,
@@ -186,7 +191,6 @@ export class ProfileComponent implements OnInit {
           }
           }
           updateStudent() {
-            this.showProgress = true;
             if (
               this.persInfFormGroup.valid
             ) {
@@ -199,9 +203,9 @@ export class ProfileComponent implements OnInit {
                 email: this.persInfFormGroup.get("email")?.value || "",
                 phone: this.persInfFormGroup.get("phone")?.value || "",
                 birthDate: formatedDate,
-                noteBac: this.bacFormGroup.get("noteBac")?.value || "",
-                noteDiploma: this.diplomeFormGroup.get("noteDiplome")?.value || "",
-                programID: this.profileData.programDTO.id,
+                NoteBac: this.persInfFormGroup.get("noteBac")?.value || "",
+                NoteDiploma: this.persInfFormGroup.get("noteDiplome")?.value || "",
+                programID: this.persInfFormGroup.get("program")?.value || "",
               };
               this.studentsService.updateStudent(this.profileData.id,studentDTO).subscribe({
                 next: (data) => {
@@ -213,7 +217,6 @@ export class ProfileComponent implements OnInit {
                   });
                 },
                 error: (err) => {
-                  this.showProgress = false;
                   console.error("Error saving student:", err);
                 }
               });
@@ -258,7 +261,6 @@ export class ProfileComponent implements OnInit {
                   });
                 },
                 error: (err) => {
-                  this.showProgress = false;
                   console.error("Error saving student:", err);
                 }
               });
@@ -281,7 +283,6 @@ export class ProfileComponent implements OnInit {
                   });
                 },
                 error: (err) => {
-                  this.showProgress = false;
                   console.error("Error saving student:", err);
                 }
               });

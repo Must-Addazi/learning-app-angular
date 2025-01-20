@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { Payment, Program, Student } from '../model/student.model';
+import { Payment, Student } from '../model/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -51,13 +51,21 @@ public deleteStudent(studentID:string):Observable<Boolean>{
   const url = `${environment.backendHost}/posterFile/${studentId}/${file}`;
   return this.http.get(url, { responseType: 'blob' });
 }
-public updateStudent(studentId: string,formData:any):Observable<Student>{
-  return this.http.put<Student>(`${environment.backendHost}/updateStudent/${studentId}`,formData)
+public updateStudent(studentId: string, studentDTO: any): Observable<Student> {
+  const params = new HttpParams()
+    .set('CIN', studentDTO.CIN)
+    .set('NoteBac', studentDTO.NoteBac)
+    .set('NoteDiploma', studentDTO.NoteDiploma);
+
+  console.log("Payload envoyé à l'API : ", studentDTO);
+  const payload = { ...studentDTO }; // Copier les données du `studentDTO` dans le corps
+  return this.http.put<Student>(`${environment.backendHost}/updateStudent/${studentId}`, payload, { params });
 }
+
 public updateStudentFile(studentId: string,file:string,formData:any):Observable<Student>{
   return this.http.put<Student>(`${environment.backendHost}/updateStudentFile/${studentId}/${file}`,formData)
 }
-public updateStudentPassword(studentEmail: string,formData:any):Observable<any>{
-  return this.http.put<any>(`${environment.backendHost}/updateStudentPassword/${studentEmail}`,formData)
+public updateStudentPassword(studentEmail: string,payload:any):Observable<any>{
+  return this.http.put<any>(`${environment.backendHost}/updateStudentPassword/${studentEmail}`,payload)
 }
 }
