@@ -26,23 +26,23 @@ export interface Payment {
     photoCIN:string
     programDTO: Program
     cne: string
+    convene:Boolean
   }
   
   export interface Program{
     id: string
     name: string
     price: number
-    poster: any
+    posterFile: any
+    timing:any
     responsibleProgramDTO: ResponsibleProgram
   }
   
   export interface ResponsibleProgram{
     id: string
-    firstName: string
-    lastName: string
+    name: string
     phoneNumber: string
     email: string
-    program: Program
   }
   export interface Module{
     id:string

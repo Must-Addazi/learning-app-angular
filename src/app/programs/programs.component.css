@@ -5,3 +5,7 @@ th {
   .action-buttons{
     display: flex;
   }
+  mat-card {
+width: 120%;
+  }
+  

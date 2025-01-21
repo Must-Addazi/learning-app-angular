@@ -35,7 +35,7 @@
           <mat-label>
              Birth Day
           </mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="date"/> 
+          <input matInput [matDatepicker]="picker" [readonly]="true" formControlName="date"/> 
           <mat-error *ngIf="persInfFormGroup.get('date')?.hasError('required') && persInfFormGroup.get('date')?.touched">date is required</mat-error>
           <mat-hint>MM/DD/YYYY</mat-hint> 
            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -71,7 +71,6 @@
           accept="image/png, image/jpeg, image/jpg"
           />
       </mat-form-field>
-      
       <div>
         <button mat-raised-button (click)="resetCinFile()">Reset File</button>
         <button mat-raised-button (click)="resetImage()">Reset Image</button>

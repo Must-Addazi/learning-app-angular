@@ -25,8 +25,10 @@ const routes: Routes = [
   {path:"home",component:HomeComponent},
   {path:"admin",component:AdminTemplateComponent,children:[
   {path:"profile",component:ProfileComponent,canActivate:[authenticationGuard]},
+  {path:"profile/:code",component:ProfileComponent,canActivate:[authenticationGuard]},
   {path:"program",component:ProgramsComponent},
-  {path:"respo",component:RespoComponent,canActivate:[authenticationGuard]},
+  {path:"edit-program/:code",component:LoadStudentsComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
+  {path:"respo",component:RespoComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"new-payment/:code",component:NewPaymentComponent,canActivate:[authenticationGuard]},
   {path:"dashboard",component:DashboardComponent},
   {path:"students",component:StudentsComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},

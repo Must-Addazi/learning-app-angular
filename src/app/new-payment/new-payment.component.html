@@ -12,9 +12,9 @@
                 <mat-label>
                     Payment Date
                 </mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="date"/> 
+                <input matInput [matDatepicker]="picker" [readonly]="true" formControlName="date"/> 
                 <mat-hint>MM/DD/YYYY</mat-hint> 
-                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                 <mat-datepicker-toggle matIconSuffix  [for]="picker"></mat-datepicker-toggle>
                  <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
             <mat-form-field class="amountfield" floatLabel="always" appearance="outline">

@@ -19,7 +19,7 @@ export class ProgramsComponent implements OnInit{
   constructor(private router:Router, public programService:ProgramService,
     public authservice:AuthenticationService
   ){
-    this.displayedColumns = ["name","price","responame","phone","email","posterFile","applay",...((this.authservice.isAuthenticated() && this.authservice.Role.includes("SUPER_ADMIN")) ? ["action"] : [])]
+    this.displayedColumns = ["name","price","responame","phone","email","posterFile","timingFile","applay",...((this.authservice.isAuthenticated() && this.authservice.Role.includes("SUPER_ADMIN")) ? ["action"] : [])]
 
   }
 
@@ -50,8 +50,8 @@ apply(program: Program) {
   addProgram() {
  this.router.navigateByUrl("/admin/respo")
   }
-  viewFile(programId: any) {
-    this.programService.getPotserFile(programId).subscribe((file) => {
+  viewFile(programId: any,file:string) {
+    this.programService.getFile(programId,file).subscribe((file) => {
       const blob = new Blob([file], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
       // Ouvre le fichier dans un nouvel onglet
@@ -100,8 +100,8 @@ apply(program: Program) {
           }
         });   
     }
-    edit(_t106: any) {
-    throw new Error('Method not implemented.');
+    edit(programId: string) {
+      this.router.navigateByUrl(`/admin/edit-program/${programId}`)
     }
     AddModule(programId: string) {
       this.router.navigateByUrl(`/admin/new-module/${programId}`)

@@ -1,0 +1,25 @@
+mat-form-field{
+    margin-top: 3px;
+    display: block;
+}
+.paymentForm{
+        width: 60%;
+        max-width: 80%;
+        margin: auto;
+        justify-content: left;  
+}
+mat-card-header,mat-divider{
+    margin-bottom: 5px;
+}
+.example-right-align {
+    text-align: right;
+  }
+  .pricefield{
+    margin-top: 6px;
+  }
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  

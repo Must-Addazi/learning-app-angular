@@ -14,6 +14,9 @@ export class ProgramService {
   public getAllPrograms():Observable<Array<Program>>{
     return this.http.get<Array<Program>>(`${environment.backendHost}/program`)
   }
+  public programById(programId:string):Observable<Program>{
+    return this.http.get<Program>(`${environment.backendHost}/programById/${programId}`)
+  }
   public getAllRespos():Observable<Array<ResponsibleProgram>>{
     return this.http.get<Array<ResponsibleProgram>>(`${environment.backendHost}/respo`)
   }
@@ -29,8 +32,8 @@ export class ProgramService {
   public saveModule(formdataModule:any):Observable<Module>{
     return this.http.post<Module>(`${environment.backendHost}/saveModule`,formdataModule)
   }
-  public getPotserFile(programId: string) {
-    const url = `${environment.backendHost}/posterFile/${programId}`;
+  public getFile(programId: string,file:string) {
+    const url = `${environment.backendHost}/getFile/${programId}/${file}`;
     return this.http.get(url, { responseType: 'blob' });
   }
   public getAllModules():Observable<Array<Module>>{
@@ -44,5 +47,8 @@ export class ProgramService {
    }
    public deleteModule(moduleId:string):Observable<Boolean>{
     return this.http.delete<Boolean>(`${environment.backendHost}/deleteModule/${moduleId}`)
+   }
+   public updateProgram(formdata:any): Observable<Program> {   
+     return this.http.put<Program>(`${environment.backendHost}/updateProgram`, formdata);
    }
 }

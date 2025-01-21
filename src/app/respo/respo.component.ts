@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ResponsibleProgram } from '../model/student.model';
-import { Router } from '@angular/router';
 import { ProgramService } from '../service/program.service';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-respo',
@@ -22,24 +19,42 @@ public programFormGroup!:FormGroup
   
   ngOnInit(): void {
    this.programFormGroup=this.fb.group({
-    name : this.fb.control(''),
-    price: this.fb.control(''),
-    respoName: this.fb.control(''),
-    phone : this.fb.control(''),
-    email : this.fb.control(''),
-    fileName: this.fb.control(''),
-    fileSource: this.fb.control('')
+    name : this.fb.control('',Validators.required),
+    price: this.fb.control('',Validators.required),
+    respoName: this.fb.control('',Validators.required),
+    phone : this.fb.control('',Validators.required),
+    email : this.fb.control('',Validators.required),
+    fileName: this.fb.control('',Validators.required),
+    fileSource: this.fb.control('',Validators.required)
    })
 }
 selectFile(event: any) {
   if(event.target.files.length>0){
     let file= event.target.files[0]
+          const MAX_FILE_SIZE_MB = 1;
+          const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+          if (file.size > MAX_FILE_SIZE_BYTES) {
+              Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                  });
+            return; 
+          }
+        const allowedTypes = ['application/pdf'];
+                  if (!allowedTypes.includes(file.type)) {
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Invalid File Type',
+                      text: 'PDF files are allowed.',
+                    });
+                    return;
+                  }
     this.programFormGroup.patchValue({
       fileSource:file,
       fileName:file.name
     })
     this.pdfFileUrl= window.URL.createObjectURL(file)
-    console.log(this.pdfFileUrl)
   }
   }
   resetFile() {
@@ -50,6 +65,7 @@ selectFile(event: any) {
     this.pdfFileUrl = null;
   }
 saveRespoProgram(){
+  if(this.programFormGroup.valid){
   this.shoProgress = true;
   const file = this.programFormGroup.value.fileSource;
   let formDataProgram = new FormData();
@@ -67,14 +83,24 @@ saveRespoProgram(){
         this.programService.saveProgram(formDataProgram).subscribe({
           next:(data)=>{
       this.shoProgress=false
-      confirm("saved"+data)
-          }
+                Swal.fire({
+                  title: "Saved!",
+                  text: "Program saved successfully."+data.name,
+                  icon: "success"
+                });          }
         })
     },
     error:(err)=>{
       console.log(err)
     }
 })
+}else{
+  Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: `Valid your form.`
+    }); 
+}
 }
 }
 

@@ -68,4 +68,7 @@ public updateStudentFile(studentId: string,file:string,formData:any):Observable<
 public updateStudentPassword(studentEmail: string,payload:any):Observable<any>{
   return this.http.put<any>(`${environment.backendHost}/updateStudentPassword/${studentEmail}`,payload)
 }
+public conveneStudent(studentId: string): Observable<Student> {
+  return this.http.put<Student>(`${environment.backendHost}/conveneStudent/${studentId}`, {});
+}
 }

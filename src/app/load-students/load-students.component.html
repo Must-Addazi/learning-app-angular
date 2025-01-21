@@ -1,15 +1,87 @@
 <div class="container">
-    <mat-card >
+    <mat-card [formGroup]="programFormGroup" class="paymentForm">
         <mat-card-header>
             <mat-card-title>
-                Student LIst Title
+                Edit Program {{program.name}}
             </mat-card-title>
         </mat-card-header>
         <mat-divider>
-    
         </mat-divider>
-        <mat-card-content>
-            Students Contenet
+        <mat-card-content>  
+          <mat-form-field appearance="outline">
+            <mat-label>
+               Program Name
+            </mat-label>
+            <input matInput  formControlName="name"/>
+        </mat-form-field>        
+          <mat-form-field floatLabel="always" appearance="outline">
+              <mat-label>Price</mat-label>
+              <input matInput type="number" formControlName="price"  class="example-right-align" placeholder="0" />
+              <span matTextPrefix>DHS&nbsp;</span>
+              <span matTextSuffix>.00</span>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>
+                  Respo Name
+              </mat-label>
+              <input matInput  formControlName="respoName"/>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>
+                Phone Number
+            </mat-label>
+            <input matInput  formControlName="phone"/>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>
+              email
+          </mat-label>
+          <input matInput  formControlName="email"/>
+      </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>
+                    Poster
+                </mat-label>
+                <button type="button" mat-icon-button matPrefix (click)="f_input.click()">
+                <mat-icon>attach_file</mat-icon>
+                </button>
+                <input matInput readonly formControlName="fileName"/>
+                <input type="file" hidden #f_input (change)="selectFile($event)" accept="application/pdf"/>
+            </mat-form-field>
+            <button  style="margin: 10px;" mat-raised-button (click)="resetPosterFile()">Reset File</button>
+            @if(program.posterFile){
+                <button style="margin: 10px;" mat-raised-button color="primary" (click)="viewFile(program.id,'poster')">See current poster file</button>  
+                }@else{
+                <mat-error>No file available</mat-error>
+                }
+              <mat-form-field appearance="outline">
+                <mat-label>
+                   Timing File
+                </mat-label>
+                <button type="button" mat-icon-button matPrefix (click)="f_inputdip.click()">
+                  <mat-icon>attach_file</mat-icon>
+                </button>
+                <input matInput readonly formControlName="timingfileName" />
+                <input
+                  type="file"
+                  hidden
+                  #f_inputdip
+                  (change)="selectTimingFile($event)"
+                  accept="application/pdf"
+                />
+              </mat-form-field>
+              <button  style="margin: 10px;" mat-raised-button (click)="resetTimingFile()">Reset File</button>
+              @if(program.timing){
+                <button  style="margin: 10px;" color="primary" mat-raised-button (click)="viewFile(program.id,'timing')">See Current timing file</button>  
+                }@else{
+                <mat-error>No file available</mat-error>
+                }
         </mat-card-content>
+        <mat-card-actions [align]="'end'">
+            <button mat-raised-button (click)="updateRespoProgram()" color="primary">Update </button>
+         @if(shoProgress){
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
+        </mat-card-actions>
     </mat-card>
     </div>

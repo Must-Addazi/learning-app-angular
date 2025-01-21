@@ -79,7 +79,7 @@ class="example-stepper"
       <mat-label>
          Birth Day
       </mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date"/> 
+      <input matInput [matDatepicker]="picker" [readonly]="true" formControlName="date"/> 
       <mat-error *ngIf="persInfFormGroup.get('date')?.hasError('required') && persInfFormGroup.get('date')?.touched">date is required</mat-error>
       <mat-hint>MM/DD/YYYY</mat-hint> 
        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -199,7 +199,6 @@ class="example-stepper"
     </div>
     <div>
       <button mat-button matStepperPrevious>Back</button>
-      <button mat-button matStepperNext>Next</button>
     </div>
   </form>
 </mat-step>  

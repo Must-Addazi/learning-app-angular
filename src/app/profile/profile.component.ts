@@ -11,6 +11,7 @@ import { map, Observable } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { formatDate } from '@angular/common';
 import { ProgramService } from '../service/program.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -18,13 +19,14 @@ import { ProgramService } from '../service/program.service';
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent implements OnInit {
+  profileId:string=""
   profileData!:Student
   public programs:Array<Program>=[]
 
   imagePreview: string | null = null;
   stepperOrientation: Observable<StepperOrientation>;
   
-  constructor( private programService:ProgramService , private authService: AuthenticationService,private studentsService:StudentsService, public dialog: MatDialog) {
+  constructor(private route: ActivatedRoute, private programService:ProgramService , private authService: AuthenticationService,private studentsService:StudentsService, public dialog: MatDialog) {
     const breakpointObserver = inject(BreakpointObserver);
 
     this.stepperOrientation = breakpointObserver
@@ -66,10 +68,17 @@ export class ProfileComponent implements OnInit {
         diplomeFileName:['', Validators.required]
       })
       ngOnInit(): void {
-        const profileId = this.authService.username;
-       this.getProfile(profileId)
+        if(this.authService.Role.includes("SUPER")){
+        const code = this.route.snapshot.paramMap.get('code');
+        if(code){
+          this.profileId=code
+        }
+        }else{
+        this.profileId = this.authService.username;
+        }
+       this.getProfile(this.profileId)
        this.getPrograms()
-       console.log(profileId)
+       console.log(this.profileId)
       } 
       getProfile(profileId: string): void {
         this.studentsService.getUserProfileByEmail(profileId).subscribe({
@@ -111,6 +120,25 @@ export class ProfileComponent implements OnInit {
         selectCinFile(event: any) {
           if(event.target.files.length>0){
             let file= event.target.files[0]
+              const MAX_FILE_SIZE_MB = 1;
+                const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+                if (file.size > MAX_FILE_SIZE_BYTES) {
+                Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                    });
+                  return; 
+                }
+                const allowedTypes = ['application/pdf'];
+                          if (!allowedTypes.includes(file.type)) {
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Invalid File Type',
+                              text: 'PDF files are allowed.',
+                            });
+                            return;
+                          }
             this.CinFormGroup.patchValue({
               fileSource:file,
              fileName:file.name
@@ -127,6 +155,25 @@ export class ProfileComponent implements OnInit {
             selectBacFile(event: any) {
               if(event.target.files.length>0){
                 let file= event.target.files[0]
+                  const MAX_FILE_SIZE_MB = 1;
+                    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+                    if (file.size > MAX_FILE_SIZE_BYTES) {
+                      Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                          });
+                      return; 
+                    }
+                    const allowedTypes = ['application/pdf'];
+                              if (!allowedTypes.includes(file.type)) {
+                                Swal.fire({
+                                  icon: 'error',
+                                  title: 'Invalid File Type',
+                                  text: 'PDF files are allowed.',
+                                });
+                                return;
+                              }
                 this.bacFormGroup.patchValue({
                   bacFileSource:file,
                  bacFileName:file.name
@@ -142,6 +189,25 @@ export class ProfileComponent implements OnInit {
                 selectDiplomeFile(event: any) {
                   if(event.target.files.length>0){
                     let file= event.target.files[0]
+                      const MAX_FILE_SIZE_MB = 1;
+                        const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+                        if (file.size > MAX_FILE_SIZE_BYTES) {
+                        Swal.fire({
+                              icon: 'error',
+                              title: 'Oops...',
+                              text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                            });
+                          return; 
+                        }
+                        const allowedTypes = ['application/pdf'];
+                                  if (!allowedTypes.includes(file.type)) {
+                                    Swal.fire({
+                                      icon: 'error',
+                                      title: 'Invalid File Type',
+                                      text: 'PDF files are allowed.',
+                                    });
+                                    return;
+                                  }
                     this.diplomeFormGroup.patchValue({
                       diplomeFileSource:file,
                      diplomeFileName:file.name
@@ -152,6 +218,25 @@ export class ProfileComponent implements OnInit {
   
       if (fileInput.files && fileInput.files.length > 0) {
         const file = fileInput.files[0];
+          const MAX_FILE_SIZE_MB = 1;
+            const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+            if (file.size > MAX_FILE_SIZE_BYTES) {
+              Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                  });
+              return; 
+            }
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                    if (!allowedTypes.includes(file.type)) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid File Type',
+                        text: 'Only JPEG, PNG, or JPG files are allowed.',
+                      });
+                      return;
+                    }
         this.ImageFormGroup.patchValue({
           imageFile: file,
           imageFileName: file.name
@@ -184,6 +269,25 @@ export class ProfileComponent implements OnInit {
     selectDiplomaFile(event: any) {
           if(event.target.files.length>0){
             let file= event.target.files[0]
+              const MAX_FILE_SIZE_MB = 1;
+                const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+                if (file.size > MAX_FILE_SIZE_BYTES) {
+                  Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                      });
+                  return; 
+                }
+                const allowedTypes = ['application/pdf'];
+                if (!allowedTypes.includes(file.type)) {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid File Type',
+                    text: 'PDF files are allowed.',
+                  });
+                  return;
+                }
             this.diplomeFormGroup.patchValue({
               diplomeFileSource:file,
               diplomeFileName:file.name
@@ -191,9 +295,7 @@ export class ProfileComponent implements OnInit {
           }
           }
           updateStudent() {
-            if (
-              this.persInfFormGroup.valid
-            ) {
+            if ( this.persInfFormGroup.valid ) {
               let date: Date = new Date(this.persInfFormGroup.get("date")?.value ||"");
               let formatedDate = date.toISOString().split("T")[0];
               const studentDTO = {
@@ -220,6 +322,12 @@ export class ProfileComponent implements OnInit {
                   console.error("Error saving student:", err);
                 }
               });
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `Valid your form.`
+              }); 
             }
           }   
           updatePassword() {

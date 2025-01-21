@@ -17,7 +17,7 @@ export class StudentsComponent implements OnInit {
   public students:any;
   public dataSource:any;
   public Programs:Array<Program>=[]
-  public DisplayedColumn=["profile","CIN","firstName","lastName","email","phone","amountPaid","payment","action"]
+  public DisplayedColumn=["summon","profile","convene","CIN","firstName","lastName","email","phone","birthdate","notebac","notediplome","amountPaid","payment","action"]
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
@@ -119,8 +119,28 @@ public getAllStudent(){
     });   
   
 }
-  
-  edit(_t139: any) {
-  throw new Error('Method not implemented.');
+  edit(student: any) {
+    this.router.navigateByUrl(`/admin/profile/${student.email}`)
+  }
+  convene(student: Student) {
+  this.studentService.conveneStudent(student.id).subscribe({
+    next:(data)=>{
+      console.log(data.photo)
+      const index = this.students.findIndex((s:Student) => s.id === student.id);
+      if (index !== -1) {
+        this.students[index].convene = data.convene; 
+        this.dataSource = new MatTableDataSource(this.students); 
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+    },
+    error:(err)=>{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.error.message
+      });
+    }
+  })
   }
 }

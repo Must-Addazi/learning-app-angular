@@ -46,7 +46,7 @@ export class NewStudentComponent implements OnInit{
       fileSource:['',Validators.required],
       fileName:['', Validators.required],
       imageFileName: ['',],
-      imageFile: [null as File | null, Validators.required]
+      imageFile: [null as File | null]
     });
     bacFormGroup = this._formBuilder.group({
       noteBac:['',[Validators.required,Validators.min(10), Validators.max(20)]],
@@ -70,6 +70,25 @@ export class NewStudentComponent implements OnInit{
       selectCinFile(event: any) {
         if(event.target.files.length>0){
           let file= event.target.files[0]
+            const MAX_FILE_SIZE_MB = 1;
+              const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+              if (file.size > MAX_FILE_SIZE_BYTES) {
+                Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                    });
+                return; 
+              }
+                const allowedTypes = ['application/pdf'];
+                          if (!allowedTypes.includes(file.type)) {
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Invalid File Type',
+                              text: 'PDF files are allowed.',
+                            });
+                            return;
+                          }
           this.persInfFormGroup.patchValue({
             fileSource:file,
            fileName:file.name
@@ -87,6 +106,25 @@ export class NewStudentComponent implements OnInit{
           selectBacFile(event: any) {
             if(event.target.files.length>0){
               let file= event.target.files[0]
+                const MAX_FILE_SIZE_MB = 1;
+                  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+                  if (file.size > MAX_FILE_SIZE_BYTES) {
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                        });
+                    return; 
+                  }
+                  const allowedTypes = ['application/pdf'];
+                            if (!allowedTypes.includes(file.type)) {
+                              Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid File Type',
+                                text: 'PDF files are allowed.',
+                              });
+                              return;
+                            }
               this.bacFormGroup.patchValue({
                 bacFileSource:file,
                bacFileName:file.name
@@ -103,6 +141,25 @@ export class NewStudentComponent implements OnInit{
               selectDiplomeFile(event: any) {
                 if(event.target.files.length>0){
                   let file= event.target.files[0]
+                    const MAX_FILE_SIZE_MB = 1;
+                      const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+                      if (file.size > MAX_FILE_SIZE_BYTES) {
+                                Swal.fire({
+                                      icon: 'error',
+                                      title: 'Oops...',
+                                      text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                                    });
+                        return; 
+                      }
+                    const allowedTypes = ['application/pdf'];
+                              if (!allowedTypes.includes(file.type)) {
+                                Swal.fire({
+                                  icon: 'error',
+                                  title: 'Invalid File Type',
+                                  text: 'PDF files are allowed.',
+                                });
+                                return;
+                              }
                   this.diplomeFormGroup.patchValue({
                     diplomeFileSource:file,
                    diplomeFileName:file.name
@@ -155,6 +212,25 @@ export class NewStudentComponent implements OnInit{
 
     if (fileInput.files && fileInput.files.length > 0) {
       const file = fileInput.files[0];
+                const MAX_FILE_SIZE_MB = 1;
+                  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+                  if (file.size > MAX_FILE_SIZE_BYTES) {
+                    Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
+                        });
+                    return; 
+                  }
+                  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                          if (!allowedTypes.includes(file.type)) {
+                            Swal.fire({
+                              icon: 'error',
+                              title: 'Invalid File Type',
+                              text: 'Only JPEG, PNG, or JPG files are allowed.',
+                            });
+                            return;
+                          }
       this.persInfFormGroup.patchValue({
         imageFile: file,
         imageFileName: file.name
