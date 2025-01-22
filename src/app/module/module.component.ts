@@ -6,6 +6,7 @@ import { Module, Program } from '../model/student.model';
 import { ProgramService } from '../service/program.service';
 import { AuthenticationService } from '../service/authentication.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-module',
@@ -20,7 +21,7 @@ export class ModuleComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private programService:ProgramService, public authservice:AuthenticationService){
+  constructor(private router:Router,private programService:ProgramService, public authservice:AuthenticationService){
     this.DisplayedColumn=["id","name","teacherName",...((this.authservice.isAuthenticated() && this.authservice.Role.includes("SUPER_ADMIN")) ? ["action"] : [])]
   }
   ngOnInit(): void {
@@ -70,9 +71,9 @@ public getAllModules(){
     }
   })
  }
- edit(_t76: any) {
-  throw new Error('Method not implemented.');
-  }
+ edit(id: string) {
+  this.router.navigateByUrl(`/admin/edit-module/${id}`)
+}
     deleteModule(moduleId:string) {
         Swal.fire({
             title: "Are you sure?",
@@ -113,6 +114,5 @@ public getAllModules(){
             }
           });   
       }
-  
 }
 

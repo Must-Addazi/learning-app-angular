@@ -38,12 +38,12 @@
                     <td mat-cell *matCellDef="let element">
                       <div class="action-buttons">
                         <!-- Bouton de mise à jour -->
-                        <button mat-raised-button color="accent" style="margin-right: 3px;" (click)="edit(element)">
-                          <mat-icon>edit</mat-icon> modifier
+                        <button mat-raised-button color="accent" style="margin-right: 3px;" (click)="edit(element.id)">
+                          <mat-icon>edit</mat-icon> edit
                         </button>  
                         <!-- Bouton de suppression -->
                         <button mat-raised-button color="warn" (click)="deleteModule(element.id)">
-                          <mat-icon>delete</mat-icon>Supprimer
+                          <mat-icon>delete</mat-icon> delete
                         </button>
                       </div>
                     </td>

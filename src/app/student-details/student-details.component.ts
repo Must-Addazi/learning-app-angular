@@ -1,9 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { StudentsService } from '../service/students.service';
-import { Payment } from '../model/student.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthenticationService } from '../service/authentication.service';
+import { Program, Student } from '../model/student.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import Swal from 'sweetalert2';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-student-details',
@@ -11,29 +15,188 @@ import { AuthenticationService } from '../service/authentication.service';
   styleUrl: './student-details.component.css'
 })
 export class StudentDetailsComponent implements OnInit{
-newPayment() {
-this.router.navigateByUrl(`/admin/new-payment/${this.studentCode}`)
-}
-  studentCode!:string
-  studentPayments!:Array<Payment>
-  public PaymentdataSource:any;
-  public displayedColumns=['id','date','amount','type','status','firstName']
-  constructor(private studentsService:StudentsService,public activtedRoute:ActivatedRoute
-    , private router:Router, public authservice:AuthenticationService
-  ){
-
-  }
+  public students:any;
+  public dataSource:any;
+  public Programs:Array<Program>=[]
+  public DisplayedColumn=["files","select","profile","selected","CIN","firstName","lastName","email","phone","birthdate","notebac","notediplome","amountPaid","payment","action"]
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  
+  constructor(private router:Router,private studentService:StudentsService
+    , public authService:AuthenticationService
+  ){}
   ngOnInit(): void {
-    this.studentCode=this.activtedRoute.snapshot.params['code']
-    this.studentsService.getStudentPayments(this.studentCode).subscribe({
-      next:(data)=>{
-       this.studentPayments=data
-       this.PaymentdataSource= new MatTableDataSource(this.studentPayments)
-      },
-      error:(err)=>{
-        console.log(err)
-      }
-    })
+    this.getconveneStudentList()   
+     }
+getStudents(program: Program) {
+this.studentService.getStudentsByProgramAndConvene(program.id).subscribe({
+  next:(data)=>{
+    console.log(data)
+    this.students=data;
+    this.dataSource= new MatTableDataSource(this.students)
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  },
+  error:(err)=>{
+    console.log(err)
   }
+})
+}
+getPayements(student: Student) {
+this.router.navigateByUrl(`/admin/payment/${student.cin}`)
+}
+filterStudent($event: Event) {
+let value=($event.target as HTMLInputElement).value;
+this.dataSource.filter=value;
+}
 
+public getconveneStudentList(){
+  this.studentService.conveneStudentList().subscribe({
+    next:(data)=>{
+      console.log(data)
+      this.students=data;
+      this.dataSource= new MatTableDataSource(this.students)
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+       for (const student of data) {
+  if (student.programDTO && student.programDTO.name) {
+    const isAlreadyAdded = this.Programs.some(
+      (program) => program.name === student.programDTO.name
+    );
+    if (!isAlreadyAdded) {
+      this.Programs.push(student.programDTO);
+    }
+  }
+}
+    },
+    error:(err)=>{
+      console.log(err)
+    }
+  })
+ }
+ deleteStudent(studentId: string) {
+      Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentService.deleteStudent(studentId).subscribe({
+          next:(data)=>{
+            this.getconveneStudentList()
+            Swal.fire({
+              title: "Deleted!",
+              text: "Cet étudiant à été supprimé avec succès.",
+              icon: "success"
+            });
+          },
+          error:(err)=>{
+        Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.error.message
+            });
+          }
+        })
+      }else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        Swal.fire({
+          title: "Cancelled",
+          text: "Your imaginary file is safe :)",
+          icon: "error"
+        });
+      }
+    });   
+  
+}
+  edit(student: any) {
+    this.router.navigateByUrl(`/admin/profile/${student.email}`)
+  }
+  select(student: Student) {
+  this.studentService.selectStudent(student.id).subscribe({
+    next:(data)=>{
+      console.log(data.photo)
+      const index = this.students.findIndex((s:Student) => s.id === student.id);
+      if (index !== -1) {
+        this.students[index].selected = data.selected; 
+        this.dataSource = new MatTableDataSource(this.students); 
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+    },
+    error:(err)=>{
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err.error.message
+      });
+    }
+  })
+  }
+  displayFiles(files: Blob[]): void {
+    const container = document.createElement('div');
+  
+    files.forEach((file) => {
+      const url = window.URL.createObjectURL(file);
+  
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.width = '100%';
+      iframe.height = '600px'; // Ajustez la hauteur selon vos besoins
+      iframe.style.border = 'none';
+  
+      container.appendChild(iframe);
+  
+      // Révoquer l'URL après un certain temps
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+      }, 1000);
+    });
+  
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+      newWindow.document.body.appendChild(container);
+    } else {
+      console.error('Impossible d’ouvrir une nouvelle fenêtre.');
+    }
+  }
+  ViewFiles(studentId: string) {
+    forkJoin([
+      this.studentService.getFile(studentId, "CIN"),
+      this.studentService.getFile(studentId, "bac"),
+      this.studentService.getFile(studentId, "diplom")
+    ]).subscribe(
+      (responses) => {
+        const files = responses
+          .filter((file) => file != null && file.size > 0) 
+          .map((file) => new Blob([file], { type: 'application/pdf' }));
+  
+        if (files.length > 0) {
+          this.displayFiles(files);
+        } else {
+          Swal.fire({
+            title: 'Aucun fichier trouvé',
+            text: 'Aucun des fichiers demandés n\'a été trouvé pour cet étudiant.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+          });
+        }
+      },
+      (error) => {
+        console.error("Erreur lors de la récupération des fichiers :", error);
+        Swal.fire({
+          title: 'Erreur',
+          text: 'Une erreur est survenue lors de la récupération des fichiers.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    );
+  }  
 }

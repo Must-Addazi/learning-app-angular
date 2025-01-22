@@ -17,6 +17,13 @@
               }
               <button  style="margin-left: 8px;"  mat-raised-button (click)="getAllStudent()">All Student</button>    
             <table matSort mat-table [dataSource]="dataSource" class="mat-elevation-z3">
+              <ng-container matColumnDef="files">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Student files</th>
+                <td mat-cell *matCellDef="let element">
+                  <button mat-raised-button (click)="ViewFiles(element.id)" color="primary" style="background-color: #00796b; color: white;">
+                    See
+                  </button>  </td>
+              </ng-container>
               <ng-container matColumnDef="summon">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Summon</th>
                 <td mat-cell *matCellDef="let element">

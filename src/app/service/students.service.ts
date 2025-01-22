@@ -13,8 +13,11 @@ export class StudentsService {
    return this.http.get<Array<Payment>>(`${environment.backendHost}/payments`)
   }
   public getAllStudents():Observable<Array<Student>>{
-    return this.http.get<Array<Student>>(`${environment.backendHost}/students`)
-   }
+  return this.http.get<Array<Student>>(`${environment.backendHost}/students`)
+  }
+  public conveneStudentList():Observable<Array<Student>>{
+  return this.http.get<Array<Student>>(`${environment.backendHost}/conveneStudentList`)
+  }
  public getStudentPayments(code:string):Observable<Array<Payment>>{
      return this.http.get<Array<Payment>>(`${environment.backendHost}/student/${code}/payment`)
  }
@@ -24,7 +27,7 @@ export class StudentsService {
  public savePayment(formData:any):Observable<Payment>{
   return this.http.post<Payment>(`${environment.backendHost}/payment`,formData)
 }
-getPaymentFile(paymentId: number) {
+public getPaymentFile(paymentId: number) {
   const url = `${environment.backendHost}/paymentFile/${paymentId}`;
   return this.http.get(url, { responseType: 'blob' });
 }
@@ -33,6 +36,9 @@ public saveStudent(formData:any):Observable<Student>{
 }
 public getStudentByProgram(Id:string):Observable<Array<Student>>{
   return this.http.get<Array<Student>>(`${environment.backendHost}/studentDTO/${Id}`)
+}
+public getStudentsByProgramAndConvene(Id:string):Observable<Array<Student>>{
+  return this.http.get<Array<Student>>(`${environment.backendHost}/findByProgramAndConvene/${Id}`)
 }
 public getUserProfileByEmail(email:string):Observable<Student>{
   return this.http.get<Student>(`${environment.backendHost}/studentEmail/${email}`)
@@ -47,17 +53,17 @@ public deletePayment(paymentID:number):Observable<Boolean>{
 public deleteStudent(studentID:string):Observable<Boolean>{
   return this.http.delete<Boolean>(`${environment.backendHost}/deleteStudent/${studentID}`)
  }
+ 
  public getFile(studentId: string,file : string) {
   const url = `${environment.backendHost}/posterFile/${studentId}/${file}`;
   return this.http.get(url, { responseType: 'blob' });
 }
+
 public updateStudent(studentId: string, studentDTO: any): Observable<Student> {
   const params = new HttpParams()
     .set('CIN', studentDTO.CIN)
     .set('NoteBac', studentDTO.NoteBac)
     .set('NoteDiploma', studentDTO.NoteDiploma);
-
-  console.log("Payload envoyé à l'API : ", studentDTO);
   const payload = { ...studentDTO }; // Copier les données du `studentDTO` dans le corps
   return this.http.put<Student>(`${environment.backendHost}/updateStudent/${studentId}`, payload, { params });
 }
@@ -65,10 +71,16 @@ public updateStudent(studentId: string, studentDTO: any): Observable<Student> {
 public updateStudentFile(studentId: string,file:string,formData:any):Observable<Student>{
   return this.http.put<Student>(`${environment.backendHost}/updateStudentFile/${studentId}/${file}`,formData)
 }
+
 public updateStudentPassword(studentEmail: string,payload:any):Observable<any>{
   return this.http.put<any>(`${environment.backendHost}/updateStudentPassword/${studentEmail}`,payload)
 }
+
 public conveneStudent(studentId: string): Observable<Student> {
   return this.http.put<Student>(`${environment.backendHost}/conveneStudent/${studentId}`, {});
+}
+
+public selectStudent(studentId: string): Observable<Student> {
+  return this.http.put<Student>(`${environment.backendHost}/selectStudent/${studentId}`, {});
 }
 }

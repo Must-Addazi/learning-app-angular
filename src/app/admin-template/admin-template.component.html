@@ -6,15 +6,9 @@
     @if(authservice.isAuthenticated()){
         @if(!authservice.Role.includes("ADMIN")){
         <button  mat-button routerLink="/admin/profile">Profile</button>
+        }@else {
+            <button  mat-button routerLink="/admin/edit-password">Update Password</button>
         }
-<button *ngIf="authservice.Role && authservice.Role.includes('ADMIN')" mat-button [matMenuTriggerFor]="importmenu">
-    <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
-    Import
-</button>
-<mat-menu #importmenu>
-  <button mat-menu-item routerLink="/admin/"> Load Students </button>
-  <button mat-menu-item routerLink="/admin/loadpayement"> Load Payment </button>
-</mat-menu>
 <button mat-button>{{authservice.username}}</button>
 <button mat-raised-button color="accent" (click)="logout()">Logout</button>
     }
@@ -28,34 +22,42 @@
             <mat-list-item>             
                 <button mat-button routerLink="/admin/dashboard">
                     <mat-icon>dashboard</mat-icon>
-                    Dashboard
+                    Home
                 </button>
             </mat-list-item>
             @if( authservice.isAuthenticated() && authservice.Role && authservice.Role.includes('ADMIN') ){
             <mat-list-item>
                 <button mat-button routerLink="/admin/students">
-                    <mat-icon>dashboard</mat-icon>
+                    <mat-icon>group</mat-icon>
                     Students
                 </button>
             </mat-list-item>
               }
+              @if( authservice.isAuthenticated() && authservice.Role && authservice.Role.includes('ADMIN') ){
+                <mat-list-item>
+                    <button mat-button routerLink="/admin/student-select">
+                        <mat-icon>format_list_bulleted</mat-icon>
+                        Selection
+                    </button>
+                </mat-list-item>
+                  }
               @if( authservice.isAuthenticated() ){
             <mat-list-item>
                 <button mat-button routerLink="/admin/payment">
-                    <mat-icon>dashboard</mat-icon>
+                    <mat-icon>payments</mat-icon>
                     Payment
                 </button>
             </mat-list-item>
         }
             <mat-list-item>
                 <button mat-button routerLink="/admin/program">
-                    <mat-icon>dashboard</mat-icon>
+                    <mat-icon>menu_book</mat-icon>
                     Programs
                 </button>
             </mat-list-item>
             <mat-list-item>
                 <button mat-button routerLink="/admin/module">
-                    <mat-icon>dashboard</mat-icon>
+                    <mat-icon>view_module</mat-icon>
                     Modules
                 </button>
             </mat-list-item>

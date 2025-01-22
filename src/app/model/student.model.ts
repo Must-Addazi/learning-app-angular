@@ -27,6 +27,7 @@ export interface Payment {
     programDTO: Program
     cne: string
     convene:Boolean
+    selected:true
   }
   
   export interface Program{
@@ -49,6 +50,11 @@ export interface Payment {
     name:string
    teacherName:string
    programDTO:Program;
+  }
+  export interface Poster{
+    id:number
+    url:string
+   program:Program;
   }
   
 export enum paymentType{

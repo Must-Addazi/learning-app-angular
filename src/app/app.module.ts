@@ -17,7 +17,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StudentsComponent } from './students/students.component';
 import { PaymentComponent } from './payment/payment.component';
-import { MatCardModule, MatCardTitle } from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { LoadStudentsComponent } from './load-students/load-students.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -42,12 +42,14 @@ import { AsyncPipe } from '@angular/common';
 import { RespoComponent } from './respo/respo.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs'; 
 import { ModuleComponent } from './module/module.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
 import { NewModuleComponent } from './new-module/new-module.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
+import { EditPasswordComponent } from './edit-password/edit-password.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
     ModuleComponent,
     ImagePreviewDialogComponent,
     EditPaymentComponent,
-    NewModuleComponent
+    NewModuleComponent,
+    EditPasswordComponent
     ],
   imports: [
     BrowserModule,
@@ -101,7 +104,8 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
     MatProgressBarModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTabsModule
   ],
   providers: [
     provideAnimationsAsync(),

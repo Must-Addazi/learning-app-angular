@@ -18,6 +18,7 @@ import { RespoComponent } from './respo/respo.component';
 import { ModuleComponent } from './module/module.component';
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
 import { NewModuleComponent } from './new-module/new-module.component';
+import { EditPasswordComponent } from './edit-password/edit-password.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
@@ -37,10 +38,11 @@ const routes: Routes = [
   {path:"payment/:code",component:PaymentComponent,canActivate:[authenticationGuard]},
   {path:"module",component:ModuleComponent},
   {path:"new-module/:programId",component:NewModuleComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
-  {path:"student-details/:code",component:StudentDetailsComponent,canActivate:[authenticationGuard]},
+  {path:"new-module/:programId",component:NewModuleComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
+  {path:"edit-password",component:EditPasswordComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
+  {path:"student-select",component:StudentDetailsComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"editpayement/:id",component:EditPaymentComponent, canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
-  {path:"loadstudents",component:LoadStudentsComponent,
-    canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ADMIN']}
+  {path:"loadstudents",component:LoadStudentsComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ADMIN']}
   }
   ]},
   

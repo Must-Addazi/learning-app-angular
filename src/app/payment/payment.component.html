@@ -50,12 +50,12 @@
                 </ng-container>
                
                 <ng-container matColumnDef="paymentFile">
-                  <th mat-header-cell *matHeaderCellDef> fichiers de payment </th>
+                  <th mat-header-cell *matHeaderCellDef> Payment fils </th>
                   <td mat-cell *matCellDef="let element">
                     @if(element.file){
-                    <button mat-raised-button color="primary" (click)="downloadFile(element.id)">Voir fichier</button>  
+                    <button mat-raised-button color="primary" (click)="downloadFile(element.id)">See file</button>  
                     }@else{
-                     <mat-error>pas de fichier</mat-error>
+                     <mat-error>No file</mat-error>
                     }
                   </td>
                 </ng-container>

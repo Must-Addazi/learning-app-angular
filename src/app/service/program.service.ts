@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { Module, Program, ResponsibleProgram } from '../model/student.model';
+import { Module, Poster, Program, ResponsibleProgram } from '../model/student.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +50,20 @@ export class ProgramService {
    }
    public updateProgram(formdata:any): Observable<Program> {   
      return this.http.put<Program>(`${environment.backendHost}/updateProgram`, formdata);
+   }
+   public getModule(Id:string):Observable<Module>{
+    return this.http.get<Module>(`${environment.backendHost}/module/${Id}`)
+  }
+  public updateModule(payload:Module):Observable<any>{
+    return this.http.put<any>(`${environment.backendHost}/updateModule`,payload)
+  }
+  public getAllPosters():Observable<Array<Poster>>{
+    return this.http.get<Array<Poster>>(`${environment.backendHost}/posters`)
+  }
+  public savePoster(formdata:any,programId:string):Observable<Poster>{
+    return this.http.post<Poster>(`${environment.backendHost}/savePoster/${programId}`,formdata)
+  }
+  public deletePoster(id:number):Observable<Boolean>{
+    return this.http.delete<Boolean>(`${environment.backendHost}/deletePoster/${id}`)
    }
 }

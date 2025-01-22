@@ -1,0 +1,7 @@
+th {
+    text-align: center; /* Centre le texte horizontalement */
+    vertical-align: middle; /* Centre le texte verticalement */
+  }
+  .action-buttons{
+    display: flex;
+  }

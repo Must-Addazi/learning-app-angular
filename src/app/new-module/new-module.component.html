@@ -2,7 +2,9 @@
     <mat-card [formGroup]="newModuleForm" class="ModuleForm">
         <mat-card-header>
             <mat-card-title>
-                New Module
+                @if(isEdit){
+                   Edit Module {{modul.name}}
+                }@else{New Module} 
             </mat-card-title>
         </mat-card-header>
         <mat-divider>
@@ -11,17 +13,29 @@
     
             <mat-form-field appearance="outline">
                 <mat-label>Nom module</mat-label>
+                @if(isEdit){              
+                      <input matInput value={{modul.name}} type="text" formControlName="name"  class="example-right-align" placeholder="nom module" />
+            }@else{
                 <input matInput type="text" formControlName="name"  class="example-right-align" placeholder="nom module" />
+            }
               </mat-form-field>
               <mat-form-field appearance="outline">
                 <mat-label>Nom Professeur</mat-label>
-                <input matInput type="text" formControlName="teacher"  class="example-right-align" placeholder="nom prof" />
+                @if(isEdit){     
+                    <input matInput type="text" value={{modul.teacherName}} formControlName="teacher"  class="example-right-align" placeholder="nom prof" />         
+          }@else{
+            <input matInput type="text" formControlName="teacher"  class="example-right-align" placeholder="nom prof" />
+        }
               </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>
-                    Filière
+                    Program
                 </mat-label>
-                <input matInput readonly formControlName="programCode"/>
+                @if(isEdit){
+                <input matInput value={{modul.programDTO.name}} readonly formControlName="programCode"/>
+                }@else {
+                    <input matInput readonly formControlName="programCode"/>
+                }
             </mat-form-field>
         </mat-card-content>
         <mat-card-actions [align]="'end'">

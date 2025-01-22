@@ -150,8 +150,7 @@ export class ProfileComponent implements OnInit {
               bacFileSource : null,
               bacFileName: null
             });
-          }
-            
+          }       
             selectBacFile(event: any) {
               if(event.target.files.length>0){
                 let file= event.target.files[0]
@@ -180,7 +179,6 @@ export class ProfileComponent implements OnInit {
                 })
               }
               }
-          
               resetDiplomeFile() {
                 this.diplomeFormGroup.patchValue({
                   diplomeFileName: null,
@@ -215,7 +213,6 @@ export class ProfileComponent implements OnInit {
                   }      
     selectImage(event: Event) {
       const fileInput = event.target as HTMLInputElement;
-  
       if (fileInput.files && fileInput.files.length > 0) {
         const file = fileInput.files[0];
           const MAX_FILE_SIZE_MB = 1;
@@ -243,11 +240,9 @@ export class ProfileComponent implements OnInit {
         });
   
         this.ImageFormGroup.get('imageFileName')?.setValue(file.name);
-        
         const reader = new FileReader();
         reader.onload = () => {
           this.imagePreview = reader.result as string;
-  
           this.openImageDialog(this.imagePreview);
         };
         reader.readAsDataURL(file);

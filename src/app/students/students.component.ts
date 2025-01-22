@@ -7,6 +7,7 @@ import { StudentsService } from '../service/students.service';
 import { Program, Student } from '../model/student.model';
 import Swal from 'sweetalert2';
 import { AuthenticationService } from '../service/authentication.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-students',
@@ -17,7 +18,7 @@ export class StudentsComponent implements OnInit {
   public students:any;
   public dataSource:any;
   public Programs:Array<Program>=[]
-  public DisplayedColumn=["summon","profile","convene","CIN","firstName","lastName","email","phone","birthdate","notebac","notediplome","amountPaid","payment","action"]
+  public DisplayedColumn=["files","summon","profile","convene","CIN","firstName","lastName","email","phone","birthdate","notebac","notediplome","amountPaid","payment","action"]
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
@@ -143,4 +144,64 @@ public getAllStudent(){
     }
   })
   }
+  displayFiles(files: Blob[]): void {
+    const container = document.createElement('div');
+  
+    files.forEach((file) => {
+      const url = window.URL.createObjectURL(file);
+  
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.width = '100%';
+      iframe.height = '600px'; // Ajustez la hauteur selon vos besoins
+      iframe.style.border = 'none';
+  
+      container.appendChild(iframe);
+  
+      // Révoquer l'URL après un certain temps
+      setTimeout(() => {
+        window.URL.revokeObjectURL(url);
+      }, 1000);
+    });
+  
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+      newWindow.document.body.appendChild(container);
+    } else {
+      console.error('Impossible d’ouvrir une nouvelle fenêtre.');
+    }
+  }
+  ViewFiles(studentId: string) {
+    forkJoin([
+      this.studentService.getFile(studentId, "CIN"),
+      this.studentService.getFile(studentId, "bac"),
+      this.studentService.getFile(studentId, "diplom")
+    ]).subscribe(
+      (responses) => {
+        const files = responses
+          .filter((file) => file != null && file.size > 0) 
+          .map((file) => new Blob([file], { type: 'application/pdf' }));
+  
+        if (files.length > 0) {
+          this.displayFiles(files);
+        } else {
+          Swal.fire({
+            title: 'Aucun fichier trouvé',
+            text: 'Aucun des fichiers demandés n\'a été trouvé pour cet étudiant.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+          });
+        }
+      },
+      (error) => {
+        console.error("Erreur lors de la récupération des fichiers :", error);
+        Swal.fire({
+          title: 'Erreur',
+          text: 'Une erreur est survenue lors de la récupération des fichiers.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    );
+  }  
 }
