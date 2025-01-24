@@ -42,7 +42,6 @@ import { AsyncPipe } from '@angular/common';
 import { RespoComponent } from './respo/respo.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTabsModule } from '@angular/material/tabs'; 
 import { ModuleComponent } from './module/module.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
@@ -104,9 +103,8 @@ import { EditPasswordComponent } from './edit-password/edit-password.component';
     MatProgressBarModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatGridListModule,
-    MatTabsModule
-  ],
+    MatGridListModule
+    ],
   providers: [
     provideAnimationsAsync(),
     provideHttpClient(withInterceptors([appHttpInterceptor])),
