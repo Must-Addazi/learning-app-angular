@@ -13,7 +13,6 @@ export class AuthenticationService {
   public password!:string;
   public Role!:any;
   accesToken!:any
-  private readonly baseUrl = "http://localhost:8080/auth";
 
   constructor(private http:HttpClient, private router:Router) { }
   login(username:string,password:string):Observable<any>{

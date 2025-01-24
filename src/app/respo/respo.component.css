@@ -5,6 +5,7 @@ mat-form-field{
 .paymentForm{
         width: 60%;
         max-width: 80%;
+        min-width: 250px;
         margin: auto;
         justify-content: left;  
 }

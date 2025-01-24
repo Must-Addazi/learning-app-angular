@@ -54,7 +54,8 @@
                     @if(!authservice.isAuthenticated() || !authservice.Role.includes("ADMIN")){
                       <th mat-header-cell *matHeaderCellDef> Applay </th>
                   <button mat-raised-button color="primary" (click)="apply(element)">Applay</button>   
-                    }@else {
+                    }
+                    @if(authservice.isAuthenticated() && (authservice.Role.includes("SUPER_ADMIN") || (authservice.Role.includes("ADMIN") && authservice.username== element.responsibleProgramDTO.email) )){
                       <button mat-raised-button color="primary" (click)="AddModule(element.id)">Add module</button>   
                     }
                   </td>
@@ -79,10 +80,11 @@
                     }
                   </td>
                 </ng-container>
-                @if(authservice.isAuthenticated()){
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef> Actions </th>
                   <td mat-cell *matCellDef="let element">
+                    @if(authservice.isAuthenticated() && (authservice.Role.includes("SUPER_ADMIN") || (authservice.Role.includes("ADMIN") && authservice.username== element.responsibleProgramDTO.email) )){
+
                     <div class="action-buttons">
                       <!-- Bouton de mise à jour -->
                       <button mat-raised-button color="accent" style="margin-right: 3px;" (click)="edit(element.id)">
@@ -93,9 +95,9 @@
                         <mat-icon>delete</mat-icon>Delete
                       </button>
                     </div>
+                  }
                   </td>
                 </ng-container>
-              }
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>

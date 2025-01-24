@@ -19,7 +19,7 @@ export class ProgramsComponent implements OnInit{
   constructor(private router:Router, public programService:ProgramService,
     public authservice:AuthenticationService
   ){
-    this.displayedColumns = ["name","price","responame","phone","email","posterFile","timingFile","applay",...((this.authservice.isAuthenticated() && this.authservice.Role.includes("SUPER_ADMIN")) ? ["action"] : [])]
+    this.displayedColumns = ["name","price","responame","phone","email","posterFile","timingFile","applay",...((this.authservice.isAuthenticated() && this.authservice.Role.includes("ADMIN")) ? ["action"] : [])]
 
   }
 

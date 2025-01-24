@@ -6,6 +6,7 @@ import { AuthenticationService } from '../service/authentication.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ImagePreviewDialogComponent } from '../image-preview-dialog/image-preview-dialog.component';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,8 @@ export class DashboardComponent implements OnInit{
   imagePreview: string | null = null;
 public programs:Array<Program>=[]
 public posters:Array<Poster>=[]
-  constructor( private programService:ProgramService , public authService: AuthenticationService, public dialog: MatDialog) {
+  constructor( private programService:ProgramService , public authService: AuthenticationService,
+     public dialog: MatDialog, public router:Router) {
    }
      private _formBuilder = inject(FormBuilder);
    ngOnInit(): void {
@@ -95,8 +97,8 @@ public posters:Array<Poster>=[]
               this.programService.savePoster(formData,programId).subscribe({
                 next: (data) => {
                   Swal.fire({
-                    title: "Updated!",
-                    text: "Student updated successfully.",
+                    title: "Saved!",
+                    text: "Poster saved successfully.",
                     icon: "success"
                   });
                 },
@@ -105,5 +107,22 @@ public posters:Array<Poster>=[]
                 }
               });
             }
+              }
+              applay(program:Program){
+                this.router.navigateByUrl("/admin/new-student",{state:{program}})
+              }
+              deleteItem(id:number){
+                this.programService.deletePoster(id).subscribe({
+                  next: (data) => {
+                    Swal.fire({
+                      title: "deleted!",
+                      text: "Poster deleted successfully.",
+                      icon: "success"
+                    });
+                  },
+                  error: (err) => {
+                    console.error("Error deleting poster:", err);
+                  }
+                });
               }
 }

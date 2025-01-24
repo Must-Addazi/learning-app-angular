@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthenticationService } from '../service/authentication.service';
 import { StudentsService } from '../service/students.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Student } from '../model/student.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -30,7 +29,14 @@ export class EditPasswordComponent implements OnInit{
                     confirmPassword: this.passwordFormGroup.get("cpassword")?.value
                 };
                 console.log("Payload:", payload);
-        
+                if(payload.password != payload.confirmPassword){
+                    Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: `Passwords must bee equals.`
+                          });
+                      return; 
+                }
                 this.studentsService.updateStudentPassword(this.profileId, payload).subscribe({
                     next: (data) => {
                         Swal.fire({

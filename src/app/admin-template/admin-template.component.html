@@ -17,7 +17,7 @@
     }
 </mat-toolbar>
 <mat-drawer-container>
-    <mat-drawer style="width: 13%;" #drawer mode="side" position="start" opened="true">
+    <mat-drawer  #drawer mode="side" position="start" opened="true">
         <mat-nav-list>
             <mat-list-item>             
                 <button mat-button routerLink="/admin/dashboard">
@@ -33,7 +33,7 @@
                 </button>
             </mat-list-item>
               }
-              @if( authservice.isAuthenticated() && authservice.Role && authservice.Role.includes('ADMIN') ){
+              @if( authservice.isAuthenticated() && authservice.Role.includes('ADMIN') ){
                 <mat-list-item>
                     <button mat-button routerLink="/admin/student-select">
                         <mat-icon>format_list_bulleted</mat-icon>
@@ -41,7 +41,7 @@
                     </button>
                 </mat-list-item>
                   }
-              @if( authservice.isAuthenticated() ){
+              @if( authservice.isAuthenticated() && authservice.Role.includes('SUPER_ADMIN')){
             <mat-list-item>
                 <button mat-button routerLink="/admin/payment">
                     <mat-icon>payments</mat-icon>

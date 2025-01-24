@@ -8,6 +8,7 @@ import { Program, Student } from '../model/student.model';
 import Swal from 'sweetalert2';
 import { AuthenticationService } from '../service/authentication.service';
 import { forkJoin } from 'rxjs';
+import { ProgramService } from '../service/program.service';
 
 @Component({
   selector: 'app-students',
@@ -22,15 +23,25 @@ export class StudentsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   
-  constructor(private router:Router,private studentService:StudentsService
+  constructor(private router:Router,private studentService:StudentsService, private programService:ProgramService
     , public authService:AuthenticationService
   ){
 
   }
   ngOnInit(): void {
-    
+    if(!this.authService.Role.includes("SUPER_ADMIN")){
+     this.getProgram(this.authService.username)
+    }else{
     this.getAllStudent()
-       
+    } 
+     }
+     getProgram(email:string){
+      this.programService.programByRespo(email).subscribe({
+        next:(data)=>{
+          console.log(data)
+          this.getStudents(data)
+        }
+      })
      }
 getStudents(program: Program) {
 this.studentService.getStudentByProgram(program.id).subscribe({

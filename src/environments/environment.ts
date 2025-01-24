@@ -1,5 +1,6 @@
 export const environment = {
     production: false,
-    backendHost: "https://addazimustaphaensas.onrender.com"
+    //backendHost:"http://localhost:8080"
+   backendHost: "https://addazimustaphaensas.onrender.com"
   };
   

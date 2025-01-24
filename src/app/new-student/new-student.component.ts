@@ -60,6 +60,7 @@ export class NewStudentComponent implements OnInit{
     })
     ngOnInit(): void {
       this.program = history.state.program;
+      console.log("register in "+this.program.name)
     }
     resetCinFile() {
       this.persInfFormGroup.patchValue({

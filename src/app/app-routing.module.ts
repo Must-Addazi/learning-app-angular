@@ -38,7 +38,7 @@ const routes: Routes = [
   {path:"payment/:code",component:PaymentComponent,canActivate:[authenticationGuard]},
   {path:"module",component:ModuleComponent},
   {path:"new-module/:programId",component:NewModuleComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
-  {path:"new-module/:programId",component:NewModuleComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
+  {path:"edit-module/:moduleId",component:NewModuleComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"edit-password",component:EditPasswordComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"student-select",component:StudentDetailsComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"editpayement/:id",component:EditPaymentComponent, canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},

@@ -9,6 +9,7 @@
     margin-top: 3px;
     display: block;
     width: 40%;
+    min-width: 250px;
 }
 .Form{
   width: 30%;

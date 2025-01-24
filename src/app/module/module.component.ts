@@ -22,7 +22,7 @@ export class ModuleComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   
   constructor(private router:Router,private programService:ProgramService, public authservice:AuthenticationService){
-    this.DisplayedColumn=["id","name","teacherName",...((this.authservice.isAuthenticated() && this.authservice.Role.includes("SUPER_ADMIN")) ? ["action"] : [])]
+    this.DisplayedColumn=["id","name","teacherName",...((this.authservice.isAuthenticated() && this.authservice.Role.includes("ADMIN")) ? ["action"] : [])]
   }
   ngOnInit(): void {
     this.getAllModules()

@@ -2,7 +2,11 @@
     flex: auto;
 }
 .menu{
-    color: white;
+    color: white;   
+}
+mat-drawer{
+    width: 12%;
+    min-width: 150px;
 }
 
   

@@ -32,23 +32,21 @@
                   <th mat-header-cell *matHeaderCellDef mat-sort-header> Teacher Name </th>
                   <td mat-cell *matCellDef="let element"> {{element.teacherName}} </td>
                 </ng-container>
-                @if(authservice.isAuthenticated()){
                   <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
                     <td mat-cell *matCellDef="let element">
+                      @if(authservice.isAuthenticated() && (authservice.Role.includes("SUPER_ADMIN") || (authservice.Role.includes("ADMIN") && authservice.username== element.programDTO.responsibleProgramDTO.email) )){
                       <div class="action-buttons">
-                        <!-- Bouton de mise à jour -->
                         <button mat-raised-button color="accent" style="margin-right: 3px;" (click)="edit(element.id)">
                           <mat-icon>edit</mat-icon> edit
                         </button>  
-                        <!-- Bouton de suppression -->
                         <button mat-raised-button color="warn" (click)="deleteModule(element.id)">
                           <mat-icon>delete</mat-icon> delete
                         </button>
                       </div>
+                    }
                     </td>
                   </ng-container>
-                }
                 <tr mat-header-row *matHeaderRowDef="DisplayedColumn"></tr>
                 <tr mat-row *matRowDef="let row; columns: DisplayedColumn;"></tr>
               </table>
