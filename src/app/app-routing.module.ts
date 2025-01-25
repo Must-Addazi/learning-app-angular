@@ -1,4 +1,4 @@
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -19,9 +19,13 @@ import { ModuleComponent } from './module/module.component';
 import { EditPaymentComponent } from './edit-payment/edit-payment.component';
 import { NewModuleComponent } from './new-module/new-module.component';
 import { EditPasswordComponent } from './edit-password/edit-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
+  {path:"forgot-password",component:ForgotPasswordComponent},
+  {path:"reset-password",component:ResetPasswordComponent},
   {path:"",component:LoginComponent},
   {path:"home",component:HomeComponent},
   {path:"admin",component:AdminTemplateComponent,children:[

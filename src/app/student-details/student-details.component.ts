@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import Swal from 'sweetalert2';
 import { forkJoin } from 'rxjs';
+import { ProgramService } from '../service/program.service';
 
 @Component({
   selector: 'app-student-details',
@@ -23,11 +24,23 @@ export class StudentDetailsComponent implements OnInit{
   @ViewChild(MatSort) sort!: MatSort;
   
   constructor(private router:Router,private studentService:StudentsService
-    , public authService:AuthenticationService
+    , public authService:AuthenticationService , private programService:ProgramService
   ){}
   ngOnInit(): void {
-    this.getconveneStudentList()   
-     }
+      if(!this.authService.Role.includes("SUPER_ADMIN")){
+       this.getProgram(this.authService.username)
+      }else{
+      this.getconveneStudentList()
+      } 
+       }
+       getProgram(email:string){
+        this.programService.programByRespo(email).subscribe({
+          next:(data)=>{
+            console.log(data)
+            this.getStudents(data)
+          }
+        })
+            }
 getStudents(program: Program) {
 this.studentService.getStudentsByProgramAndConvene(program.id).subscribe({
   next:(data)=>{

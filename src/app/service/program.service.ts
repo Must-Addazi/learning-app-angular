@@ -18,7 +18,8 @@ export class ProgramService {
     return this.http.get<Program>(`${environment.backendHost}/programById/${programId}`)
   }
   public programByRespo(respoEmail:string):Observable<Program>{
-    return this.http.get<Program>(`${environment.backendHost}/programByRespo/${respoEmail}`)
+    console.log(respoEmail)
+    return this.http.get<Program>(`${environment.backendHost}/getProgramByRespo/${respoEmail}`)
   }
   public getAllRespos():Observable<Array<ResponsibleProgram>>{
     return this.http.get<Array<ResponsibleProgram>>(`${environment.backendHost}/respo`)

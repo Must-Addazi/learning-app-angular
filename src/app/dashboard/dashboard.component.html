@@ -29,7 +29,7 @@
                             <button class="btn btn-primary" (click)="applay(item.program)">
                               Applay
                             </button>
-                            @if(authService.isAuthenticated() && (authService.Role.includes("SUPER_ADMIN") || (authService.Role.includes("ADMIN") && authService.username==item.program.responsibleProgramDTO.email) )){
+                            @if(authService.isAuthenticated() && (authService.Role.includes("SUPER_ADMIN") || (authService.Role.includes("ADMIN") && authService.username==item.program.responsibleProgramDTO.email)) ){
                             <button class="btn btn-danger" (click)="deleteItem(item.id)">
                                 Delete
                             </button>

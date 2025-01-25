@@ -49,6 +49,8 @@ import { NewModuleComponent } from './new-module/new-module.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { EditPasswordComponent } from './edit-password/edit-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { EditPasswordComponent } from './edit-password/edit-password.component';
     ImagePreviewDialogComponent,
     EditPaymentComponent,
     NewModuleComponent,
-    EditPasswordComponent
+    EditPasswordComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
     ],
   imports: [
     BrowserModule,

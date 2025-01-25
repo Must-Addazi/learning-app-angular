@@ -45,5 +45,7 @@ clickEvent(event: MouseEvent) {
   this.hide.set(!this.hide());
   event.stopPropagation();
 }
-
+forgotPassword() {
+this.router.navigateByUrl("forgot-password")
+}
 }

@@ -53,5 +53,12 @@ export class AuthenticationService {
       return false;
     }
   }
+  requestPasswordReset(email: string): Observable<any> {
+    return this.http.post(`${environment.backendHost}/auth/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post(`${environment.backendHost}/auth/reset-password`, { token, newPassword });
+  }
   
 }
