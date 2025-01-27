@@ -197,7 +197,7 @@ export class NewStudentComponent implements OnInit{
                 this.showProgress = false;
                 Swal.fire({
                   title: "Saved!",
-                  text: "Student saved successfully."+data.cne,
+                  text: "Student saved successfully.",
                   icon: "success"
                 });
               },

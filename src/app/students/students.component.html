@@ -85,7 +85,7 @@
                   <td mat-cell *matCellDef="let element"> {{element.amountPaid}} </td>
                 </ng-container>
                 <ng-container matColumnDef="payment">
-                    <th mat-header-cell *matHeaderCellDef> Payement </th>
+                    <th mat-header-cell *matHeaderCellDef> Payment </th>
                     <td mat-cell *matCellDef="let element"> 
                     <button mat-raised-button color="primary" (click)="getPayements(element)">Payement</button>    
                     </td>
@@ -96,11 +96,11 @@
                       <div class="action-buttons">
                         <!-- Bouton de mise à jour -->
                         <button mat-raised-button color="accent" style="margin-right: 3px;" (click)="edit(element)">
-                          <mat-icon>edit</mat-icon> modifier
+                          <mat-icon>edit</mat-icon> Edit
                         </button>  
                         <!-- Bouton de suppression -->
                         <button mat-raised-button color="warn" (click)="deleteStudent(element.id)">
-                          <mat-icon>delete</mat-icon>Supprimer
+                          <mat-icon>delete</mat-icon> Delete
                         </button>
                       </div>
                     </td>

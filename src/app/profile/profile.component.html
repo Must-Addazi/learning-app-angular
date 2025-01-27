@@ -29,20 +29,22 @@ class="example-stepper"
       <button mat-raised-button color="primary" (click)="updateImage()" >Update Image</button>
     </div>
     </form>
-    <div *ngIf="profileData.convene; else noConvene" class="alert alert-success">
+    @if(!profileData.selected){
+    <div style="margin-top: 5px;" *ngIf="profileData.convene; else noConvene" class="alert alert-success">
       You are invited to the interview on 15/02/2024.
     </div>
     <ng-template #noConvene>
-      <div class="alert alert-danger">
+      <div style="margin-top: 5px;" class="alert alert-danger">
         You are not invited to the interview.
       </div>
     </ng-template>
+  }
     @if(profileData.convene){
-    <div *ngIf="profileData.selected; else notSelected" class="alert alert-info">
+    <div style="margin-top: 5px;" *ngIf="profileData.selected; else notSelected" class="alert alert-info">
       You have been selected and are invited to submit your documents between 20/2/2025 and 25/2/2025.
     </div>
     <ng-template #notSelected>
-      <div class="alert alert-warning">
+      <div style="margin-top: 5px;" class="alert alert-warning">
         You have not been selected.
       </div>
     </ng-template>
