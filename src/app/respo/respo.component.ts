@@ -85,7 +85,7 @@ saveRespoProgram(){
       this.shoProgress=false
                 Swal.fire({
                   title: "Saved!",
-                  text: "Program saved successfully."+data.name,
+                  text: "Program "+data.name+" saved successfully.",
                   icon: "success"
                 });          }
         })
