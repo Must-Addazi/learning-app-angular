@@ -88,13 +88,13 @@ export class ProfileComponent implements OnInit {
             const formattedDate = profileData.birthDate ? formatDate(profileData.birthDate, 'yyyy-MM-dd', 'en-US')  : '';
 
       this.persInfFormGroup.patchValue({
-        firstName: profileData.firstName || '', // Fallback to empty string
+        firstName: profileData.firstName || '', 
         lastName: profileData.lastName || '',
         email: profileData.email || '',
         CIN: profileData.cin || '',
         phone: profileData.phone || '',
-        date: formattedDate, // Formatted or empty string if birthDate is null
-        noteBac: profileData.noteBac?.toString() || '', // Handle null/undefined
+        date: formattedDate, 
+        noteBac: profileData.noteBac?.toString() || '', 
         noteDiplome: profileData.noteDiploma?.toString() || '',
         program:profileData.programDTO.id || ''
           });    
@@ -111,6 +111,25 @@ export class ProfileComponent implements OnInit {
           }
         })
        }
+       allowOnlyNumbers(event: KeyboardEvent): void {
+        const charCode = event.key.charCodeAt(0);
+    
+        if (charCode < 48 || charCode > 57) {
+          event.preventDefault();
+        }
+      }
+      allowOnlyNumbersAndDot(event: KeyboardEvent): void {
+        const char = event.key;
+      
+        if (!char.match(/[0-9.]/)) {
+          event.preventDefault();
+        }
+      
+        const input = event.target as HTMLInputElement;
+        if (char === '.' && input.value.includes('.')) {
+          event.preventDefault();
+        }
+      }
       resetCinFile() {
         this.CinFormGroup.patchValue({
           fileSource: null,

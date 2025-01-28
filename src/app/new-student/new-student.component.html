@@ -2,7 +2,7 @@
   <mat-stepper
     class="example-stepper"
     [orientation]="(stepperOrientation | async)!">
-    <mat-step [stepControl]="persInfFormGroup" label="Fill out your personal informations">
+    <mat-step [stepControl]="persInfFormGroup" label="Fill out your personal informations" errorMessage="All fields are mandatory except profile image">
       <form [formGroup]="persInfFormGroup" class="form">
         <mat-form-field style="margin-right: 8px;">
           <mat-label>First Name</mat-label>
@@ -17,18 +17,20 @@
         <mat-form-field>
           <mat-label> CIN</mat-label>
           <input matInput formControlName="CIN" placeholder="Ex. XY2345" required>
-          <mat-error *ngIf="persInfFormGroup.get('CIN')?.hasError('required') && persInfFormGroup.get('CIN')?.touched">CIN is required</mat-error>
+          <mat-error *ngIf="persInfFormGroup.get('CIN')?.hasError('required')">CIN is required</mat-error>
           <mat-error *ngIf="persInfFormGroup.get('CIN')?.hasError('pattern') && persInfFormGroup.get('CIN')?.touched">Invalid CIN format</mat-error>      
         </mat-form-field>
         <mat-form-field>
           <mat-label>Phone number</mat-label>
-          <input matInput formControlName="phone" placeholder="Ex. 061234567" required>
-          <mat-error *ngIf="persInfFormGroup.get('phone')?.hasError('required') && persInfFormGroup.get('phone')?.touched">phone is required</mat-error>
+          <input matInput (keypress)="allowOnlyNumbers($event)" formControlName="phone" placeholder="Ex. 061234567" required>
+          <mat-error *ngIf="persInfFormGroup.get('phone')?.hasError('required') ">phone is required</mat-error>
+          <mat-error *ngIf="persInfFormGroup.get('phone')?.hasError('minLength') && persInfFormGroup.get('phone')?.touched">phone number must be exactly 10 digits</mat-error>
+          <mat-error *ngIf="persInfFormGroup.get('phone')?.hasError('maxLength') && persInfFormGroup.get('phone')?.touched">phone number must be exactly 10 digits</mat-error>          
         </mat-form-field>
         <mat-form-field>
           <mat-label>email</mat-label>
           <input matInput formControlName="email" placeholder="Ex. xxxx@yyy.zz" required>
-          <mat-error *ngIf="persInfFormGroup.get('email')?.hasError('required') && persInfFormGroup.get('email')?.touched">email is required</mat-error>
+          <mat-error *ngIf="persInfFormGroup.get('email')?.hasError('required')">email is required</mat-error>
           <mat-error *ngIf="persInfFormGroup.get('email')?.hasError('email') && persInfFormGroup.get('email')?.touched">Invalid email format</mat-error>      
         </mat-form-field>
         <mat-form-field appearance="outline">
@@ -36,7 +38,7 @@
              Birth Day
           </mat-label>
           <input matInput [matDatepicker]="picker" [readonly]="true" formControlName="date"/> 
-          <mat-error *ngIf="persInfFormGroup.get('date')?.hasError('required') && persInfFormGroup.get('date')?.touched">date is required</mat-error>
+          <mat-error *ngIf="persInfFormGroup.get('date')?.hasError('required') ">date is required</mat-error>
           <mat-hint>MM/DD/YYYY</mat-hint> 
            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
            <mat-datepicker #picker></mat-datepicker>
@@ -49,6 +51,7 @@
           <mat-icon>attach_file</mat-icon>
         </button>
         <input matInput readonly formControlName="fileName" />
+        <mat-error *ngIf="persInfFormGroup.get('fileName')?.hasError('required') ">Cin file is required</mat-error>
         <input
           type="file"
           hidden
@@ -99,12 +102,12 @@
         </mat-card-content>
     </mat-card>
     </mat-step>
-    <mat-step [stepControl]="bacFormGroup" label="Fill out your Baccalaureat">
+    <mat-step [stepControl]="bacFormGroup" label="Fill out your Baccalaureat" errorMessage="All fields are mandatory">
       <form [formGroup]="bacFormGroup">
         <mat-form-field>
           <mat-label>Degree Bac</mat-label>
-          <input matInput formControlName="noteBac" placeholder="Ex. 18.5" required>
-          <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('required') && bacFormGroup.get('noteBac')?.touched">Bac degree is required</mat-error>
+          <input matInput (keypress)="allowOnlyNumbersAndDot($event)" formControlName="noteBac" placeholder="Ex. 18.5" required>
+          <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('required')">Bac degree is required</mat-error>
           <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('min') && bacFormGroup.get('noteBac')?.touched">Bac degree must be great than 10</mat-error>
           <mat-error *ngIf="bacFormGroup.get('noteBac')?.hasError('max') && bacFormGroup.get('noteBac')?.touched">Bac degree must be less than 20</mat-error>          
 
@@ -117,6 +120,7 @@
             <mat-icon>attach_file</mat-icon>
           </button>
           <input matInput readonly formControlName="bacFileName" />
+          <mat-error *ngIf="bacFormGroup.get('bacFileName')?.hasError('required')">Bac file is required</mat-error>
           <input
             type="file"
             hidden
@@ -150,12 +154,12 @@
         </mat-card-content>
     </mat-card>
     </mat-step>
-    <mat-step [stepControl]="diplomeFormGroup" label="Fill out your Diploma">
+    <mat-step [stepControl]="diplomeFormGroup" label="Fill out your Diploma" errorMessage="All fields are mandatory">
       <form [formGroup]="diplomeFormGroup">
         <mat-form-field>
           <mat-label>Note de diplome</mat-label>
-          <input matInput formControlName="noteDiplome" placeholder="Ex. 18.5" required>
-          <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('required') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree is required</mat-error>
+          <input matInput (keypress)="allowOnlyNumbersAndDot($event)" formControlName="noteDiplome" placeholder="Ex. 18.5" required>
+          <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('required')">Diplome degree is required</mat-error>
           <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('min') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree must be great than 12</mat-error>
           <mat-error *ngIf="diplomeFormGroup.get('noteDiplome')?.hasError('max') && diplomeFormGroup.get('noteDiplome')?.touched">Diplome degree must be less than 20</mat-error>          
 
@@ -168,6 +172,7 @@
             <mat-icon>attach_file</mat-icon>
           </button>
           <input matInput readonly formControlName="diplomeFileName" />
+          <mat-error *ngIf="diplomeFormGroup.get('diplomeFileName')?.hasError('required')">Diplome file is required</mat-error>
           <input
             type="file"
             hidden

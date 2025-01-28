@@ -25,7 +25,7 @@
                     Home
                 </button>
             </mat-list-item>
-            @if( authservice.isAuthenticated() && authservice.Role && authservice.Role.includes('ADMIN') ){
+            @if( authservice.isAuthenticated() && authservice.Role.includes('ADMIN') ){
             <mat-list-item>
                 <button mat-button routerLink="/admin/students">
                     <mat-icon>group</mat-icon>

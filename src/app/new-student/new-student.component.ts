@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Program } from '../model/student.model';
 import { FormBuilder, Validators } from '@angular/forms';
-import { StepperOrientation } from '@angular/cdk/stepper';
+import { STEPPER_GLOBAL_OPTIONS, StepperOrientation } from '@angular/cdk/stepper';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -14,7 +14,13 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-new-student',
   templateUrl: './new-student.component.html',
-  styleUrl: './new-student.component.css'
+  styleUrl: './new-student.component.css',
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: {showError: true},
+    },
+  ]
 })
 export class NewStudentComponent implements OnInit{
 
@@ -168,12 +174,32 @@ export class NewStudentComponent implements OnInit{
                   this.pdfDiplomFileUrl= window.URL.createObjectURL(file)
                 }
                 }
+                allowOnlyNumbers(event: KeyboardEvent): void {
+                  const charCode = event.key.charCodeAt(0);
+              
+                  if (charCode < 48 || charCode > 57) {
+                    event.preventDefault();
+                  }
+                }
+                allowOnlyNumbersAndDot(event: KeyboardEvent): void {
+                  const char = event.key;
+                
+                  if (!char.match(/[0-9.]/)) {
+                    event.preventDefault();
+                  }
+                
+                  const input = event.target as HTMLInputElement;
+                  if (char === '.' && input.value.includes('.')) {
+                    event.preventDefault();
+                  }
+                }
+                
         saveStudent() {
           this.showProgress = true;
           if (
             this.persInfFormGroup.valid &&
              this.bacFormGroup.valid &&
-             this.diplomeFormGroup
+             this.diplomeFormGroup.valid
           ) {
             let date: Date = new Date(this.persInfFormGroup.get("date")?.value ||"");
             let formatedDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();          
@@ -206,6 +232,14 @@ export class NewStudentComponent implements OnInit{
                 console.error("Error saving student:", err);
               }
             });
+          }else{
+            this.showProgress=false
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `Valid your form than click on save.`
+            });
+        return;
           }
         }       
   selectImage(event: Event) {
