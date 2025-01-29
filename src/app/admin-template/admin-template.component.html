@@ -41,7 +41,7 @@
                     </button>
                 </mat-list-item>
                   }
-              @if( authservice.isAuthenticated() && authservice.Role.includes('SUPER_ADMIN')){
+              @if( authservice.isAuthenticated() && (authservice.Role.includes('SUPER_ADMIN') || !authservice.Role.includes('ADMIN'))){
             <mat-list-item>
                 <button mat-button routerLink="/admin/payment">
                     <mat-icon>payments</mat-icon>

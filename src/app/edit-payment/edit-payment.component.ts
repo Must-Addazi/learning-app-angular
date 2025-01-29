@@ -40,11 +40,11 @@ savePayment() {
     next: () => {
       this.shoProgress = false;
        Swal.fire({
-                        title: "Saved!",
-                        text: "Pyament saved successfully.",
-                        icon: "success"
-                      });
-                      this.router.navigateByUrl("admin/payment")
+            title: "Saved!",
+            text: "Pyament saved successfully.",
+            icon: "success"
+          });
+          this.router.navigateByUrl("admin/payment")
     }
     ,
     error: (err) => {
