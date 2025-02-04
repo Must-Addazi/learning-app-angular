@@ -9,6 +9,7 @@ import { StudentsService } from '../service/students.service';
 import { ImagePreviewDialogComponent } from '../image-preview-dialog/image-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { FileValidatorService } from '../service/file-validator.service';
 
 
 @Component({
@@ -32,7 +33,7 @@ export class NewStudentComponent implements OnInit{
   imagePreview: string | null = null;
   stepperOrientation: Observable<StepperOrientation>;
   
-  constructor(private studentsService:StudentsService, public dialog: MatDialog) {
+  constructor(private studentsService:StudentsService, public dialog: MatDialog, public fileValidatorService:FileValidatorService) {
     const breakpointObserver = inject(BreakpointObserver);
 
     this.stepperOrientation = breakpointObserver
@@ -77,25 +78,10 @@ export class NewStudentComponent implements OnInit{
       selectCinFile(event: any) {
         if(event.target.files.length>0){
           let file= event.target.files[0]
-            const MAX_FILE_SIZE_MB = 1;
-              const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-              if (file.size > MAX_FILE_SIZE_BYTES) {
-                Swal.fire({
-                      icon: 'error',
-                      title: 'Oops...',
-                      text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                    });
-                return; 
-              }
-                const allowedTypes = ['application/pdf'];
-                          if (!allowedTypes.includes(file.type)) {
-                            Swal.fire({
-                              icon: 'error',
-                              title: 'Invalid File Type',
-                              text: 'PDF files are allowed.',
-                            });
-                            return;
-                          }
+          const allowedTypes = ['application/pdf'];
+         if(!this.fileValidatorService.validateFile(file,allowedTypes)){
+          return;
+         }
           this.persInfFormGroup.patchValue({
             fileSource:file,
            fileName:file.name
@@ -113,26 +99,11 @@ export class NewStudentComponent implements OnInit{
           selectBacFile(event: any) {
             if(event.target.files.length>0){
               let file= event.target.files[0]
-                const MAX_FILE_SIZE_MB = 1;
-                  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-                  if (file.size > MAX_FILE_SIZE_BYTES) {
-                    Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                        });
-                    return; 
-                  }
                   const allowedTypes = ['application/pdf'];
-                            if (!allowedTypes.includes(file.type)) {
-                              Swal.fire({
-                                icon: 'error',
-                                title: 'Invalid File Type',
-                                text: 'PDF files are allowed.',
-                              });
-                              return;
-                            }
-              this.bacFormGroup.patchValue({
+                  if(!this.fileValidatorService.validateFile(file,allowedTypes)){
+                    return;
+                   }
+                 this.bacFormGroup.patchValue({
                 bacFileSource:file,
                bacFileName:file.name
               })
@@ -148,26 +119,11 @@ export class NewStudentComponent implements OnInit{
               selectDiplomeFile(event: any) {
                 if(event.target.files.length>0){
                   let file= event.target.files[0]
-                    const MAX_FILE_SIZE_MB = 1;
-                      const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-                      if (file.size > MAX_FILE_SIZE_BYTES) {
-                                Swal.fire({
-                                      icon: 'error',
-                                      title: 'Oops...',
-                                      text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                                    });
-                        return; 
-                      }
                     const allowedTypes = ['application/pdf'];
-                              if (!allowedTypes.includes(file.type)) {
-                                Swal.fire({
-                                  icon: 'error',
-                                  title: 'Invalid File Type',
-                                  text: 'PDF files are allowed.',
-                                });
-                                return;
-                              }
-                  this.diplomeFormGroup.patchValue({
+                    if(!this.fileValidatorService.validateFile(file,allowedTypes)){
+                      return;
+                     }                 
+                      this.diplomeFormGroup.patchValue({
                     diplomeFileSource:file,
                    diplomeFileName:file.name
                   })
@@ -193,7 +149,42 @@ export class NewStudentComponent implements OnInit{
                     event.preventDefault();
                   }
                 }
-                
+                selectImage(event: Event) {
+                  const fileInput = event.target as HTMLInputElement;
+              
+                  if (fileInput.files && fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                   const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                   if(!this.fileValidatorService.validateFile(file,allowedTypes)){
+                    return;
+                   }
+                   this.persInfFormGroup.patchValue({
+                      imageFile: file,
+                      imageFileName: file.name
+                    });
+              
+                    this.persInfFormGroup.get('imageFileName')?.setValue(file.name);
+                    
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                      this.imagePreview = reader.result as string;
+              
+                      this.openImageDialog(this.imagePreview);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }
+                openImageDialog(imageUrl: string): void {
+                  this.dialog.open(ImagePreviewDialogComponent, {
+                    data: { imageUrl },
+                    width: '500px'
+                  });
+                }
+                resetImage() {
+                  this.persInfFormGroup.patchValue({
+                    imageFileName: null,
+                  });
+              }    
         saveStudent() {
           this.showProgress = true;
           if (
@@ -242,57 +233,4 @@ export class NewStudentComponent implements OnInit{
         return;
           }
         }       
-  selectImage(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-
-    if (fileInput.files && fileInput.files.length > 0) {
-      const file = fileInput.files[0];
-                const MAX_FILE_SIZE_MB = 1;
-                  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-                  if (file.size > MAX_FILE_SIZE_BYTES) {
-                    Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                        });
-                    return; 
-                  }
-                  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-                          if (!allowedTypes.includes(file.type)) {
-                            Swal.fire({
-                              icon: 'error',
-                              title: 'Invalid File Type',
-                              text: 'Only JPEG, PNG, or JPG files are allowed.',
-                            });
-                            return;
-                          }
-      this.persInfFormGroup.patchValue({
-        imageFile: file,
-        imageFileName: file.name
-      });
-
-      this.persInfFormGroup.get('imageFileName')?.setValue(file.name);
-      
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-
-        this.openImageDialog(this.imagePreview);
-      };
-      reader.readAsDataURL(file);
-    }
-  }
-
-  openImageDialog(imageUrl: string): void {
-    this.dialog.open(ImagePreviewDialogComponent, {
-      data: { imageUrl },
-      width: '500px'
-    });
-  }
-  resetImage() {
-    this.persInfFormGroup.patchValue({
-      imageFileName: null,
-    });
-}
-   
   }
