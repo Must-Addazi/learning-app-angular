@@ -12,6 +12,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { formatDate } from '@angular/common';
 import { ProgramService } from '../service/program.service';
 import { ActivatedRoute } from '@angular/router';
+import { FileValidatorService } from '../service/file-validator.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +27,9 @@ export class ProfileComponent implements OnInit {
   imagePreview: string | null = null;
   stepperOrientation: Observable<StepperOrientation>;
   
-  constructor(private route: ActivatedRoute, private programService:ProgramService , private authService: AuthenticationService,private studentsService:StudentsService, public dialog: MatDialog) {
+  constructor(private route: ActivatedRoute, private programService:ProgramService ,
+     private authService: AuthenticationService,private studentsService:StudentsService, 
+    private fileValidatorService:FileValidatorService, public dialog: MatDialog) {
     const breakpointObserver = inject(BreakpointObserver);
 
     this.stepperOrientation = breakpointObserver
@@ -78,7 +81,6 @@ export class ProfileComponent implements OnInit {
         }
        this.getProfile(this.profileId)
        this.getPrograms()
-       console.log(this.profileId)
       } 
       getProfile(profileId: string): void {
         this.studentsService.getUserProfileByEmail(profileId).subscribe({
@@ -139,25 +141,10 @@ export class ProfileComponent implements OnInit {
         selectCinFile(event: any) {
           if(event.target.files.length>0){
             let file= event.target.files[0]
-              const MAX_FILE_SIZE_MB = 1;
-                const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-                if (file.size > MAX_FILE_SIZE_BYTES) {
-                Swal.fire({
-                      icon: 'error',
-                      title: 'Oops...',
-                      text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                    });
-                  return; 
-                }
                 const allowedTypes = ['application/pdf'];
-                          if (!allowedTypes.includes(file.type)) {
-                            Swal.fire({
-                              icon: 'error',
-                              title: 'Invalid File Type',
-                              text: 'PDF files are allowed.',
-                            });
-                            return;
-                          }
+                if(!this.fileValidatorService.validateFile(file,allowedTypes)){
+                  return;
+                 }
             this.CinFormGroup.patchValue({
               fileSource:file,
              fileName:file.name
@@ -173,25 +160,10 @@ export class ProfileComponent implements OnInit {
             selectBacFile(event: any) {
               if(event.target.files.length>0){
                 let file= event.target.files[0]
-                  const MAX_FILE_SIZE_MB = 1;
-                    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-                    if (file.size > MAX_FILE_SIZE_BYTES) {
-                      Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                          });
-                      return; 
-                    }
                     const allowedTypes = ['application/pdf'];
-                              if (!allowedTypes.includes(file.type)) {
-                                Swal.fire({
-                                  icon: 'error',
-                                  title: 'Invalid File Type',
-                                  text: 'PDF files are allowed.',
-                                });
-                                return;
-                              }
+                    if(!this.fileValidatorService.validateFile(file,allowedTypes)){
+                      return;
+                     }
                 this.bacFormGroup.patchValue({
                   bacFileSource:file,
                  bacFileName:file.name
@@ -206,25 +178,10 @@ export class ProfileComponent implements OnInit {
                 selectDiplomeFile(event: any) {
                   if(event.target.files.length>0){
                     let file= event.target.files[0]
-                      const MAX_FILE_SIZE_MB = 1;
-                        const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-                        if (file.size > MAX_FILE_SIZE_BYTES) {
-                        Swal.fire({
-                              icon: 'error',
-                              title: 'Oops...',
-                              text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                            });
-                          return; 
-                        }
                         const allowedTypes = ['application/pdf'];
-                                  if (!allowedTypes.includes(file.type)) {
-                                    Swal.fire({
-                                      icon: 'error',
-                                      title: 'Invalid File Type',
-                                      text: 'PDF files are allowed.',
-                                    });
-                                    return;
-                                  }
+                        if(!this.fileValidatorService.validateFile(file,allowedTypes)){
+                          return;
+                         }
                     this.diplomeFormGroup.patchValue({
                       diplomeFileSource:file,
                      diplomeFileName:file.name
@@ -234,25 +191,10 @@ export class ProfileComponent implements OnInit {
       const fileInput = event.target as HTMLInputElement;
       if (fileInput.files && fileInput.files.length > 0) {
         const file = fileInput.files[0];
-          const MAX_FILE_SIZE_MB = 1;
-            const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-            if (file.size > MAX_FILE_SIZE_BYTES) {
-              Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                  });
-              return; 
-            }
             const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-                    if (!allowedTypes.includes(file.type)) {
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'Invalid File Type',
-                        text: 'Only JPEG, PNG, or JPG files are allowed.',
-                      });
-                      return;
-                    }
+            if(!this.fileValidatorService.validateFile(file,allowedTypes)){
+              return;
+             }
         this.ImageFormGroup.patchValue({
           imageFile: file,
           imageFileName: file.name
@@ -279,35 +221,6 @@ export class ProfileComponent implements OnInit {
         imageFileName: null,
       });
   }
-      
-    selectDiplomaFile(event: any) {
-          if(event.target.files.length>0){
-            let file= event.target.files[0]
-              const MAX_FILE_SIZE_MB = 1;
-                const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-                if (file.size > MAX_FILE_SIZE_BYTES) {
-                  Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: `The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.`
-                      });
-                  return; 
-                }
-                const allowedTypes = ['application/pdf'];
-                if (!allowedTypes.includes(file.type)) {
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid File Type',
-                    text: 'PDF files are allowed.',
-                  });
-                  return;
-                }
-            this.diplomeFormGroup.patchValue({
-              diplomeFileSource:file,
-              diplomeFileName:file.name
-            })
-          }
-          }
           updateStudent() {
             if ( this.persInfFormGroup.valid ) {
               let date: Date = new Date(this.persInfFormGroup.get("date")?.value ||"");

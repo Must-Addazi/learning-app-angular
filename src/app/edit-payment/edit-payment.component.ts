@@ -48,7 +48,11 @@ savePayment() {
     }
     ,
     error: (err) => {
-      console.log(err);
+   Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.error.error          
+        });
     }
   });
 }

@@ -50,16 +50,25 @@ apply(program: Program) {
   addProgram() {
  this.router.navigateByUrl("/admin/respo")
   }
-  viewFile(programId: any,file:string) {
-    this.programService.getFile(programId,file).subscribe((file) => {
-      const blob = new Blob([file], { type: 'application/pdf' });
-      const url = window.URL.createObjectURL(blob);
-      // Ouvre le fichier dans un nouvel onglet
-      window.open(url, '_blank');
-      // Libère la mémoire utilisée
-      window.URL.revokeObjectURL(url);
+
+  viewFile(programId: any, file: string) {
+    this.programService.getFile(programId, file).subscribe({
+      next: (file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Not available ressource'
+        });
+      }
     });
-  } 
+  }
+  
   deleteProgram(programId:string) {
       Swal.fire({
           title: "Are you sure?",
@@ -84,7 +93,7 @@ apply(program: Program) {
             Swal.fire({
                   icon: 'error',
                   title: 'Oops...',
-                  text: err.error.message
+                  text: err.error.error
                 });
               }
             })

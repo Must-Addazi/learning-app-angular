@@ -46,8 +46,11 @@ export class EditPasswordComponent implements OnInit{
                         });
                     },
                     error: (err) => {
-                        console.error("Error updating password:", err);
-                    }
+                  Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: err.error.error          
+                      });                    }
                 });
             }
         }    

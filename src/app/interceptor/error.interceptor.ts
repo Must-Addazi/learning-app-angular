@@ -18,28 +18,22 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'An error occurred.';
-        
-        if (error.status === 400) {
-          if (typeof error.error === 'string') {
-            // Si l'erreur est une chaîne de caractères brute
-            errorMessage = error.error;
-          } else if (error.error instanceof Object) {
-            // Si l'erreur est un objet, combinez les messages
-            errorMessage = Object.values(error.error).join('\n');
+        let errorMessage = 'An unknown error occurred.';
+
+        if (error.status === 400 || error.status === 500 || error.status === 401 || error.status === 403) {
+          if (error.error && error.error.error) {
+            errorMessage = error.error.error;  // Récupère le message d'erreur du backend
+          } else {
+            errorMessage = error.message || errorMessage;  // Message d'erreur générique
           }
-        } 
-        else {
-          errorMessage = error.message || 'An unknown error occurred.';
         }
 
-        // Affichez le message dans le MatSnackBar
-        this.snackBar.open(errorMessage, 'Close', {
-          duration: 5000,
-          panelClass: ['mat-snackbar-error']
-        });
+       /* this.snackBar.open(errorMessage, 'Close', {
+         duration: 5000,  // Durée de 5 secondes
+          panelClass: ['mat-snackbar-error']  // Classe CSS personnalisée pour l'erreur
+        });*/
 
-        // Continuez à transmettre l'erreur
+        // L'erreur est renvoyée pour que l'appelant puisse gérer si nécessaire
         return throwError(() => error);
       })
     );

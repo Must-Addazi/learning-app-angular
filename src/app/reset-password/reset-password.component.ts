@@ -57,13 +57,12 @@ export class ResetPasswordComponent implements OnInit {
       }
 
       this.showProgress = true;
-
       this.authService.resetPassword(this.token, payload.password).subscribe({
         next: (data) => {
           this.showProgress = false;
           Swal.fire({
             title: 'Updated!',
-            text: 'Password updated successfully.'+data,
+            text: 'Password updated successfully.',
             icon: 'success',
           }).then(() => {
             this.router.navigateByUrl('/login'); 

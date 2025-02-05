@@ -26,15 +26,26 @@ send() {
 let username= this.ForgotFormGroup.value.username;
 this.authservice.requestPasswordReset(username).subscribe({
   next:(data)=>{
-    this.authservice.loadProfile(data)
+   if(data){
     Swal.fire({
       title: "Sent!",
-      text: "Link sent successfuly to."+username,
+      text: "Link sent successfuly to "+username,
       icon: "success"
     });
+  }else{
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: "your account not exist "          
+    });
+  }
   },
   error:(err)=>{
-  
+     Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.error.error          
+          });
   }})
 }
 hide = signal(true);

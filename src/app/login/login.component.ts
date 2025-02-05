@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -20,11 +20,12 @@ private router:Router
 }
 ngOnInit(): void {
 this.LoginFormGroup= this.fb.group({
-username:this.fb.control(""),
-password:this.fb.control("")
+username:this.fb.control('',Validators.required),
+password:this.fb.control('',Validators.required)
 })
 }
 login() {
+if(this.LoginFormGroup.valid){
 let username= this.LoginFormGroup.value.username;
 let password= this.LoginFormGroup.value.password;
 this.authservice.login(username,password).subscribe({
@@ -36,9 +37,16 @@ this.authservice.login(username,password).subscribe({
     Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Bad Credentials'
+          text: err.error.error          
         });
   }})
+}else{
+  Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: "Please valid your form"          
+  });
+}
 }
 hide = signal(true);
 clickEvent(event: MouseEvent) {
