@@ -12,7 +12,6 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
   public LoginFormGroup!:FormGroup
  public ErrorMassage!:string
- captchaResponse: string | null = null;
  constructor( public fb:FormBuilder,
   private authservice:AuthenticationService,
 private router:Router
@@ -26,7 +25,7 @@ password:this.fb.control('',Validators.required)
 })
 }
 login() {
-if(this.LoginFormGroup.valid && this.captchaResponse){
+if(this.LoginFormGroup.valid){
 let username= this.LoginFormGroup.value.username;
 let password= this.LoginFormGroup.value.password;
 this.authservice.login(username,password).subscribe({
