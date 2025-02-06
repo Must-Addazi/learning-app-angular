@@ -107,7 +107,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     MatProgressBarModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatGridListModule
+    MatGridListModule,
     ],
   providers: [
     provideAnimationsAsync(),

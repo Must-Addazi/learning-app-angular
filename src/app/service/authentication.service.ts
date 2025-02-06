@@ -19,7 +19,7 @@ export class AuthenticationService {
     const headers = new HttpHeaders({ "Content-Type": "application/x-www-form-urlencoded" });
     const params = new HttpParams()
       .set("username", username)
-      .set("password", password);
+      .set("password", password)
     return this.http.post(`${environment.backendHost}/auth/login`, params.toString(), { headers });
   }
   loadProfile(data: any) {

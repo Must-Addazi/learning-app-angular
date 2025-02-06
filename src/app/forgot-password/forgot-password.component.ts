@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -20,7 +20,7 @@ private router:Router
 }
 ngOnInit(): void {
 this.ForgotFormGroup= this.fb.group({
-username:this.fb.control("")})
+username:this.fb.control("",[Validators.required,Validators.email])})
 }
 send() {
 let username= this.ForgotFormGroup.value.username;

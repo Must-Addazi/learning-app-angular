@@ -31,6 +31,7 @@ export class NewStudentComponent implements OnInit{
   public pdfDiplomFileUrl! :string|null
   public showProgress:boolean=false
   imagePreview: string | null = null;
+  captchaResponse: string | null = null;
   stepperOrientation: Observable<StepperOrientation>;
   
   constructor(private studentsService:StudentsService, public dialog: MatDialog, public fileValidatorService:FileValidatorService) {
@@ -184,13 +185,21 @@ export class NewStudentComponent implements OnInit{
                   this.persInfFormGroup.patchValue({
                     imageFileName: null,
                   });
-              }    
+              } 
+              resolved(captchaResponse: string | null) {
+                if (captchaResponse) {
+                  this.captchaResponse = captchaResponse; 
+                  console.log("captcha is "+captchaResponse)
+                } else {
+                  this.captchaResponse = ''; 
+                }
+              }   
         saveStudent() {
           this.showProgress = true;
           if (
             this.persInfFormGroup.valid &&
              this.bacFormGroup.valid &&
-             this.diplomeFormGroup.valid
+             this.diplomeFormGroup.valid && this.captchaResponse
           ) {
             let date: Date = new Date(this.persInfFormGroup.get("date")?.value ||"");
             let formatedDate = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();          
@@ -201,14 +210,14 @@ export class NewStudentComponent implements OnInit{
             formData.set("email", this.persInfFormGroup.get("email")?.value || "");
             formData.set("phone", this.persInfFormGroup.get("phone")?.value || "");
             formData.set("birthDate",formatedDate)
-            formData.set("NoteBac", this.bacFormGroup.get("noteBac")?.value || "");
-            formData.set("NoteDiploma", this.diplomeFormGroup.get("noteDiplome")?.value || "");
+            formData.set("noteBac", this.bacFormGroup.get("noteBac")?.value || "");
+            formData.set("noteDiploma", this.diplomeFormGroup.get("noteDiplome")?.value || "");
             formData.set("photoCIN", this.persInfFormGroup.get("fileSource")?.value || "");
             formData.set("bacFile", this.bacFormGroup.get("bacFileSource")?.value || "");
             formData.set("diplomaFile", this.diplomeFormGroup.get("diplomeFileSource")?.value || "");
             formData.set("profile", this.persInfFormGroup.get("imageFile")?.value || "");
             formData.set("programID", this.program.id);
-        
+                    
             this.studentsService.saveStudent(formData).subscribe({
               next: (data) => {
                 this.showProgress = false;

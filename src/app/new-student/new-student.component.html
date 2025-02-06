@@ -214,7 +214,7 @@
       }
       <div style="margin-top: 5px;">
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-raised-button (click)="saveStudent()"color="primary" >Save</button>
+        <button mat-raised-button [disabled]="!captchaResponse" (click)="saveStudent()"color="primary" >Save</button>
       </div>
     </mat-step>
   </mat-stepper>

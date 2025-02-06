@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
   public LoginFormGroup!:FormGroup
  public ErrorMassage!:string
+ captchaResponse: string | null = null;
  constructor( public fb:FormBuilder,
   private authservice:AuthenticationService,
 private router:Router
@@ -20,12 +21,12 @@ private router:Router
 }
 ngOnInit(): void {
 this.LoginFormGroup= this.fb.group({
-username:this.fb.control('',Validators.required),
+username:this.fb.control('',[Validators.required,Validators.email]),
 password:this.fb.control('',Validators.required)
 })
 }
 login() {
-if(this.LoginFormGroup.valid){
+if(this.LoginFormGroup.valid && this.captchaResponse){
 let username= this.LoginFormGroup.value.username;
 let password= this.LoginFormGroup.value.password;
 this.authservice.login(username,password).subscribe({
