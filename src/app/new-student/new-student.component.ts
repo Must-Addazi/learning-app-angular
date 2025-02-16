@@ -10,6 +10,7 @@ import { ImagePreviewDialogComponent } from '../image-preview-dialog/image-previ
 import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 import { FileValidatorService } from '../service/file-validator.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class NewStudentComponent implements OnInit{
   imagePreview: string | null = null;
   stepperOrientation: Observable<StepperOrientation>;
   
-  constructor(private studentsService:StudentsService, public dialog: MatDialog, public fileValidatorService:FileValidatorService) {
+  constructor(private studentsService:StudentsService, public dialog: MatDialog,
+     public fileValidatorService:FileValidatorService , private router:Router) {
     const breakpointObserver = inject(BreakpointObserver);
 
     this.stepperOrientation = breakpointObserver
@@ -67,7 +69,18 @@ export class NewStudentComponent implements OnInit{
     })
     ngOnInit(): void {
       this.program = history.state.program;
-      console.log("register in "+this.program.name)
+      console.log("register in "+this.program)
+      if (this.program == null) {
+        this.showProgress = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You must choose a program before applying.'
+        }).then(() => {
+          this.router.navigateByUrl("/admin/program")
+        });
+        return;
+      }
     }
     resetCinFile() {
       this.persInfFormGroup.patchValue({

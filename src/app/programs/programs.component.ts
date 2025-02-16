@@ -85,7 +85,7 @@ apply(program: Program) {
                 this.getAllProgram()
                 Swal.fire({
                   title: "Deleted!",
-                  text: "Your Consumption has been deleted.",
+                  text: "Program has been successfully deleted.",
                   icon: "success"
                 });
               },

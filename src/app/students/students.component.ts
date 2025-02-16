@@ -106,7 +106,7 @@ public getAllStudent(){
             this.getAllStudent()
             Swal.fire({
               title: "Deleted!",
-              text: "Cet étudiant à été supprimé avec succès.",
+              text: "The student has been successfully deleted.",
               icon: "success"
             });
           },

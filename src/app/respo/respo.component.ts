@@ -22,8 +22,8 @@ public programFormGroup!:FormGroup
     name : this.fb.control('',Validators.required),
     price: this.fb.control('',Validators.required),
     respoName: this.fb.control('',Validators.required),
-    phone : this.fb.control('',Validators.required),
-    email : this.fb.control('',Validators.required),
+    phone : this.fb.control('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
+    email : this.fb.control('',[Validators.required,Validators.email]),
     fileName: this.fb.control('',Validators.required),
     fileSource: this.fb.control('',Validators.required)
    })

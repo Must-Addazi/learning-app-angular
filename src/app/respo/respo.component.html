@@ -31,12 +31,17 @@
               Phone Number
           </mat-label>
           <input matInput  formControlName="phone"/>
-      </mat-form-field>
+          <mat-error *ngIf="programFormGroup.get('phone')?.hasError('required') ">phone is required</mat-error>
+          <mat-error *ngIf="programFormGroup.get('phone')?.hasError('minLength') && programFormGroup.get('phone')?.touched">phone number must be exactly 10 digits</mat-error>
+          <mat-error *ngIf="programFormGroup.get('phone')?.hasError('maxLength') && programFormGroup.get('phone')?.touched">phone number must be exactly 10 digits</mat-error>          
+       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>
             email
         </mat-label>
         <input matInput  formControlName="email"/>
+        <mat-error *ngIf="programFormGroup.get('email')?.hasError('required')">email is required</mat-error>
+        <mat-error *ngIf="programFormGroup.get('email')?.hasError('email') && programFormGroup.get('email')?.touched">Invalid email format</mat-error>      
     </mat-form-field>
           <mat-form-field appearance="outline">
               <mat-label>
