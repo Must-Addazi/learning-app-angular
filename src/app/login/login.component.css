@@ -18,7 +18,7 @@
     transition: transform 0.3s ease;
   
     &:hover {
-      transform: translateY(-2px);
+      transform: translateY(-5px);
     }
   }
   
@@ -26,6 +26,7 @@
   .auth-header {
     text-align: center;
     padding: 2rem 0 1rem;
+    display: block;
   
     .logo-container {
       display: flex;
@@ -111,7 +112,10 @@
       }
     }
   }
-  
+mat-form-field {
+  width: 100%; 
+  max-width: 400px; 
+}
   /* Responsive design */
   @media (max-width: 480px) {
     .auth-container {
