@@ -1,71 +1,92 @@
-<mat-toolbar color="primary"> 
-    <button class="menu" mat-icon-button (click)="drawer.toggle()">
+<mat-toolbar color="primary" class="main-toolbar">
+    <button class="menu-button" mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
     </button>
+    
+    <span class="toolbar-title">Academy Management</span>
+    
     <span class="spacer"></span>
-    @if(authservice.isAuthenticated()){
-        @if(!authservice.Role.includes("ADMIN")){
-        <button  mat-button routerLink="/admin/profile">Profile</button>
-        }@else {
-            <button  mat-button routerLink="/admin/edit-password">Update Password</button>
+    
+    @if(authservice.isAuthenticated()) {
+    <div class="user-section">
+        <span class="welcome-text">Welcome,</span>
+        <span class="username">{{authservice.username}}</span>
+        <mat-icon class="account-icon">account_circle</mat-icon>
+        
+        <button mat-icon-button [matMenuTriggerFor]="profileMenu">
+            <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #profileMenu="matMenu">
+            @if(!authservice.Role.includes("ADMIN")) {
+            <button mat-menu-item routerLink="/admin/profile">
+                <mat-icon>person</mat-icon>
+                Profile
+            </button>
+            }@else {
+            <button mat-menu-item routerLink="/admin/edit-password">
+                <mat-icon>lock</mat-icon>
+                Update Password
+            </button>
         }
-<button mat-button>{{authservice.username}}</button>
-<button mat-raised-button color="accent" (click)="logout()">Logout</button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon>
+                Logout
+            </button>
+        </mat-menu>
+    </div>
     }
-    @if(!authservice.isAuthenticated()){
-        <button mat-raised-button color="accent" (click)="login()">Login</button>
+    @if(!authservice.isAuthenticated()) {
+    <button mat-stroked-button color="accent" (click)="login()">
+        <mat-icon>login</mat-icon>
+        Login
+    </button>
     }
 </mat-toolbar>
-<mat-drawer-container>
-    <mat-drawer  #drawer mode="side" position="start" opened="true">
+
+<mat-drawer-container class="drawer-container">
+    <mat-drawer #drawer mode="side" position="start" opened="true" class="app-sidebar">
         <mat-nav-list>
-            <mat-list-item>             
-                <button mat-button routerLink="/admin/dashboard">
-                    <mat-icon>dashboard</mat-icon>
-                    Home
-                </button>
+            <mat-list-item routerLink="/admin/dashboard" routerLinkActive="active-link">
+                <mat-icon class="list-icon">dashboard</mat-icon>
+                <span class="list-text">Dashboard</span>
             </mat-list-item>
-            @if( authservice.isAuthenticated() && authservice.Role.includes('ADMIN') ){
-            <mat-list-item>
-                <button mat-button routerLink="/admin/students">
-                    <mat-icon>group</mat-icon>
-                    Students
-                </button>
+
+            @if(authservice.isAuthenticated() && authservice.Role.includes('ADMIN')) {
+            <mat-list-item routerLink="/admin/students" routerLinkActive="active-link">
+                <mat-icon class="list-icon">group</mat-icon>
+                <span class="list-text">Students</span>
             </mat-list-item>
-              }
-              @if( authservice.isAuthenticated() && authservice.Role.includes('ADMIN') ){
-                <mat-list-item>
-                    <button mat-button routerLink="/admin/student-select">
-                        <mat-icon>format_list_bulleted</mat-icon>
-                        Selection
-                    </button>
-                </mat-list-item>
-                  }
-              @if( authservice.isAuthenticated() && (authservice.Role.includes('SUPER_ADMIN') || !authservice.Role.includes('ADMIN'))){
-            <mat-list-item>
-                <button mat-button routerLink="/admin/payment">
-                    <mat-icon>payments</mat-icon>
-                    Payment
-                </button>
+            }
+
+            @if(authservice.isAuthenticated() && authservice.Role.includes('ADMIN')) {
+            <mat-list-item routerLink="/admin/student-select" routerLinkActive="active-link">
+                <mat-icon class="list-icon">format_list_bulleted</mat-icon>
+                <span class="list-text">Selection</span>
             </mat-list-item>
-        }
-            <mat-list-item>
-                <button mat-button routerLink="/admin/program">
-                    <mat-icon>menu_book</mat-icon>
-                    Programs
-                </button>
+            }
+
+            @if(authservice.isAuthenticated() && (authservice.Role.includes('SUPER_ADMIN') || !authservice.Role.includes('ADMIN'))) {
+            <mat-list-item routerLink="/admin/payment" routerLinkActive="active-link">
+                <mat-icon class="list-icon">payments</mat-icon>
+                <span class="list-text">Payments</span>
             </mat-list-item>
-            <mat-list-item>
-                <button mat-button routerLink="/admin/module">
-                    <mat-icon>view_module</mat-icon>
-                    Modules
-                </button>
+            }
+
+            <mat-list-item routerLink="/admin/program" routerLinkActive="active-link">
+                <mat-icon class="list-icon">menu_book</mat-icon>
+                <span class="list-text">Programs</span>
+            </mat-list-item>
+
+            <mat-list-item routerLink="/admin/module" routerLinkActive="active-link">
+                <mat-icon class="list-icon">view_module</mat-icon>
+                <span class="list-text">Modules</span>
             </mat-list-item>
         </mat-nav-list>
     </mat-drawer>
-    <mat-drawer-content>
-      <div style="min-height: 600px;">
-        <router-outlet></router-outlet>
-      </div>
+
+    <mat-drawer-content class="main-content">
+        <div class="content-container">
+            <router-outlet></router-outlet>
+        </div>
     </mat-drawer-content>
 </mat-drawer-container>

@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
   public LoginFormGroup!:FormGroup
  public ErrorMassage!:string
+hidePassword: any;
  constructor( public fb:FormBuilder,
   private authservice:AuthenticationService,
 private router:Router
@@ -52,8 +53,5 @@ hide = signal(true);
 clickEvent(event: MouseEvent) {
   this.hide.set(!this.hide());
   event.stopPropagation();
-}
-forgotPassword() {
-this.router.navigateByUrl("forgot-password")
 }
 }

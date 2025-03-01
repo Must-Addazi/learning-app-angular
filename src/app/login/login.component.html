@@ -1,41 +1,67 @@
-<div class="container">
-    <mat-card [formGroup]="LoginFormGroup">
-        <mat-card-header>
-            <mat-card-title>
-                Authentication
-            </mat-card-title>
-        </mat-card-header>
-        <mat-divider>
-    
-        </mat-divider>
-        <mat-card-content>
-            <mat-form-field appearance="outline">
-                <mat-label>
-                    Username or Email
-                </mat-label>
-                <input matInput formControlName="username"/>
-                <mat-error *ngIf="LoginFormGroup.get('username')?.hasError('required')">username or email is required</mat-error>
-                <mat-error *ngIf="LoginFormGroup.get('username')?.hasError('email') && LoginFormGroup.get('username')?.touched">Invalid email format</mat-error>     
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>
-                    Password
-                </mat-label>
-                <input matInput [type]="hide() ? 'password' : 'text'"  formControlName="password"/>
-                <button
-                mat-icon-button
-                matSuffix
-                (click)="clickEvent($event)"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide()"
-              >
-                <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </button>
-            </mat-form-field>               
-        </mat-card-content>
-        <mat-card-actions style="display: flex; justify-content: space-between;">
-            <button mat-raised-button (click)="forgotPassword()">Forgot my Password</button>
-            <button mat-raised-button (click)="login()" color="primary">Login</button>
-          </mat-card-actions>          
+<div class="auth-container">
+    <mat-card [formGroup]="LoginFormGroup" class="auth-card">
+      <!-- Card Header with Logo -->
+      <mat-card-header class="auth-header">
+        <div class="logo-container">
+          <mat-icon class="logo-icon">security</mat-icon>
+          <h1 class="company-name">SecureAuth</h1>
+        </div>
+        <mat-card-title class="auth-title">Welcome Back!</mat-card-title>
+        <mat-card-subtitle>Sign in to continue</mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-divider></mat-divider>
+  
+      <!-- Form Content -->
+      <mat-card-content class="auth-content">
+        <!-- Username/Email Field -->
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Username or Email</mat-label>
+          <input matInput formControlName="username" required>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <mat-error *ngIf="LoginFormGroup.get('username')?.hasError('required')">
+            <mat-icon>error_outline</mat-icon>
+            Username/Email is required
+          </mat-error>
+          <mat-error *ngIf="LoginFormGroup.get('username')?.hasError('email')">
+            <mat-icon>error_outline</mat-icon>
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+  
+        <!-- Password Field -->
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" 
+                 formControlName="password" required>
+          <mat-icon matPrefix>lock_outline</mat-icon>
+          <button mat-icon-button matSuffix
+                  (click)="hidePassword = !hidePassword"
+                  [attr.aria-label]="'Toggle password visibility'">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="LoginFormGroup.get('password')?.hasError('required')">
+            <mat-icon>error_outline</mat-icon>
+            Password is required
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+  
+      <!-- Card Actions -->
+      <mat-card-actions class="auth-actions">
+        <button mat-flat-button color="primary" 
+                (click)="login()"
+                [disabled]="LoginFormGroup.invalid"
+                class="full-width-btn">
+          <mat-icon>login</mat-icon>
+          Sign In
+        </button>
+        
+        <div class="secondary-actions">
+          <a routerLink="/forgot-password" class="text-link">Forgot Password?</a>
+          <span class="divider">|</span>
+          <a routerLink="/admin/program" class="text-link">Create Account</a>
+        </div>
+      </mat-card-actions>
     </mat-card>
-    </div>
+  </div>

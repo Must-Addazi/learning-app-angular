@@ -1,12 +1,91 @@
+/* Enhanced Styling */
 .spacer{
     flex: auto;
 }
-.menu{
-    color: white;   
-}
-mat-drawer{
-    width: 12%;
-    min-width: 150px;
+.main-toolbar {
+    padding: 0 24px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 2;
 }
 
-  
+.toolbar-title {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-left: 16px;
+    font-size: 1.25rem;
+}
+
+.user-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+}
+
+.welcome-text {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+.username {
+    font-weight: 500;
+}
+
+.account-icon {
+    margin-left: 8px;
+}
+
+.app-sidebar {
+    width: 240px;
+    background: #f8f9fa;
+    border-right: 1px solid #e0e0e0;
+    box-shadow: 2px 0 4px rgba(0,0,0,0.05);
+}
+
+.mat-nav-list {
+    padding: 16px 8px;
+}
+
+.mat-list-item {
+    border-radius: 4px;
+    margin: 4px 8px;
+    transition: all 0.2s ease;
+}
+
+.active-link {
+    background-color: rgba(63, 81, 181, 0.15) !important;
+    color: #3f51b5 !important;
+    font-weight: 500;
+}
+
+.active-link .list-icon {
+    color: #3f51b5;
+}
+
+.list-icon {
+    margin-right: 16px;
+    color: #616161;
+}
+
+.list-text {
+    font-size: 0.9rem;
+}
+
+.main-content {
+    background: #ffffff;
+}
+
+.content-container {
+    padding: 24px;
+    min-height: calc(100vh - 64px);
+}
+
+.menu-button {
+    margin-right: 8px;
+}
+
+.mat-menu-item {
+    mat-icon {
+        margin-right: 8px;
+    }
+}
