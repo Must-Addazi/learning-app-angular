@@ -17,12 +17,4 @@
   margin: auto;
   justify-content: center;  
 }
-.mat-snackbar-error {
-  background-color: #f44336; /* Rouge pour les erreurs */
-  color: white;
-}
 
-.mat-snackbar-success {
-  background-color: #4caf50; /* Vert pour les succès */
-  color: white;
-}

@@ -372,4 +372,19 @@ export class ProfileComponent implements OnInit {
               window.URL.revokeObjectURL(url);
             });
           } 
+
+  downloadPdf() {
+
+    this.studentsService.generatePdf(this.authService.username).subscribe(response => {
+      const blob = new Blob([response], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'convocation.pdf';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
+  }
+
+
 }

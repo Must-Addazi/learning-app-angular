@@ -83,4 +83,8 @@ public conveneStudent(studentId: string): Observable<Student> {
 public selectStudent(studentId: string): Observable<Student> {
   return this.http.put<Student>(`${environment.backendHost}/selectStudent/${studentId}`, {});
 }
+
+generatePdf(id: string) {
+  return this.http.get(`${environment.backendHost}/convocation/${id}`, {responseType: 'blob' });
+}
 }
