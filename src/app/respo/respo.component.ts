@@ -41,12 +41,16 @@ selectFile(event: any) {
                   });
             return; 
           }
-        const allowedTypes = ['application/pdf'];
+          const allowedTypes = [
+            'application/pdf',
+            'application/msword', // Pour les fichiers .doc
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // Pour les fichiers .docx
+        ];        
                   if (!allowedTypes.includes(file.type)) {
                     Swal.fire({
                       icon: 'error',
                       title: 'Invalid File Type',
-                      text: 'PDF files are allowed.',
+                      text: 'PDF and word files are allowed.',
                     });
                     return;
                   }

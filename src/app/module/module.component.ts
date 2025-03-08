@@ -90,7 +90,7 @@ public getAllModules(){
                   this.getAllModules()
                   Swal.fire({
                     title: "Deleted!",
-                    text: "Le module a été supprimé avec succès.",
+                    text: "The module has been successfully deleted.",
                     icon: "success"
                   });
                 },

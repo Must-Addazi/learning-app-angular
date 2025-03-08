@@ -51,6 +51,7 @@ import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { EditPasswordComponent } from './edit-password/edit-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MeetingComponent } from './meeting/meeting.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     NewModuleComponent,
     EditPasswordComponent,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    MeetingComponent
     ],
   imports: [
     BrowserModule,

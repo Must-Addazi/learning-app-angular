@@ -21,6 +21,7 @@ import { NewModuleComponent } from './new-module/new-module.component';
 import { EditPasswordComponent } from './edit-password/edit-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { MeetingComponent } from './meeting/meeting.component';
 
 const routes: Routes = [
   {path:"login",component:LoginComponent},
@@ -41,6 +42,7 @@ const routes: Routes = [
   {path:"payment",component:PaymentComponent,canActivate:[authenticationGuard]},
   {path:"payment/:code",component:PaymentComponent,canActivate:[authenticationGuard]},
   {path:"module",component:ModuleComponent},
+  {path:"meet",component:MeetingComponent},
   {path:"new-module/:programId",component:NewModuleComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"edit-module/:moduleId",component:NewModuleComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
   {path:"edit-password",component:EditPasswordComponent,canActivate:[authenticationGuard,authorizationGuard],data:{roles:['ROLE_ADMIN']}},
